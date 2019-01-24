@@ -1956,6 +1956,7 @@ int binomialCoeff(int n, int k)
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(nk)$
 \end{solution}
+\part{Graph Theory}
 \part{Mathematics}
 \chapter{Basic Maths}
 
@@ -2244,6 +2245,26 @@ $$3 \rightarrow 10 \rightarrow 5 \rightarrow 16 \rightarrow 8 \rightarrow 4 \rig
 There are infinitely positive integers $n$ for which $2n - 1$ is a prime number. (There are currently 47 Mersenne primes known)
 \end{conjecture}
 \newpage
+\section{Modulo of Big Number}
+\begin{problem}
+	Given a big number \texttt{num} represented as string and an integer $x$, find value of $num \mod x$. Output is expected as an integer.
+\end{problem}
+\begin{solution}
+\hfill\break
+The idea is to process all digits one by one and use the property that $(xy) \mod a \equiv (x \mod a \times y \mod a) \mod a$. Below is the implementation.
+\begin{lstlisting}
+int modulo(string num, int x) 
+{ 
+	// Initialize result 
+	int res = 0; 
+	
+	// One by one process all digits of 'num' 
+	for (int i = 0; i < num.length(); i++) 
+		res = (res*10 + (int)num[i] - '0') % x; 
+	return res; 
+}
+\end{lstlisting}
+\end{solution}
 \section{Modular Exponentiation}
 \begin{problem}
 Given $x$,$m$,$n$, find $x^n \mod m$
@@ -2290,8 +2311,7 @@ using the formula
 \varphi (n)=n\prod _{p\mid n}\left(1-{\frac {1}{p}}\right),
 \end{equation}
 
-Where the product is over the distinct prime numbers dividing $n$.Note that $\varphi(n)=n-1$ if $n$ is prime. The implementation is shown on the next page.
-\newpage
+Where the product is over the distinct prime numbers dividing $n$.Note that $\varphi(n)=n-1$ if $n$ is prime. The implementation is shown below.
 \begin{lstlisting}
 int totient(int n) 
 { 
@@ -2334,4 +2354,23 @@ Wilson’s theorem states that a number n is prime exactly when
 \end{equation}
 However the theorem cannot be applied to large values of $n$, because
 it is difficult to calculate values of $(n-1)!$ when n is even as large as 50.
+\section{Linear Diophantine Equations}
+A Diophantine equation is a polynomial equation, usually in two or more unknowns, such that only the integral solutions are required. An Integral solution is a solution such that all the unknown variables take only integer values.
+\begin{problem}
+	Given three integers $a$, $b$, $c$ representing a linear equation of the form : $ax + by = c$. Determine if the equation has a solution such that $x$ and $y$ are both integral values.
+\end{problem}
+\begin{solution}
+\hfil\break
+For linear Diophantine equation equations, integral solutions exist if and only if, the GCD of coefficients of the two variables divides the constant term perfectly. In other words the integral solution exists if, $\gcd(a,b) | c$.
+
+Thus the algorithm to determine if an equation has integral solution is pretty straightforward.
+\begin{lstlisting}
+bool isPossible(int a, int b, int c) 
+{ 
+	// __gcd() is an inbuilt function in C++ STL to return
+	// GCD of two numbers.
+	return (c%__gcd(a,b) == 0); 
+} 
+\end{lstlisting}
+\end{solution}
 \end{document}
