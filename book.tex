@@ -1,0 +1,2275 @@
+\documentclass[twoside,12pt,a4paper,english]{book}
+
+%\includeonly{chapter04,list}
+\usepackage{pdfrender}
+\usepackage{shapepar}
+\usepackage{standalone}
+\usepackage{microtype}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{tabularx}
+\usepackage[table,dvipsnames,svgnames,xcdraw]{xcolor}
+\usepackage{svg}
+\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+
+\usepackage{fouriernc}
+\usepackage{fourier}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{amstext} % for \text macro
+\usepackage{array}   % for \newcolumntype macro
+\newcolumntype{L}{>{$}l<{$}} % math-mode version of "l" column type
+
+\usepackage{graphicx}
+\usepackage[cc]{titlepic}
+\usepackage{framed}
+\usepackage{amssymb}
+\usepackage{amsmath,amsthm}
+
+\usepackage{pifont}
+\usepackage{ifthen}
+\usepackage{makeidx}
+\usepackage{enumitem}
+
+
+\usepackage{titlesec}
+
+\usepackage{skak}
+\usepackage[scaled=0.95]{inconsolata}
+
+
+\def\pipar#1{\shapepar{\pishape}#1\par}
+\def\pishape{%
+{25.0839}%
+{0.0838926}b{14.3456}\\%
+{0.0838926}t{14.3456}{33.3054}\\%
+{0.503356}t{11.5772}{37.6678}\\%
+{1.25839}t{9.98322}{39.6812}\\%
+{2.09732}t{8.52614}{41.5578}\\%
+{2.85235}t{7.21477}{42.8691}\\%
+{3.27181}t{6.7953}{43.2886}\\%
+{4.11074}t{5.95638}{43.7081}\\%
+{5.28524}t{4.78188}{43.7081}\\%
+{5.62081}t{4.44631}{15.1007}st{19.547}{12.6678}st{32.2148}{15.0168}\\%
+{5.62081}t{4.44631}{7.9698}t{19.547}{2.34899}t{32.2148}{2.34899}\\%
+{6.04027}t{4.18011}{6.22257}t{19.4227}{2.37488}t{32.1424}{2.37047}\\%
+{6.87919}t{3.64772}{5.16101}t{19.1741}{2.42667}t{31.9978}{2.41343}\\%
+{7.63423}t{3.16856}{4.04621}t{18.9504}{2.47328}t{31.8676}{2.45208}\\%
+{8.05369}t{2.90236}{3.80463}t{18.8261}{2.49917}t{31.7953}{2.47356}\\%
+{8.38926}t{2.6894}{3.61137}t{18.7267}{2.51989}t{31.7245}{2.50373}\\%
+{9.22819}t{2.15701}{3.12823}t{18.4781}{2.57167}t{31.5474}{2.57045}\\%
+{9.98322}t{1.67785}{2.96021}t{18.2544}{2.61828}t{31.388}{2.6305}\\%
+{11.5772}t{0.415968}{2.85584}t{17.7821}{2.71667}t{31.0515}{2.75727}\\%
+{11.9966}t{0.0838926}{2.91826}t{17.6578}{2.74256}t{30.9629}{2.79063}\\%
+{12.4161}t{0.0838926}{2.64861}t{17.5336}{2.76846}t{30.8743}{2.82399}\\%
+{12.7517}t{0.0838926}{2.43289}t{17.4088}{2.81003}t{30.8035}{2.85068}\\%
+{13.1711}t{0.0838926}{2.22315}t{17.2529}{2.862}t{30.715}{2.88404}\\%
+{13.5906}t{0.0838926}{2.01342}t{17.097}{2.91397}t{30.6264}{2.9174}\\%
+{14.0101}t{0.0838926}{0.838926}t{16.9411}{2.96594}t{30.5378}{2.95076}\\%
+{14.0101}e{0.922819}t{16.9411}{2.96594}t{30.5378}{2.95076}\\%
+{14.7651}t{16.6605}{3.05948}t{30.3785}{3.01081}\\%
+{15.604}t{16.3487}{3.16342}t{30.2013}{3.18792}\\%
+{16.7785}t{15.9121}{3.30893}t{30.0039}{3.3854}\\%
+{21.896}t{14.0101}{3.94295}t{29.1434}{4.24586}\\%
+{25.0839}t{12.7724}{4.3305}t{28.6074}{4.78188}\\%
+{25.8389}t{12.4793}{4.42229}t{28.6074}{4.78188}\\%
+{29.0268}t{11.2416}{4.80984}t{28.6074}{5.39494}\\%
+{29.4463}t{11.0415}{4.8981}t{28.6074}{5.47561}\\%
+{30.2013}t{10.6813}{5.04094}t{28.6074}{5.62081}\\%
+{30.6208}t{10.4812}{5.12029}t{28.6074}{5.72383}\\%
+{34.9832}t{8.40004}{5.9456}t{28.9901}{6.41263}\\%
+{35.4027}t{8.19993}{6.00914}t{29.0268}{6.58557}\\%
+{37.3322}t{7.27942}{6.30143}t{29.5346}{7.04256}\\%
+{38.1711}t{6.87919}{6.42852}t{29.7554}{6.64702}\\%
+{38.5906}t{6.87919}{6.29195}t{29.8658}{6.44925}\\%
+{39.3456}t{7.09492}{5.59084}t{30.1612}{5.9965}\\%
+{39.7651}t{7.21477}{5.20134}t{30.3254}{5.4129}\\%
+{40.5201}t{7.63423}{4.24257}t{30.6208}{4.36242}\\%
+{40.9396}t{8.01175}{3.56544}t{31.2081}{2.60067}\\%
+{41.3591}t{8.38926}{2.43289}t{31.7953}{0.838926}\\%
+{41.3591}e{10.8221}e{32.6342}%
+}
+
+
+\usetikzlibrary{patterns,snakes,arrows.meta, fit, backgrounds,calc,topaths}
+\usepackage{verbatim}
+\newcount\mycount
+
+
+
+\pagestyle{plain}
+
+\theoremstyle{definition}
+\newtheorem{exmp}{Example}[section]
+
+\usepackage{amsfonts}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{mathpazo}
+\renewcommand{\rmdefault}{put}
+\usepackage{enumitem}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+\usepackage{tikz}
+\usepackage{adjustbox}
+\usepackage[framemethod=TikZ]{mdframed}
+\newcounter{solusi}[chapter]\setcounter{solusi}{0}
+\renewcommand{\thesolusi}{\arabic{chapter}.\arabic{solusi}}
+\newenvironment{solution}[2][]{%
+\refstepcounter{solusi}%
+\ifstrempty{#1}%
+{\mdfsetup{%
+frametitle={%
+\tikz[baseline=(current bounding box.east),outer sep=0pt]
+\node[anchor=east,rectangle,fill=blue!20]
+{\strut Solution};}}
+}%
+{\mdfsetup{%
+frametitle={%
+\tikz[baseline=(current bounding box.east),outer sep=0pt]
+\node[anchor=east,rectangle,fill=blue!20]
+{\strut Solution~\thesolusi :~#1};}}%
+}%
+\mdfsetup{innertopmargin=10pt,linecolor=blue!20,%
+linewidth=2pt,topline=true,%
+frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+}
+\begin{mdframed}[]\relax%
+\label{#2}}{\end{mdframed}}
+\usepackage{atbegshi}% http://ctan.org/pkg/atbegshi
+\AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
+\let\cleardoublepage\clearpage
+
+
+\definecolor{keywords}{HTML}{44548A}
+\definecolor{strings}{HTML}{00999A}
+\definecolor{comments}{HTML}{990000}
+
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+\SetMathAlphabet{\mathcal}{bold}{OMS}{cmsy}{b}{n}
+
+\newtheoremstyle{problemstyle}  % <name>
+        {3pt}                                               % <space above>
+        {3pt}                                               % <space below>
+        {\normalfont}                               % <body font>
+        {}                                                  % <indent amount}
+        {\bfseries\itshape}                 % <theorem head font>
+        {\normalfont\bfseries:}         % <punctuation after theorem head>
+        {.5em}                                          % <space after theorem head>
+        {}                                                  % <theorem head spec (can be left empty, meaning `normal')>
+\theoremstyle{problemstyle}
+
+\newtheorem{problem}{Problem}[section] % Comment out [section] to remove section number dependence
+
+\lstset{language=C++,frame=single,basicstyle=\ttfamily \small,showstringspaces=false,columns=flexible}
+\lstset{
+  literate={ö}{{\"o}}1
+           {ä}{{\"a}}1
+           {ü}{{\"u}}1
+}
+\lstset{xleftmargin=20pt,xrightmargin=5pt}
+\lstset{aboveskip=12pt,belowskip=8pt}
+
+\lstset{
+    commentstyle=\color{comments},
+    keywordstyle=\color{keywords},
+    stringstyle=\color{strings}
+}
+
+\definecolor{blueish}{rgb}{0.565,0.886,1}  % blue-ish
+\definecolor{greenish}{rgb}{0.565,1,0.886}  % green-ish
+\definecolor{darkgray}{rgb}{0.15,0.15,0.15}  % very dark gray
+\definecolor{lightgray}{rgb}{0.6,0.6,0.6}  % light gray
+
+\titlepic{\includestandalone[width=\textwidth]{cover}}
+
+\date{Draft \today}
+
+\newtheorem{conjecture}{Conjecture}
+
+
+\usepackage[a4paper,vmargin=30mm,hmargin=33mm,footskip=15mm]{geometry}
+
+\title{\Huge Competitive Programming Notebook}
+\author{\Large Salil Gokhale}
+
+
+
+\makeindex
+\usepackage[totoc]{idxlayout}
+
+
+\begin{document}
+\pdfrender{StrokeColor=black,TextRenderingMode=2,LineWidth=0.5pt}
+%\selectlanguage{finnish}
+%\setcounter{page}{1}
+%\pagenumbering{roman}
+
+\frontmatter
+\pagecolor{darkgray}
+\color{blueish}
+\maketitle
+\nopagecolor
+\color{black}
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+
+\mainmatter
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\newcommand{\key}[1] {\textbf{#1}}
+
+
+\vspace{15mm}
+\begin{center}
+\pipar{3 . 1 4 1 5 9 2 6 5 3 5 8 9 7 9 3 2 3 8 4 6 2 6 4 3 3 8 3 2 7 9 5 0 2 8 8 4 1 9 7 1 6 9 3 9 9 3 7 5 1 0 5 8 2 0 9 7 4 9 4 4 5 9 2 3 0 7 8 1 6 4 0 6 2 8 6  2 0 8 9 9 8 6 2 8 0 3 4 8 2 5 3 4 2 1 1 7 0 6 7 9 8 2 1 4 8 0 8 6 5 1 3 2 8 2 3 0 6 6 4 7 0 9 3 8 4 4 6 0 9 5 5 0 5 8 2 2 3 1 7 2 5 3 5 9 4 0 8 1 2 8 4 8 1  1 1 7 4 5 0 2 8 4 1 0 2 7 0 1 9 3 8 5 2 1 1 0 5 5 5 9 6 4 4 6 2 2 9 4 8 9 5 4 9 3 0 3 8 1 9 6 4 4 2 8 8 1 0 9 7 5 6 6 5 9 3 3 4 4 6 1 2 8 4 7 5 6 4 8 2 3 3  7 8 6 7 8 3 1 6 5 2 7 1 2 0 1 9 0 9 1 4 5 6 4 8 5 6 6 9 2 3 4 6 0 3 4 8 6 1 0 4 5 4 3 2 6 6 4 8 2 1 3 3 9 3 6 0 7 2 6 0 2 4 9 1 4 1 2 7 3 7 2 4 5 8 7 0 0 6  6 0 6 3 1 5 5 8 8 1 7 4 8 8 1 5 2 0 9 2 0 9 6 2 8 2 9 2 5 4 0 9 1 7 1 5 3 6 4 3 6 7 8 9 2 5 9 0 3 6 0 0 1 1 3 3 0 5 3 0 5 4 8 8 2 0 4 6 6 5 2 1 3 8 4 1 4 6  9 5 1 9 4 1 5 1 1 6 0 9 4 3 3 0 5 7 2 7 0 3 6 5 7 5 9 5 9 1 9 5 3 0 9 2 1 8 6 1 1 7 3 8 1 9 3 2 6 1 1 7 9 3 1 0 5 1 1 8 5 4 8 0 7 4 4 6 2 3 7 9 9 6 2 7 4 9  5 6 7 3 5 1 8 8 5 7 5 2 7 2 4 8 9 1 2 2 7 9 3 8 1 8 3 0 1 1 9 4 9 1}
+$\pi$ for good luck!
+\end{center}
+
+\part{Basic techniques}
+\chapter{C++ Tricks}
+
+\section{Special functions}
+\subsection{Copy Elements}
+\begin{lstlisting}
+copy_n(ar, 6, ar1); // copy 6 elements from ar to ar1
+\end{lstlisting}
+\subsection{Ceiling Division $\lceil \frac{x}{y} \rceil$}
+\begin{lstlisting}
+int ceilingdivision(int x,int y)
+{
+    return (x + y - 1) / y;
+}
+\end{lstlisting}
+\subsection{Ceiling and Floor round-off}
+\begin{lstlisting}
+//Works only for floats
+cout << "Floor is : " << floor(2.3); //2
+cout << "Floor is : " << floor(-2.3); //-3
+cout << " Ceil is : " << ceil(2.3); //3
+cout << " Ceil is : " << ceil(-2.3); //-2
+\end{lstlisting}
+\subsection{Use \texttt{emplace back()}}
+We can use emplace back instead of push back like this:
+\begin{lstlisting}
+myvector.emplace_back(4); //adds 4 to end of vector
+\end{lstlisting}
+\subsection{Iota}
+It fills a vector (or some container) with increasing values starting with $x$
+\begin{lstlisting}
+iota(v.begin(), v.end(), x) //fills vector with increasing values
+\end{lstlisting}
+\subsection{Insert value in middle of vector}
+\begin{lstlisting}
+v.insert(1, 42); // Insert 42 after the first index(second value)
+\end{lstlisting}
+\subsection{Accurate value of $\pi$}
+\begin{lstlisting}
+const double pi = 2 * acos(0.0)
+\end{lstlisting}
+\subsection{GCD of Two Numbers}
+\begin{lstlisting}
+__gcd(value1, value2); //gcd of two numbers.
+\end{lstlisting}
+\subsection{Range Queries}
+\begin{lstlisting}
+// are all of the elements positive?
+all_of(first, first+n, ispositive());
+
+// is there at least one positive element?
+any_of(first, first+n, ispositive());
+
+// are none of the elements positive?
+none_of(first, first+n, ispositive());
+\end{lstlisting}
+\subsection{Initialize number in binary form}
+\begin{lstlisting}
+auto number = 0b011; //Initialize number in binary form(3)
+\end{lstlisting}
+\newpage
+\section{Input and output}
+Input and output is sometimes
+a bottleneck in the program.
+The following lines at the beginning of the code
+make input and output more efficient:
+
+\begin{lstlisting}
+ios::sync_with_stdio(0);
+cin.tie(0);
+\end{lstlisting}
+
+Sometimes the program should read a whole line
+from the input, possibly containing spaces.
+This can be accomplished by using the
+\texttt{getline} function:
+
+\begin{lstlisting}
+string s;
+getline(cin, s);
+\end{lstlisting}
+
+If the amount of data is unknown, the following
+loop is useful:
+\begin{lstlisting}
+while (cin >> x) {
+    // code
+}
+\end{lstlisting}
+This loop reads elements from the input
+one after another, until there is no
+more data available in the input.
+
+In some contest systems, files are used for
+input and output.
+An easy solution for this is to write
+the code as usual using standard streams,
+but add the following lines to the beginning of the code:
+\begin{lstlisting}
+freopen("input.txt", "r", stdin);
+freopen("output.txt", "w", stdout);
+\end{lstlisting}
+After this, the program reads the input from the file
+''input.txt'' and writes the output to the file
+''output.txt''.
+
+\chapter{Sorting Algorithms}
+\section{Problem Statement of Sorting Algorithms}
+\begin{problem}
+Given an array that contains $n$ elements, your task is to sort the elements in
+increasing order.
+\end{problem}
+\begin{exmp}
+For example, the array
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (8,1);
+\node at (0.5,0.5) {$1$};
+\node at (1.5,0.5) {$3$};
+\node at (2.5,0.5) {$8$};
+\node at (3.5,0.5) {$2$};
+\node at (4.5,0.5) {$9$};
+\node at (5.5,0.5) {$2$};
+\node at (6.5,0.5) {$5$};
+\node at (7.5,0.5) {$6$};
+\end{tikzpicture}
+\end{center}
+will be as follows after sorting:
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (8,1);
+\node at (0.5,0.5) {$1$};
+\node at (1.5,0.5) {$2$};
+\node at (2.5,0.5) {$2$};
+\node at (3.5,0.5) {$3$};
+\node at (4.5,0.5) {$5$};
+\node at (5.5,0.5) {$6$};
+\node at (6.5,0.5) {$8$};
+\node at (7.5,0.5) {$9$};
+\end{tikzpicture}
+\end{center}
+\end{exmp}
+\section{Properties of Sorting Algorithms}
+\subsection{Types of Sorting Algorithms}
+There are two broad types of sorting algorithms: integer sorts and comparison sorts.
+\subsubsection{Comparison Sorts}
+Comparison sorts compare elements at each step of the algorithm to determine if one element should be to the left or right of another element.
+
+Comparison sorts are usually more straightforward to implement than integer sorts, but comparison sorts are limited by a lower bound of $\mathcal{O}(n\log{n})$, meaning that, on average, comparison sorts cannot be faster than $\mathcal{O}(n\log{n})$.
+\subsubsection{Integer Sorts}
+Integer sorts are sometimes called counting sorts (though there is a specific integer sort algorithm called counting sort). Integer sorts do not make comparisons. Integer sorts determine for each element $x$ - how many elements are less than $x$. For example, if there are $14$ elements that are less than $x$, then $x$ will be placed in the $15^{th}$ slot. This information is used to place each element into the correct slot immediately, so ther is no need to rearrange lists.
+\subsection{Stability}
+Stable sorting algorithms maintain the relative order of records with equal keys (i.e. values). That is, a sorting algorithm is stable if whenever there are two records $R$ and $S$ with the same key and with $R$ appearing before $S$ in the original list, $R$ will appear before $S$ in the sorted list.
+\subsection{Adaptability}
+It means whether or not the presortedness of the input affects the running time. Algorithms that take this into account are known to be adaptive.
+\subsection{Memory Usage}
+Some sorting algorithms are called "in-place". Strictly, an in-place sort needs only $\mathcal{O}(1)$ memory beyond the items being sorted; sometimes $\mathcal{O}(\log{n})$ additional memory is considered "in-place".
+\subsection{Computational Complexity}
+For typical serial sorting algorithms good behaviour is $\mathcal{O}(n\log{n})$, with parallel sort in $\mathcal{O}(\log^{2}{n})$, and bad behaviour is $\mathcal{O}(n^2)$.
+\section{Common $\mathcal{O}(n^2)$ Algorithms}
+These algorithms are arguably easy to implement but generally not used due to high time complexity.
+\subsection{Bubble Sort}
+Bubble sort is a simple sorting algorithm. The algorithm starts at the beginning of the data set. It compares the first two elements, and if the first is greater than the second, it swaps them. It continues doing this for each pair of adjacent elements to the end of the data set. It then starts again with the first two elements, repeating until no swaps have occurred on the last pass. It is rarely used to sort large, unordered data sets.
+\hfill\break
+\begin{center}
+\begin{tikzpicture}[rotate = 90, swap/.style = {dashed, thick},
+  inv/.style = {blue, rectangle, draw, inner sep = 0pt, outer sep = 0pt},
+  ele/.style = {font = \Large},
+  pass/.style = {brown, thick, dashed}]
+  \foreach \e [count = \ei] in {3,1,4,2} {
+    \node (1\e) [ele] at (\ei, 1) {$\e$};
+  }
+
+  \draw [pass] (0.5, 0.5) to (4.5,0.5);
+
+  \foreach \e [count = \ei] in {3,1,4,2} {
+    \node (1\e) [ele] at (\ei, 0) {\ifthenelse{\e = 3 \OR \e = 1}{\textcolor{red}{$\e$}}{$\e$}};
+  }
+  \begin{pgfonlayer}{background}
+    \node () [inv, fit = (13) (11)] {};
+  \end{pgfonlayer}
+
+  \foreach \e [count = \ei] in {1,3,4,2} {
+    \node (2\e) [ele] at (\ei, -1) {$\e$};
+  }
+  \begin{pgfonlayer}{background}
+    \node () [inv, fit = (23) (24)] {};
+  \end{pgfonlayer}
+
+  \foreach \e [count = \ei] in {1,3,4,2} {
+    \node (3\e) [ele] at (\ei, -2) {\ifthenelse{\e = 4 \OR \e = 2}{\textcolor{red}{$\e$}}{$\e$}};
+  }
+  \begin{pgfonlayer}{background}
+    \node () [inv, fit = (34) (32)] {};
+  \end{pgfonlayer}
+
+  \draw [pass] (0.5, -2.5) to (4.5,-2.5);
+
+  % the second pass
+  \foreach \e [count = \ei] in {1,3,2,4} {
+    \node (4\e) [ele] at (\ei, -3) {$\e$};
+  }
+  \begin{pgfonlayer}{background}
+    \node () [inv, fit = (41) (43)] {};
+  \end{pgfonlayer}
+
+  \foreach \e [count = \ei] in {1,3,2,4} {
+    \node (5\e) [ele] at (\ei, -4) {\ifthenelse{\e = 3 \OR \e = 2}{\textcolor{red}{$\e$}}{$\e$}};
+  }
+  \begin{pgfonlayer}{background}
+    \node () [inv, fit = (53) (52)] {};
+  \end{pgfonlayer}
+
+  \foreach \e [count = \ei] in {1,2,3,4} {
+    \node (6\e) [ele] at (\ei, -5) {$\e$};
+  }
+  \begin{pgfonlayer}{background}
+    \node () [inv, fit = (63) (64)] {};
+  \end{pgfonlayer}
+
+  \draw [pass] (0.5, -5.5) to (4.5,-5.5);
+
+  \foreach \e [count = \ei] in {1,2,3,4} {
+    \node (7\e) [ele] at (\ei, -6) {$\e$};
+  }
+  \begin{pgfonlayer}{background}
+    \node () [inv, fit = (71) (72)] {};
+  \end{pgfonlayer}
+
+  \foreach \e [count = \ei] in {1,2,3,4} {
+    \node (8\e) [ele] at (\ei, -7) {$\e$};
+  }
+  \begin{pgfonlayer}{background}
+    \node () [inv, fit = (82) (83)] {};
+  \end{pgfonlayer}
+
+  \foreach \e [count = \ei] in {1,2,3,4} {
+    \node (9\e) [ele] at (\ei, -8) {$\e$};
+  }
+  \begin{pgfonlayer}{background}
+    \node () [inv, fit = (93) (94)] {};
+  \end{pgfonlayer}
+\end{tikzpicture}
+
+Example of Bubble Sort
+\end{center}
+\subsection{Insertion Sort}
+Insertion sort is a simple sorting algorithm that is relatively efficient for small lists and mostly sorted lists, and is often used as part of more sophisticated algorithms. It works by taking elements from the list one by one and inserting them in their correct position into a new sorted list.In arrays, the new list and the remaining elements can share the array's space, but insertion is expensive, requiring shifting all following elements over by one.
+
+\begin{figure}[htbp]
+  \centering
+  \includesvg[scale=0.5]{Insertion.svg}
+
+  Insertion Sort Example
+\end{figure}
+
+\section{Common $\mathcal{O}(n\log{n})$ Algorithms}
+\subsection{Merge Sort}
+Merge sort sorts a subarray \texttt{array}$[a \ldots b]$ as follows:
+
+\begin{enumerate}
+\item If $a=b$, do not do anything, because the subarray is already sorted.
+\item Calculate the position of the middle element: $k=\lfloor (a+b)/2 \rfloor$.
+\item Recursively sort the subarray \texttt{array}$[a \ldots k]$.
+\item Recursively sort the subarray \texttt{array}$[k+1 \ldots b]$.
+\item \emph{Merge} the sorted subarrays \texttt{array}$[a \ldots k]$ and
+\texttt{array}$[k+1 \ldots b]$
+into a sorted subarray \texttt{array}$[a \ldots b]$.
+\end{enumerate}
+
+Merge sort is an efficient algorithm, because it
+halves the size of the subarray at each step.
+The recursion consists of $\mathcal{O}(\log n)$ levels,
+and processing each level takes $O(n)$ time.
+Merging the subarrays \texttt{array}$[a \ldots k]$ and \texttt{array}$[k+1 \ldots b]$
+is possible in linear time, because they are already sorted.
+
+For example, consider sorting the following array:
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (8,1);
+\node at (0.5,0.5) {$1$};
+\node at (1.5,0.5) {$3$};
+\node at (2.5,0.5) {$6$};
+\node at (3.5,0.5) {$2$};
+\node at (4.5,0.5) {$8$};
+\node at (5.5,0.5) {$2$};
+\node at (6.5,0.5) {$5$};
+\node at (7.5,0.5) {$9$};
+\end{tikzpicture}
+
+\vspace{5mm}
+
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (4,1);
+\draw (5,0) grid (9,1);
+
+\node at (0.5,0.5) {$1$};
+\node at (1.5,0.5) {$3$};
+\node at (2.5,0.5) {$6$};
+\node at (3.5,0.5) {$2$};
+
+\node at (5.5,0.5) {$8$};
+\node at (6.5,0.5) {$2$};
+\node at (7.5,0.5) {$5$};
+\node at (8.5,0.5) {$9$};
+\end{tikzpicture}
+
+\vspace{5mm}
+
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (2,1);
+\draw (3,0) grid (5,1);
+\draw (6,0) grid (8,1);
+\draw (9,0) grid (11,1);
+
+\node at (0.5,0.5) {$1$};
+\node at (1.5,0.5) {$3$};
+\node at (3.5,0.5) {$6$};
+\node at (4.5,0.5) {$2$};
+
+\node at (6.5,0.5) {$8$};
+\node at (7.5,0.5) {$2$};
+\node at (9.5,0.5) {$5$};
+\node at (10.5,0.5) {$9$};
+\end{tikzpicture}
+
+\vspace{5mm}
+
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (1,1);
+\draw (2,0) grid (3,1);
+\draw (4,0) grid (5,1);
+\draw (6,0) grid (7,1);
+\draw (8,0) grid (9,1);
+\draw (10,0) grid (11,1);
+\draw (12,0) grid (13,1);
+\draw (14,0) grid (15,1);
+
+\node at (0.5,0.5) {$1$};
+\node at (2.5,0.5) {$3$};
+\node at (4.5,0.5) {$6$};
+\node at (6.5,0.5) {$2$};
+
+\node at (8.5,0.5) {$8$};
+\node at (10.5,0.5) {$2$};
+\node at (12.5,0.5) {$5$};
+\node at (14.5,0.5) {$9$};
+\end{tikzpicture}
+
+\vspace{5mm}
+MERGING BEGINS
+\vspace{5mm}
+
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (1,1);
+\draw (2,0) grid (3,1);
+\draw (4,0) grid (5,1);
+\draw (6,0) grid (7,1);
+\draw (8,0) grid (9,1);
+\draw (10,0) grid (11,1);
+\draw (12,0) grid (13,1);
+\draw (14,0) grid (15,1);
+
+\node at (0.5,0.5) {$1$};
+\node at (2.5,0.5) {$3$};
+\node at (4.5,0.5) {$6$};
+\node at (6.5,0.5) {$2$};
+
+\node at (8.5,0.5) {$8$};
+\node at (10.5,0.5) {$2$};
+\node at (12.5,0.5) {$5$};
+\node at (14.5,0.5) {$9$};
+\end{tikzpicture}
+
+\vspace{5mm}
+
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (2,1);
+\draw (3,0) grid (5,1);
+\draw (6,0) grid (8,1);
+\draw (9,0) grid (11,1);
+
+\node at (0.5,0.5) {$1$};
+\node at (1.5,0.5) {$3$};
+\node at (3.5,0.5) {$2$};
+\node at (4.5,0.5) {$6$};
+
+\node at (6.5,0.5) {$2$};
+\node at (7.5,0.5) {$8$};
+\node at (9.5,0.5) {$5$};
+\node at (10.5,0.5) {$9$};
+\end{tikzpicture}
+
+\vspace{5mm}
+
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (4,1);
+\draw (5,0) grid (9,1);
+
+\node at (0.5,0.5) {$1$};
+\node at (1.5,0.5) {$2$};
+\node at (2.5,0.5) {$3$};
+\node at (3.5,0.5) {$6$};
+
+\node at (5.5,0.5) {$2$};
+\node at (6.5,0.5) {$5$};
+\node at (7.5,0.5) {$8$};
+\node at (8.5,0.5) {$9$};
+\end{tikzpicture}
+
+\vspace{5mm}
+
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (8,1);
+\node at (0.5,0.5) {$1$};
+\node at (1.5,0.5) {$2$};
+\node at (2.5,0.5) {$2$};
+\node at (3.5,0.5) {$3$};
+\node at (4.5,0.5) {$5$};
+\node at (5.5,0.5) {$6$};
+\node at (6.5,0.5) {$8$};
+\node at (7.5,0.5) {$9$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Quick Sort}
+
+Quicksort uses divide and conquer to sort an array. Divide and conquer is a technique used for breaking algorithms down into subproblems, solving the subproblems, and then combining the results back together to solve the original problem. It can be helpful to think of this method as divide, conquer, and combine.
+
+Here are the divide, conquer, and combine steps that quicksort uses:
+
+\textbf{Divide:}
+
+\begin{enumerate}
+\item Pick a pivot element, \texttt{$A[q]$}. Picking a good pivot is the key for a fast implementation of quicksort; however, it is difficult to determine what a good pivot might be.
+\item Partition, or rearrange, the array into two subarrays: \texttt{$A[p,...,q-1]$} such that all elements are less than \texttt{$A[q]$}, and \texttt{$A[q+1,...,r]$} such that all elements are greater than or equal to \texttt{$A[q]$}.
+\end{enumerate}
+\newpage
+
+\textbf{Conquer:}
+
+\begin{enumerate}
+\item Sort the subarrays \texttt{$A[p,...,q-1]$} and \texttt{$A[q+1,...,r]$} recursively with quicksort.
+\end{enumerate}
+
+\textbf{Combine:}
+
+\begin{enumerate}
+\item No work is needed to combine the arrays because they are already sorted.
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includesvg[scale=0.8]{Quicksort.svg}
+
+  Quicksort Example
+\end{figure}
+\newpage
+
+\subsection{Heap Sort}
+
+Heapsort is a much more efficient version of selection sort. It also works by determining the largest (or smallest) element of the list, placing that at the end (or beginning) of the list, then continuing with the rest of the list, but accomplishes this task efficiently by using a data structure called a heap, a special type of binary tree.
+
+\subsection{Counting Sort}
+
+Counting sort assumes that each of the $n$ input elements in a list has a key value ranging from $0$ to $k$, for some integer $k$. For each element in the list, counting sort determines the number of elements that are less than it. Counting sort can use this information to place the element directly into the correct slot of the output array.
+
+Counting sort uses three lists: the input list, \texttt{$A[0,1,...,n]$}, the output list, \texttt{$B[0,1,...,n]$}, and a list that serves as temporary memory, \texttt{$C[0,1,...,k]$}. Note that $A$ and $B$ have $n$ slots (a slot for each element), while $C$ contains $k$ slots (a slot for each key value).
+
+\section{Comparison of Sorting Algorithms}
+
+
+\begin{table}[!ht]
+\makebox[\linewidth]{
+\begin{tabularx}{7in}{|X|X|X|X|X|X|}
+\hline
+\textbf{Algorithm}      & \textbf{Best Case}                              & \textbf{Worst Case}                             & \textbf{Average Case}                           & \textbf{Space Usage}                  & \textbf{Stable?}                    \\ \hline
+\textbf{Bubble Sort}    & \cellcolor[HTML]{67FD9A}$\mathcal{O}(n)$        & \cellcolor[HTML]{FE0000}$\mathcal{O}(n^2)$      & \cellcolor[HTML]{FE0000}$\mathcal{O}(n^2)$      & \cellcolor[HTML]{67FD9A}$\mathcal{O}(1)$   & \cellcolor[HTML]{67FD9A}Yes         \\ \hline
+\textbf{Insertion Sort} & \cellcolor[HTML]{67FD9A}$\mathcal{O}(n)$        & \cellcolor[HTML]{FE0000}$\mathcal{O}(n^2)$      & \cellcolor[HTML]{FE0000}$\mathcal{O}(n^2)$      & \cellcolor[HTML]{67FD9A}$\mathcal{O}(1)$   & \cellcolor[HTML]{67FD9A}Yes         \\ \hline
+\textbf{Merge Sort}     & \cellcolor[HTML]{FFCC67}$\mathcal{O}(n\log{n})$ & \cellcolor[HTML]{67FD9A}$\mathcal{O}(n\log{n})$ & \cellcolor[HTML]{67FD9A}$\mathcal{O}(n\log{n})$ & \cellcolor[HTML]{FFCC67}$\mathcal{O}(n)$   & \cellcolor[HTML]{67FD9A}Yes         \\ \hline
+\textbf{Quicksort}      & \cellcolor[HTML]{FFCC67}$\mathcal{O}(n\log{n})$ & \cellcolor[HTML]{FE0000}$\mathcal{O}(n^2)$      & \cellcolor[HTML]{67FD9A}$\mathcal{O}(n\log{n})$ & \cellcolor[HTML]{FFCC67}$\mathcal{O}(n)$   & \cellcolor[HTML]{FFCC67}Usually Not \\ \hline
+\textbf{Heapsort}       & \cellcolor[HTML]{FFCC67}$\mathcal{O}(n\log{n})$ & \cellcolor[HTML]{67FD9A}$\mathcal{O}(n\log{n})$ & \cellcolor[HTML]{67FD9A}$\mathcal{O}(n\log{n})$ & \cellcolor[HTML]{67FD9A}$\mathcal{O}(1)$   & \cellcolor[HTML]{FE0000}No          \\ \hline
+\textbf{Counting Sort}  & \cellcolor[HTML]{67FD9A}$\mathcal{O}(k+n)$      & \cellcolor[HTML]{67FD9A}$\mathcal{O}(k+n)$      & \cellcolor[HTML]{67FD9A}$\mathcal{O}(k+n)$      & \cellcolor[HTML]{FFCC67}$\mathcal{O}(k+n)$ & \cellcolor[HTML]{67FD9A}Yes         \\ \hline
+\end{tabularx}
+}
+\end{table}
+
+\section{Sorting in C++}
+
+The C++ standard library contains
+the function \texttt{sort} that can be easily used for
+sorting arrays and other data structures.
+
+There are many benefits in using a library function.
+First, it saves time because there is no need to
+implement the function.
+Second, the library implementation is
+certainly correct and efficient: it is not probable
+that a home-made sorting function would be better.
+
+In this section we will see how to use the
+C++ \texttt{sort} function.
+The following code sorts
+a vector in increasing order:
+\begin{lstlisting}
+vector<int> v = {4,2,5,3,5,8,3};
+sort(v.begin(),v.end());
+\end{lstlisting}
+After the sorting, the contents of the
+vector will be
+$[2,3,3,4,5,5,8]$.
+The default sorting order is increasing,
+but a reverse order is possible as follows:
+\begin{lstlisting}
+sort(v.rbegin(),v.rend());
+\end{lstlisting}
+An ordinary array can be sorted as follows:
+\begin{lstlisting}
+int n = 7; // array size
+int a[] = {4,2,5,3,5,8,3};
+sort(a,a+n);
+\end{lstlisting}
+The following code sorts the string \texttt{s}:
+\begin{lstlisting}
+string s = "monkey";
+sort(s.begin(), s.end());
+\end{lstlisting}
+Sorting a string means that the characters
+of the string are sorted.
+For example, the string ''monkey'' becomes ''ekmnoy''.
+
+Integer containers can be sorted in decreasing order as follows:
+
+\begin{lstlisting}
+int n = 7; // array size
+int a[] = {4,2,5,3,5,8,3};
+sort(a,a+n, greater<int>());// greater<int>() as third parameter
+// final array is int a[] = {8,5,5,4,3,3,2};
+\end{lstlisting}
+
+
+\chapter{Bit Manipulation}
+\section{Tricks}
+\subsection{Multiply and divide by $2^i$}
+\begin{lstlisting}
+n = n << i;   // Multiply n with 2^i
+n = n >> 1;   // Divide n by 2^i
+\end{lstlisting}
+\subsection{Checking if a number is odd or even}
+\begin{lstlisting}
+if (num & 1)
+   cout << "ODD";
+else
+   cout << "EVEN";
+\end{lstlisting}
+\subsection{Swapping of 2 numbers using XOR}
+This method is fast and doesn’t require the use of 3rd variable.
+\begin{lstlisting}
+a ^= b;
+b ^= a;
+a ^= b;
+\end{lstlisting}
+\newpage
+\subsection{Compute XOR from 1 to $n$ (direct method)}
+\begin{algorithm}
+%\DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon    instead
+\KwIn{$n$}
+\KwOut{XOR of all numbers from $1$ to $n$}
+Find the remainder of n by moduling it with 4.\\
+Check, \linebreak
+%\renewcommand{\labelenumi}{(\Roman{enumi})}
+%\begin{enumerate}[noitemsep,nolistsep]
+%\item
+ (I) If rem = 0, then xor will be same as n.
+\linebreak
+%\item
+(II) If rem = 1, then xor will be 1.
+\linebreak
+%\item
+(II) If rem = 1, then xor will be 1.
+\linebreak
+%\item
+(II) If rem = 3 ,then xor will be 0.
+%\end{enumerate}
+\caption{Compute XOR of numbers from $1$ to $n$}
+\label{algo:b}
+\end{algorithm}
+\begin{lstlisting}
+int computeXOR(int n)
+{
+    if (n % 4 == 0)
+        return n;
+    if (n % 4 == 1)
+        return 1;
+    if (n % 4 == 2)
+        return n + 1;
+    else
+        return 0;
+}
+\end{lstlisting}
+\subsubsection{How does this work?}
+When we do XOR of numbers, we get 0 as XOR value just before a multiple of 4. This keeps repeating before every multiple of 4.
+\begin{lstlisting}
+Number Binary-Repr  XOR-from-1-to-n
+1         1           [0001]
+2        10           [0011]
+3        11           [0000]  <----- We get a 0
+4       100           [0100]  <----- Equals to n
+5       101           [0001]
+6       110           [0111]
+7       111           [0000]  <----- We get 0
+8      1000           [1000]  <----- Equals to n
+9      1001           [0001]
+10     1010           [1011]
+11     1011           [0000] <------ We get 0
+12     1100           [1100] <------ Equals to n
+\end{lstlisting}
+\newpage
+\subsection{Check if a number is a power of $2$}
+\begin{lstlisting}
+bool poweroftwo(int x)
+{
+    return x & (x-1) == 0;
+}
+\end{lstlisting}
+\subsection{Change case of English alphabet}
+\begin{lstlisting}
+ch |= ' '; //Upper to Lower
+ch &= '_' ; //Lower to Upper
+\end{lstlisting}
+\subsection{Find $\log_2 x$ of 32-bit integer}
+\begin{lstlisting}
+int logarithm(int x)
+{
+    int res = 0;
+    while (x >>= 1)
+        res++;
+    return res;
+}
+\end{lstlisting}
+\section{Bit Shift}
+The left bit shift $x \verb|<<| k$ appends $k$
+zero bits to the number,
+and the right bit shift $x \verb|>>| k$
+removes the $k$ last bits from the number.
+
+Note that $x \verb|<<| k$
+corresponds to multiplying $x$ by $2^k$,
+and $x \verb|>>| k$
+corresponds to dividing $x$ by $2^k$
+rounded down to an integer
+\subsection{Application}
+\subsubsection{Check if $k^{th}$ bit is set}
+The $k$th bit of a number is one
+exactly when $x$ \and $(1 \verb|<<| k)$ is not zero.
+The following code prints the bit representation
+of an \texttt{int} number $x$:
+
+\begin{lstlisting}
+for (int i = 31; i >= 0; i--)
+{
+    if (x&(1<<i)) cout << "1"; //check if ith bit is 1
+    else cout << "0";
+}
+\end{lstlisting}
+\subsubsection{Set the $k^{th}$ bit}
+\begin{lstlisting}
+x |= (1 < < k) //sets the kth bit of x to one
+\end{lstlisting}
+\subsubsection{Unset the $k^{th}$ bit}
+\begin{lstlisting}
+x &= ~(1 << k) //unsets the kth bit of x to zero
+\end{lstlisting}
+\subsubsection{Invert the $k^{th}$ bit}
+\begin{lstlisting}
+x ^= (1 << k) //Inverts the kth bit of x
+\end{lstlisting}
+\subsubsection{To get the Least Significant Bit}
+\begin{lstlisting}
+T = (S & (-S))
+//T is a power of two with only one bit set which is the LSB.
+\end{lstlisting}
+\subsubsection{To turn on all bits of a number}
+\begin{lstlisting}
+~(x & 0) //x&0 is 0 and ~ inverts all bits to 1
+\end{lstlisting}
+\subsubsection{To turn on all bits till $n$}
+\begin{lstlisting}
+S = (1 << n) - 1 //in case n =3 , s = 7 = 8-1
+\end{lstlisting}
+\subsubsection{Get $n \mod d$ where d is a power of 2}
+\begin{lstlisting}
+// This function will return n % d.
+// d must be one of: 1, 2, 4, 8, 16, 32, ...
+unsigned int getModulo(unsigned int n, unsigned int d)
+{
+return ( n & (d - 1) );
+}
+\end{lstlisting}
+\subsubsection{Trivia}
+The formula $x$ \& $(x-1)$ sets the last
+one bit of $x$ to zero.
+The formula $x$ | $(x-1)$
+inverts all the bits after the last one bit.
+\section{C++ Special Functions}
+The g++ compiler provides the following
+functions for counting bits:
+
+\begin{itemize}
+\item
+$\texttt{\_\_builtin\_clz}(x)$:
+the number of zeros at the beginning of the number
+\item
+$\texttt{\_\_builtin\_ctz}(x)$:
+the number of zeros at the end of the number
+\item
+$\texttt{\_\_builtin\_popcount}(x)$:
+the number of ones in the number
+\item
+$\texttt{\_\_builtin\_parity}(x)$:
+the parity (even or odd) of the number of ones
+\end{itemize}
+\begin{samepage}
+
+The functions can be used as follows:
+\begin{lstlisting}
+int x = 5328; // 00000000000000000001010011010000
+cout << __builtin_clz(x) << "\n"; // 19
+cout << __builtin_ctz(x) << "\n"; // 4
+cout << __builtin_popcount(x) << "\n"; // 5
+cout << __builtin_parity(x) << "\n"; // 1
+\end{lstlisting}
+\end{samepage}
+
+While the above functions only support \texttt{int} numbers,
+there are also \texttt{long long} versions of
+the functions available with the suffix \texttt{ll} like $\texttt{\_\_builtin\_popcountll}(x)$.
+\section{Set Representation}
+Every subset of a set
+$\{0,1,2,\ldots,n-1\}$
+can be represented as an $n$ bit integer
+whose one bits indicate which
+elements belong to the subset.
+This is an efficient way to represent sets,
+because every element requires only one bit of memory,
+and set operations can be implemented as bit operations.
+
+For example, since \texttt{int} is a 32-bit type,
+an \texttt{int} number can represent any subset
+of the set $\{0,1,2,\ldots,31\}$.
+The bit representation of the set $\{1,3,4,8\}$ is
+\[00000000000000000000000100011010,\]
+which corresponds to the number $2^8+2^4+2^3+2^1=282$.
+
+\subsection{Set implementation}
+
+The following code declares an \texttt{int}
+variable $x$ that can contain
+a subset of $\{0,1,2,\ldots,31\}$.
+After this, the code adds the elements 1, 3, 4 and 8
+to the set and prints the size of the set.
+\begin{lstlisting}
+int x = 0;
+x |= (1<<1);
+x |= (1<<3);
+x |= (1<<4);
+x |= (1<<8);
+cout << __builtin_popcount(x) << "\n"; // 4
+\end{lstlisting}
+Then, the following code prints all
+elements that belong to the set:
+\begin{lstlisting}
+for (int i = 0; i < 32; i++) {
+    if (x&(1<<i)) cout << i << " ";
+}
+// output: 1 3 4 8
+\end{lstlisting}
+\subsection{Set Operations}
+Set operations can be implemented as follows as bit operations:
+
+\begin{center}
+\begin{tabular}{lll}
+& set syntax & bit syntax \\
+\hline
+intersection & $a \cap b$ & $a$ \& $b$ \\
+union & $a \cup b$ & $a$ | $b$ \\
+complement & $\bar a$ & \textasciitilde$a$ \\
+difference & $a \setminus b$ & $a$ \& (\textasciitilde$b$) \\
+\end{tabular}
+\end{center}
+\subsubsection{Iteration Through Subsets}
+
+The following code goes through
+the subsets of $\{0,1,\ldots,n-1\}$:
+
+\begin{lstlisting}
+for (int b = 0; b < (1<<n); b++) {
+    // process subset b
+}
+\end{lstlisting}
+The following code goes through
+the subsets with exactly $k$ elements:
+\begin{lstlisting}
+for (int b = 0; b < (1<<n); b++) {
+    if (__builtin_popcount(b) == k) {
+        // process subset b
+    }
+}
+\end{lstlisting}
+The following code goes through the subsets
+of a set $x$:
+\begin{lstlisting}
+int b = 0;
+do {
+    // process subset b
+} while (b=(b-x)&x);
+\end{lstlisting}
+
+\section{Example Problems}
+\subsection{Counting Grids with Black Corners}
+\begin{problem}
+Given an $n \times n$ grid whose
+each square is either black (1) or white (0),
+calculate the number of subgrids
+whose all corners are black.
+\end{problem}
+\begin{exmp}
+For example, the grid
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+\fill[black] (1,1) rectangle (2,2);
+\fill[black] (1,4) rectangle (2,5);
+\fill[black] (4,1) rectangle (5,2);
+\fill[black] (4,4) rectangle (5,5);
+\fill[black] (1,3) rectangle (2,4);
+\fill[black] (2,3) rectangle (3,4);
+\fill[black] (2,1) rectangle (3,2);
+\fill[black] (0,2) rectangle (1,3);
+\draw (0,0) grid (5,5);
+\end{tikzpicture}
+\end{center}
+contains two such subgrids:
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+\fill[black] (1,1) rectangle (2,2);
+\fill[black] (1,4) rectangle (2,5);
+\fill[black] (4,1) rectangle (5,2);
+\fill[black] (4,4) rectangle (5,5);
+\fill[black] (1,3) rectangle (2,4);
+\fill[black] (2,3) rectangle (3,4);
+\fill[black] (2,1) rectangle (3,2);
+\fill[black] (0,2) rectangle (1,3);
+\draw (0,0) grid (5,5);
+
+\fill[black] (7+1,1) rectangle (7+2,2);
+\fill[black] (7+1,4) rectangle (7+2,5);
+\fill[black] (7+4,1) rectangle (7+5,2);
+\fill[black] (7+4,4) rectangle (7+5,5);
+\fill[black] (7+1,3) rectangle (7+2,4);
+\fill[black] (7+2,3) rectangle (7+3,4);
+\fill[black] (7+2,1) rectangle (7+3,2);
+\fill[black] (7+0,2) rectangle (7+1,3);
+\draw (7+0,0) grid (7+5,5);
+
+\draw[color=red,line width=1mm] (1,1) rectangle (3,4);
+\draw[color=red,line width=1mm] (7+1,1) rectangle (7+5,5);
+\end{tikzpicture}
+\end{center}
+\end{exmp}
+\begin{solution}
+\hfill\break
+Naive Solution of time complexity $\mathcal{O}(n^3)$:
+
+Go through all $O(n^2)$ pairs of rows and for each pair
+$(a,b)$ calculate the number of columns that contain a black
+square in both rows in $O(n)$ time.
+The following code assumes that $\texttt{color}[y][x]$
+denotes the color in row $y$ and column $x$:
+\begin{lstlisting}
+int count = 0;
+for (int i = 0; i < n; i++) {
+    if (color[a][i] == 1 && color[b][i] == 1) count++;
+}
+\end{lstlisting}
+Then, those columns
+account for $\texttt{count}(\texttt{count}-1)/2$ subgrids with black corners,
+because we can choose any two of them to form a subgrid.
+\end{solution}
+\newpage
+\begin{solution}
+\hfill\break
+Optimized solution:
+
+Divide the grid into blocks
+of columns such that each block consists of $N$
+consecutive columns. Then, each row is stored as
+a list of $N$-bit numbers that describe the colors
+of the squares. Now we can process $N$ columns at the same time
+using bit operations. In the following code,
+$\texttt{color}[y][k]$ represents
+a block of $N$ colors as bits.
+\begin{lstlisting}
+int count = 0;
+for (int i = 0; i <= n/N; i++) {
+    count += __builtin_popcount(color[a][i]&color[b][i]);
+}
+\end{lstlisting}
+Time Complexity is $O(n^3/N)$ time.
+\end{solution}
+\part{Dynamic Programming}
+\chapter{Common DP Problems}
+\section{Rod Cutting}
+\begin{problem}[DP]
+Given a rod of length $n$ inches and an array of prices that contains prices of all pieces of size smaller than $n$. Determine the maximum value obtainable by cutting up the rod and selling the pieces.
+\end{problem}
+\begin{exmp}
+If length of the rod is $8$ and the values of different pieces are given as following, then the maximum obtainable value is $22$ (by cutting in two pieces of lengths $2$ and $6$).
+Price  array = \texttt{[1,5,8,9,10,17,17,20]}
+\end{exmp}
+\begin{solution}
+\hfill\break
+We fix the last piece of rod with length $i$ and iterate over $i$
+\begin{lstlisting}
+int cutRod(int price[], int n)
+{
+   int val[n+1]; //dp table with optimal value for rod of length 0...n
+   val[0] = 0;  //base case
+
+   for (int i = 1; i<=n; i++)
+   {
+       int max_val = INT_MIN;
+       for (int j = 0; j < i; j++)
+       {
+            max_val = max(max_val, price[j] + val[i-j-1]);
+       }
+       val[i] = max_val; //answer for i in range 0...n
+   }
+   return val[n]; //answer
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(n^2)$
+\end{solution}
+\section{Longest Increasing Subsequence(LIS)}
+\begin{problem}[DP]
+Find the length of the longest subsequence of a given sequence such that all elements of the subsequence are sorted in increasing order.
+\end{problem}
+\begin{exmp}
+LIS for \texttt{[10, 22, 9, 33, 21, 50, 41, 60, 80]} is $6$ and LIS is \texttt{[10, 22, 33, 50, 60, 80]}.
+\end{exmp}
+\begin{solution}
+\hfill\break
+Let \texttt{arr[0..n-1]} be the input array and \texttt{L(i)} be the length of the LIS ending at index $i$ such that \texttt{arr[i]} is the last element of the LIS.
+
+Then, \texttt{L(i)} can be recursively written as:
+
+\texttt{L(i) = 1 + max(L(j)) where }$0 \leq j \leq i$ and \texttt{arr[j] < arr[i];} or
+
+\text{L(i) = 1}, if no such $j$ exists.
+
+To find the LIS for a given array, we need to return \texttt{max(L(i))} where $0 \leq i \leq n$.
+\begin{lstlisting}
+int dp[n] = {0}; //dp table
+for(int i =0; i<n; i++)
+{
+  dp[i] = 1;
+  for(int k= i-1; k>=0; k--)
+  {
+    if(arr[k] < arr[i]) //all k such that arr[k] < arr[i]
+    {
+      dp[i] = max(dp[i], dp[k]+1);//include k or not
+    }
+  }
+}
+cout << dp[n-1];
+\end{lstlisting}
+
+Time Complexity is $\mathcal{O}(n^2)$
+\end{solution}
+\newpage
+\section{Longest Common Subsequence(LCS)}
+\begin{problem}
+Given two sequences, find the length of longest subsequence present in both of them. A subsequence is a sequence that appears in the same relative order, but not necessarily contiguous
+\end{problem}
+\begin{exmp}
+LCS for input Sequences \texttt{“ABCDGH”} and \texttt{“AEDFHR”} is \texttt{“ADH”} of length $3$.
+\end{exmp}
+\begin{exmp}
+LCS for input Sequences \texttt{“AGGTAB”} and \texttt{“GXTXAYB”} is \texttt{“GTAB”} of length $4$.
+\end{exmp}
+\begin{solution}
+\hfill\break
+\begin{lstlisting}
+/* Returns length of LCS for X[0..m-1], Y[0..n-1] */
+int lcs(string x, string y, int m, int n )
+{
+    int L[m+1][n+1]; //2D dp array
+
+/* Following steps build L[m+1][n+1] in bottom up fashion. Note
+that L[i][j] contains length of LCS of X[0..i-1] and Y[0..j-1] */
+    for (int i=0; i<=m; i++)
+    {
+      for (int j=0; j<=n; j++)
+      {
+      if (i == 0 || j == 0) // base case
+        L[i][j] = 0;
+
+      else if (X[i-1] == Y[j-1]) //if two chars are equal
+        L[i][j] = L[i-1][j-1] + 1;
+
+      else //if two chars are not equal
+        L[i][j] = max(L[i-1][j], L[i][j-1]);
+      }
+    }
+
+    /* L[m][n] contains length of LCS for X[0..n-1] and Y[0..m-1] */
+    return L[m][n];
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(nm)$
+\end{solution}
+\newpage
+\section{Tiling Problem}
+\begin{problem}
+Given a $2 \times n$ board and tiles of size $2 \times 1$, count the number of ways to tile the given board using the $2 \times 1$ tiles. A tile can either be placed horizontally i.e., as a $1 \times 2$ tile or vertically i.e., as $2 \times 1$ tile.
+\end{problem}
+\begin{exmp}
+
+
+Input n = 3
+
+Output: 3
+
+Explanation:
+
+We need 3 tiles to tile the board of size  2 x 3.
+
+We can tile the board using following ways
+
+1) Place all 3 tiles vertically.
+
+2) Place first tile vertically and remaining 2 tiles horizontally.
+
+3) Place first 2 tiles horizontally and remaining tiles vertically
+
+The first solution is shown below
+\begin{center}
+\begin{tikzpicture}[scale=.65]
+    \draw (0,0) grid (2,3);
+    \draw[fill=gray] (0+0.2,0+0.2) rectangle (2-0.2,1-0.2);
+    \draw[fill=gray] (0+0.2,1+0.2) rectangle (2-0.2,2-0.2);
+    \draw[fill=gray] (0+0.2,2+0.2) rectangle (2-0.2,3-0.2);
+
+\end{tikzpicture}
+\end{center}
+
+
+\end{exmp}
+\begin{exmp}
+
+
+Input n = 4
+
+Output: 5
+
+Explanation:
+
+For a 2 x 4 board, there are 5 ways
+
+1) All 4 vertical
+
+2) All 4 horizontal
+
+3) First 2 vertical, remaining 2 horizontal
+
+4) First 2 horizontal, remaining 2 vertical
+
+5) Corner 2 vertical, middle 2 horizontal
+
+The third solution is shown below:
+
+\begin{center}
+\begin{tikzpicture}[scale=.65]
+    \draw (0,0) grid (2,4);
+    \draw[fill=gray] (0+0.2,0+0.2) rectangle (2-0.2,1-0.2);
+    \draw[fill=gray] (0+0.2,1+0.2) rectangle (2-0.2,2-0.2);
+    \draw[fill=gray] (1+0.2,2+0.2) rectangle (2-0.2,4-0.2);
+    \draw[fill=gray] (0+0.2,2+0.2) rectangle (1-0.2,4-0.2);
+
+\end{tikzpicture}
+\end{center}
+
+\end{exmp}
+\newpage
+\begin{solution}
+\hfill\break
+Tiling Problem is nothing but Fibonacci sequence
+
+Method 1:
+
+
+\begin{lstlisting}
+int fib(int n)
+{
+    //Space optimized Fibonacci
+    int a = 1, b = 1, c, i;
+    if( n == 1 || n==2)
+      return n;
+    for (i = 2; i <= n; i++)
+    {
+      c = a + b;
+      a = b;
+      b = c;
+    }
+    return b;
+}
+\end{lstlisting}
+
+Time Complexity is $\mathcal{O}(n)$
+
+Method 2:
+
+In this method we directly implement the formula for $n^{th}$ term in the Fibonacci series. Time Complexity : $\mathcal{O}(1)$. Space Complexity: $\mathcal{O}(1)$
+$$F_n = \frac{(\frac{(\sqrt{5} + 1)}{2})^ n}{\sqrt{5}}$$
+\begin{lstlisting}
+int fib(int n)
+{
+    double phi = (1 + sqrt(5)) / 2;
+    return round(pow(phi, n) / sqrt(5));
+}
+\end{lstlisting}
+\end{solution}
+\newpage
+\section{Coin - 1}
+\begin{problem}
+Given a value $n$, if we want to make change for $n$ cents, and we have infinite supply of each of \texttt{S = [$S_1, S_2, .. , S_m$]} valued coins, how many ways can we make the change? The order of coins does not matter.
+\end{problem}
+\begin{exmp}
+$n = 4$ and \texttt{S = [1,2,3]} and answer = $4$
+
+There are four solutions: \texttt{[1,1,1,1];[1,1,2];[2,2];[1,3]}
+\end{exmp}
+\begin{exmp}
+$n = 10$ and \texttt{S = [2,5,3,6]} and answer = $5$
+
+There are five solutions: \texttt{[2,2,2,2,2];[2,2,3,3];[2,2,6];[2,3,5];[5,5]}
+\end{exmp}
+\begin{solution}
+\hfill\break
+Recursive Equation:
+\begin{equation*}
+    \texttt{change}(x) = \begin{cases}
+               $x < 0$ & 0\\
+               $x = 0$ & 1\\
+               $x > 0$ & \sum_{c \in \texttt{coins}} \texttt{change}(x-c)\\
+           \end{cases}
+\end{equation*}
+\begin{lstlisting}
+int coin(int S[], int m, int n)
+{
+    // table[i] will be storing the number of solutions for
+    // value i
+    int table[n+1];
+    // Initialize all table values as 0
+    memset(table, 0, sizeof(table));
+    table[0] = 1; //1 way to make 0 coins. First hand experience :)
+    // Pick all coins one by one and update the table[] values
+    // after the index greater than or equal to the value of the
+    // picked coin
+    for(int i: S) //for each coin is S
+        for(int j=i; j<=n; j++)
+            table[j] += table[j-i];
+
+    return table[n]; //answer
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(nm)$
+\end{solution}
+\newpage
+\section{Coin - 2}
+\begin{problem}
+Given a value $n$, if we want to make change for $n$ cents, and we have infinite supply of each of \texttt{C = [ $C_1, C_2, .. , C_m$]} valued coins, what is the minimum number of coins to make the change?
+\end{problem}
+\begin{exmp}
+\texttt{coins[] = [25, 10, 5]}, $n = 30$
+
+Output: Minimum 2 coins required
+
+We can use one coin of 25 cents and one of 5 cents
+\end{exmp}
+\begin{exmp}
+\texttt{coins[] = [9, 6, 5, 1]}, $n = 11$
+
+Output: Minimum 2 coins required
+
+We can use one coin of 6 cents and 1 coin of 5 cents
+\end{exmp}
+\begin{solution}
+\hfill\break
+\begin{lstlisting}
+// m is size of coins array (number of different coins)
+int minCoins(int coins[], int n)
+{
+    // table[i] will be storing the minimum number of coins
+    // required for i value.  So table[n] will have result
+    int table[n+1];
+
+    // Base case
+    table[0] = 0; //Again first hand experience :)
+
+
+    // Compute minimum coins required for all
+    // values from 1 to n
+    for (int i=1; i<=n; i++)
+    {
+        table[i] = INT_MAX; //initialize all values to Infinity
+        // Go through all coins smaller than i
+        for (int c : coins)
+        {
+            if (i-c >= 0)
+            {
+                table[i] = min(table[i], table[i-c]+1);
+            }
+        }
+    }
+    return table[n];
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(nm)$
+\end{solution}
+\newpage
+\section{Largest Sum Contiguous Subarray}
+\begin{problem}
+Given an integer array $A$, find the sum of the contiguous subarray (containing at least one number) which has the largest sum. Formally, the task is to find indices $i$  and $j$  with $1\leq i\leq j\leq n$  , such that the sum
+$$\sum_{x=i}^j A[x]$$ is as large as possible
+\end{problem}
+\begin{exmp}
+Input: \texttt{[-2,1,-3,4,-1,2,1,-5,4]},
+
+Output: $6$
+
+Explanation: \texttt{[4,-1,2,1]} has the largest sum = 6.
+\end{exmp}
+\begin{solution}
+\hfill\break
+This is called Kadane's algorithm.
+
+The key idea of Kadane’s algorithm is to keep a running sum of the integers seen so far and
+greedily reset that to $0$ if the running sum dips below $0$. This is because re-starting from
+$0$ is always better than continuing from a negative running sum.
+
+\begin{lstlisting}
+int max_sum(int A[], int n)
+{
+    int sum = 0, ans = 0; // important, ans must be initialized to 0
+    for (int i = 0; i < n; i++)
+    { // linear scan, O(n)
+        sum += A[i]; // we greedily extend this running sum
+        ans = max(ans, sum); // we keep the maximum RSQ overall
+        if (sum < 0)
+        {
+            sum = 0; // but we reset the running sum
+        }
+    } // if it ever dips below 0
+    return ans; //ans is the final answer
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(n)$
+\end{solution}
+\newpage
+\section{0-1 Knapsack Part 1}
+\begin{problem}
+Given $n$ items, each with its own value $V_i$ and weight $W_i$, $\forall i \in [0..n-1]$, and a
+maximum knapsack of size S, compute the maximum value of the items that we can carry, if
+we can either ignore or take a particular item (hence the term 0-1 for ignore/take).
+\end{problem}
+\begin{exmp}
+\hfill\break
+
+\texttt{Value = [60,100,120]}
+
+\texttt{Weight = [10,20,30]}
+
+\texttt{Knapsack size = 50}
+
+Output = $220$
+
+Explanation: The best choice is to pick item 2 and item 3
+\end{exmp}
+\begin{solution}
+\hfill\break
+\begin{lstlisting}
+int knapSack(int w, int weight[], int value[], int n)
+{
+   int knap[n+1][w+1]; //dp table
+
+   // Build table K[][] in bottom up manner
+   for (int i = 0; i<=n; i++)
+   {
+       for (int j = 0; j<=w; j++)
+       {
+            if(i == 0 || j == 0)
+            {
+                knap[i][j] = 0;
+            }
+            else if(weight[i-1] <= j)
+            {
+knap[i][j] = max(value[i-1]+ knap[i-1][j-weight[i-1]], knap[i-1][j]);
+            }
+            else
+            {
+                knap[i][j] = knap[i-1][j];
+            }
+       }
+   }
+
+   return knap[n][w]; //answer
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(nW)$ where n is the number of items and W is the capacity of knapsack.
+\end{solution}
+\section{0 - 1 Knapsack Part 2}
+\begin{problem}
+Given a list of weights $[w_1,w_2,\ldots,w_n]$, determine all sums that can be constructed using the weights
+\end{problem}
+\begin{exmp}
+If the weights are
+$[1,3,3,5]$, the following sums are possible:
+
+\begin{center}
+\begin{tabular}{rrrrrrrrrrrrr}
+ 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+\hline
+ X & X & & X & X & X & X & X & X & X & & X & X \\
+\end{tabular}
+\end{center}
+
+In this case, all sums between $0 \ldots 12$
+are possible, except 2 and 10.
+For example, the sum 7 is possible because we
+can select the weights $[1,3,3]$.
+\end{exmp}
+\begin{solution}
+\hfill\break
+Let $\texttt{possible}(x,k)=\textrm{true}$ if
+we can construct a sum $x$
+using the first $k$ weights,
+and otherwise $\texttt{possible}(x,k)=\textrm{false}$.
+The recursive relation is as follows:
+\[ \texttt{possible}(x,k) = \texttt{possible}(x-w_k,k-1) \lor \texttt{possible}(x,k-1) \]
+
+The formula is based on the fact that we can
+either use or not use the weight $w_k$ in the sum.
+If we use $w_k$, the remaining task is to
+form the sum $x-w_k$ using the first $k-1$ weights,
+and if we do not use $w_k$,
+the remaining task is to form the sum $x$
+using the first $k-1$ weights.
+The base cases are,
+\begin{equation*}
+    \texttt{possible}(x,0) = \begin{cases}
+               \textrm{true}    & x = 0\\
+               \textrm{false}   & x \neq 0 \\
+           \end{cases}
+\end{equation*}
+\begin{lstlisting}
+// Let "total" denote the total sum of the weights.
+w[n]; //array of weights
+possible[total+1];
+possible[0] = true;
+for (int k = 1; k <= n; k++)
+{
+    for (int x = total; x >= 0; x--)
+    {
+        if (possible[x]) possible[x+w[k]] = true;
+    }
+}
+for(int i = 0; i<= total; i++)
+{
+    if(possible[i])
+        cout << i << "\n"; //output the values which are possible
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(n \times total)$
+\end{solution}
+\section{Maximum Sum Path in a Grid}
+\begin{problem}
+Find a path
+from the upper-left corner to
+the lower-right corner
+of an $n \times n$ grid, such that
+we only move down and right.
+Each square contains a positive integer,
+and the path should be constructed so
+that the sum of the values along
+the path is as large as possible.
+\end{problem}
+\begin{exmp}
+\hfill\break
+\begin{center}
+\begin{tikzpicture}[scale=.65]
+  \begin{scope}
+    \fill [color=lightgray] (0, 9) rectangle (1, 8);
+    \fill [color=lightgray] (0, 8) rectangle (1, 7);
+    \fill [color=lightgray] (1, 8) rectangle (2, 7);
+    \fill [color=lightgray] (1, 7) rectangle (2, 6);
+    \fill [color=lightgray] (2, 7) rectangle (3, 6);
+    \fill [color=lightgray] (3, 7) rectangle (4, 6);
+    \fill [color=lightgray] (4, 7) rectangle (5, 6);
+    \fill [color=lightgray] (4, 6) rectangle (5, 5);
+    \fill [color=lightgray] (4, 5) rectangle (5, 4);
+    \draw (0, 4) grid (5, 9);
+    \node at (0.5,8.5) {3};
+    \node at (1.5,8.5) {7};
+    \node at (2.5,8.5) {9};
+    \node at (3.5,8.5) {2};
+    \node at (4.5,8.5) {7};
+    \node at (0.5,7.5) {9};
+    \node at (1.5,7.5) {8};
+    \node at (2.5,7.5) {3};
+    \node at (3.5,7.5) {5};
+    \node at (4.5,7.5) {5};
+    \node at (0.5,6.5) {1};
+    \node at (1.5,6.5) {7};
+    \node at (2.5,6.5) {9};
+    \node at (3.5,6.5) {8};
+    \node at (4.5,6.5) {5};
+    \node at (0.5,5.5) {3};
+    \node at (1.5,5.5) {8};
+    \node at (2.5,5.5) {6};
+    \node at (3.5,5.5) {4};
+    \node at (4.5,5.5) {10};
+    \node at (0.5,4.5) {6};
+    \node at (1.5,4.5) {3};
+    \node at (2.5,4.5) {9};
+    \node at (3.5,4.5) {7};
+    \node at (4.5,4.5) {8};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+The sum of the values on the path is 67,
+and this is the largest possible sum on a path
+from the
+upper-left corner to the lower-right corner.
+\end{exmp}
+\begin{solution}
+\hfill\break
+The formula is based on the observation
+that a path that ends at square $(y,x)$
+can come either from square $(y,x-1)$
+or square $(y-1,x)$:
+\begin{center}
+\begin{tikzpicture}[scale=.65]
+  \begin{scope}
+    \fill [color=lightgray] (3, 7) rectangle (4, 6);
+    \draw (0, 4) grid (5, 9);
+
+    \node at (2.5,6.5) {$\rightarrow$};
+    \node at (3.5,7.5) {$\downarrow$};
+
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+\begin{lstlisting}
+value[n+1][n+1]; //grid values
+int sum[n][n]; //dp array
+for (int y = 1; y <= n; y++)
+{
+    for (int x = 1; x <= n; x++)
+    {
+        sum[y][x] = max(sum[y][x-1],sum[y-1][x])+value[y][x];
+    }
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(n^2)$
+\end{solution}
+\newpage
+\section{Edit Distance}
+\begin{problem}
+Given two strings \texttt{str1} and \texttt{str2} and below operations that can performed on \texttt{str1}. Find minimum number of edits (operations) required to convert \texttt{str1} into \texttt{str2}.
+\begin{itemize}
+\item insert a character (e.g. \texttt{ABC} $\rightarrow$ \texttt{ABCA})
+\item remove a character (e.g. \texttt{ABC} $\rightarrow$ \texttt{AC})
+\item modify a character (e.g. \texttt{ABC} $\rightarrow$ \texttt{ADC})
+\end{itemize}
+All of the above operations are of equal cost.
+\end{problem}
+\begin{exmp}
+Input:   str1 = "geek", str2 = "gesek"
+
+Output:  1
+
+We can convert str1 into str2 by inserting a 's'.
+\end{exmp}
+\begin{exmp}
+Input:   str1 = "cat", str2 = "cut"
+
+Output:  1
+
+We can convert str1 into str2 by replacing 'a' with 'u'.
+\end{exmp}
+\begin{exmp}
+The edit distance between
+\texttt{LOVE} and \texttt{MOVIE} is 2,
+because we can first perform the operation
+ \texttt{LOVE} $\rightarrow$ \texttt{MOVE}
+(modify) and then the operation
+\texttt{MOVE} $\rightarrow$ \texttt{MOVIE}
+(insert).
+The following table shows the values of \texttt{distance}
+in the example case:
+\begin{center}
+\begin{tikzpicture}[scale=.65]
+  \begin{scope}
+    %\fill [color=lightgray] (5, -3) rectangle (6, -4);
+    \draw (1, -1) grid (7, -6);
+
+    \node at (0.5,-2.5) {\texttt{L}};
+    \node at (0.5,-3.5) {\texttt{O}};
+    \node at (0.5,-4.5) {\texttt{V}};
+    \node at (0.5,-5.5) {\texttt{E}};
+
+    \node at (2.5,-0.5) {\texttt{M}};
+    \node at (3.5,-0.5) {\texttt{O}};
+    \node at (4.5,-0.5) {\texttt{V}};
+    \node at (5.5,-0.5) {\texttt{I}};
+    \node at (6.5,-0.5) {\texttt{E}};
+
+    \node at (1.5,-1.5) {$0$};
+    \node at (1.5,-2.5) {$1$};
+    \node at (1.5,-3.5) {$2$};
+    \node at (1.5,-4.5) {$3$};
+    \node at (1.5,-5.5) {$4$};
+    \node at (2.5,-1.5) {$1$};
+    \node at (2.5,-2.5) {$1$};
+    \node at (2.5,-3.5) {$2$};
+    \node at (2.5,-4.5) {$3$};
+    \node at (2.5,-5.5) {$4$};
+    \node at (3.5,-1.5) {$2$};
+    \node at (3.5,-2.5) {$2$};
+    \node at (3.5,-3.5) {$1$};
+    \node at (3.5,-4.5) {$2$};
+    \node at (3.5,-5.5) {$3$};
+    \node at (4.5,-1.5) {$3$};
+    \node at (4.5,-2.5) {$3$};
+    \node at (4.5,-3.5) {$2$};
+    \node at (4.5,-4.5) {$1$};
+    \node at (4.5,-5.5) {$2$};
+    \node at (5.5,-1.5) {$4$};
+    \node at (5.5,-2.5) {$4$};
+    \node at (5.5,-3.5) {$3$};
+    \node at (5.5,-4.5) {$2$};
+    \node at (5.5,-5.5) {$2$};
+    \node at (6.5,-1.5) {$5$};
+    \node at (6.5,-2.5) {$5$};
+    \node at (6.5,-3.5) {$4$};
+    \node at (6.5,-4.5) {$3$};
+    \node at (6.5,-5.5) {$2$};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+The lower-right corner of the table
+tells us that the edit distance between
+\texttt{LOVE} and \texttt{MOVIE} is 2.
+The table also shows how to construct
+the shortest sequence of editing operations.
+In this case the path is as follows:
+
+\begin{center}
+\begin{tikzpicture}[scale=.65]
+  \begin{scope}
+    \draw (1, -1) grid (7, -6);
+
+    \node at (0.5,-2.5) {\texttt{L}};
+    \node at (0.5,-3.5) {\texttt{O}};
+    \node at (0.5,-4.5) {\texttt{V}};
+    \node at (0.5,-5.5) {\texttt{E}};
+
+    \node at (2.5,-0.5) {\texttt{M}};
+    \node at (3.5,-0.5) {\texttt{O}};
+    \node at (4.5,-0.5) {\texttt{V}};
+    \node at (5.5,-0.5) {\texttt{I}};
+    \node at (6.5,-0.5) {\texttt{E}};
+
+    \node at (1.5,-1.5) {$0$};
+    \node at (1.5,-2.5) {$1$};
+    \node at (1.5,-3.5) {$2$};
+    \node at (1.5,-4.5) {$3$};
+    \node at (1.5,-5.5) {$4$};
+    \node at (2.5,-1.5) {$1$};
+    \node at (2.5,-2.5) {$1$};
+    \node at (2.5,-3.5) {$2$};
+    \node at (2.5,-4.5) {$3$};
+    \node at (2.5,-5.5) {$4$};
+    \node at (3.5,-1.5) {$2$};
+    \node at (3.5,-2.5) {$2$};
+    \node at (3.5,-3.5) {$1$};
+    \node at (3.5,-4.5) {$2$};
+    \node at (3.5,-5.5) {$3$};
+    \node at (4.5,-1.5) {$3$};
+    \node at (4.5,-2.5) {$3$};
+    \node at (4.5,-3.5) {$2$};
+    \node at (4.5,-4.5) {$1$};
+    \node at (4.5,-5.5) {$2$};
+    \node at (5.5,-1.5) {$4$};
+    \node at (5.5,-2.5) {$4$};
+    \node at (5.5,-3.5) {$3$};
+    \node at (5.5,-4.5) {$2$};
+    \node at (5.5,-5.5) {$2$};
+    \node at (6.5,-1.5) {$5$};
+    \node at (6.5,-2.5) {$5$};
+    \node at (6.5,-3.5) {$4$};
+    \node at (6.5,-4.5) {$3$};
+    \node at (6.5,-5.5) {$2$};
+
+    \path[draw=red,thick,-,line width=2pt] (6.5,-5.5) -- (5.5,-4.5);
+    \path[draw=red,thick,-,line width=2pt] (5.5,-4.5) -- (4.5,-4.5);
+    \path[draw=red,thick,->,line width=2pt] (4.5,-4.5) -- (1.5,-1.5);
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+\end{exmp}
+\newpage
+\begin{solution}
+\hfill\break
+\begin{lstlisting}
+int editDistDP(string str1, string str2, int m, int n)
+{
+    // Create a table to store results of subproblems
+    int dp[m+1][n+1];
+
+    // Fill d[][] in bottom up manner
+    for (int i=0; i<=m; i++)
+    {
+        for (int j=0; j<=n; j++)
+        {
+            // If first string is empty, only option is to
+            // insert all characters of second string
+            if (i==0)
+                dp[i][j] = j;  // Min. operations = j
+
+            // If second string is empty, only option is to
+            // remove all characters of second string
+            else if (j==0)
+                dp[i][j] = i; // Min. operations = i
+
+            // If last characters are same, ignore last char
+            // and recur for remaining string
+            else if (str1[i-1] == str2[j-1])
+                dp[i][j] = dp[i-1][j-1];
+
+            // If the last character is different, consider all
+            // possibilities and find the minimum
+            else
+                dp[i][j] = 1 + min(dp[i][j-1],  // Insert
+                                   dp[i-1][j],  // Remove
+                                   dp[i-1][j-1]); // Replace
+        }
+    }
+
+    return dp[m][n];
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(mn)$
+\end{solution}
+\newpage
+\section{Express $n$ as $k$ partitions}
+\begin{problem}
+Given an integer $n$, how many ways can $K$ non-negative
+integers less than or equal to $n$ add up to $n$?
+\end{problem}
+\begin{exmp}
+$N = 5$, $K = 3$
+
+Output: 6
+
+The possible combinations of integers are:
+
+( 1, 1, 3 )
+
+( 1, 3, 1 )
+
+( 3, 1, 1 )
+
+( 1, 2, 2 )
+
+( 2, 2, 1 )
+
+( 2, 1, 2 )
+\end{exmp}
+\begin{exmp}
+$N = 10$, $K = 4$
+
+Output: 84
+\end{exmp}
+\begin{solution}
+\hfill\break
+This is also called as the Binomial Coefficiant Problem
+\begin{lstlisting}
+// Returns value of Binomial Coefficient C(n, k)
+int binomialCoeff(int n, int k)
+{
+    int C[n + 1][k + 1];
+
+    // Caculate value of Binomial Coefficient in bottom up manner
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= min(i, k); j++) {
+            // Base Cases
+            if (j == 0 || j == i)
+                C[i][j] = 1;
+
+            // Calculate value using previosly stored values
+            else
+                C[i][j] = C[i - 1][j - 1] + C[i - 1][j];
+        }
+    }
+
+    return C[n][k];
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(nk)$
+\end{solution}
+\part{Mathematics}
+\chapter{Basic Maths}
+
+\section{Integer bounds}
+
+\begin{itemize}
+    \item\texttt{int} :  $2^{31} - 1 \approx 2\times10^9$
+    \item\texttt{long long} :  $2^{63} - 1 \approx 9\times10^{18}$
+    \item\texttt{unsigned int} :  $2^{32} - 1 \approx 4\times10^9$
+    \item\texttt{unsigned long long} :  $2^{64} - 1 \approx 1.8\times10^{19}$
+\end{itemize}
+
+\section{Method for integers > $2^{64} - 1 \approx 1.8\times10^{19}$}
+
+Arbitrary precision data type: We can use any precision with the help of cppint data type if we are not sure about how much precision is needed in future. It automatically converts the desired precision at the Run-time.
+
+\begin{lstlisting}
+#include <boost/multiprecision/cpp_int.hpp>
+using namespace boost::multiprecision;
+int main()
+{
+    cpp_int x; //Can have arbitrary precision
+}
+\end{lstlisting}
+
+\section{Modular arithmetic}
+
+An important property of the remainder is that
+in addition, subtraction and multiplication,
+the remainder can be taken before the operation:
+
+\[
+\begin{array}{rcr}
+(a+b) \bmod m & = & (a \bmod m + b \bmod m) \bmod m \\
+(a-b) \bmod m & = & (a \bmod m - b \bmod m) \bmod m \\
+(a \cdot b) \bmod m & = & (a \bmod m \cdot b \bmod m) \bmod m
+\end{array}
+\]
+\linebreak
+\linebreak
+\linebreak
+\linebreak
+For example, the following code calculates $n!$,
+the factorial of $n$, modulo $m$:
+\begin{lstlisting}
+long long x = 1;
+for (int i = 2; i <= n; i++) {
+    x = (x*i)%m;
+}
+cout << x%m << "\n";
+\end{lstlisting}
+
+\section{Floating point numbers}
+
+Printing floating point numbers up to $n$ digits.
+
+\begin{lstlisting}
+float pi = 3.14159;
+cout << fixed << setprecision(3) << pi; //3.142
+\end{lstlisting}
+
+
+\section{Mathematics}
+
+\subsection{Sum formulas}
+
+\[\sum_{x=1}^n x = 1+2+3+\ldots+n = \frac{n(n+1)}{2}\]
+and
+\[\sum_{x=1}^n x^2 = 1^2+2^2+3^2+\ldots+n^2 = \frac{n(n+1)(2n+1)}{6}.\]
+and
+\[\sum_{x=1}^n x^3 = 1^3+2^3+3^3+\ldots+n^3 = \frac{n^2(n+1)^2}{4}\]
+
+\subsection{Sum of Arithmetic Progression}
+
+\[\underbrace{a + \cdots + b}_{n \,\, \textrm{numbers}} = \frac{n(a+b)}{2}\]
+where,
+
+$a$ is the first number,
+
+$b$ is the last number and
+
+$n$ is the amount of numbers.
+
+\subsection{Sum of Geometric Progression}
+\[a + ak + ak^2 + \cdots + b = \frac{bk-a}{k-1}\]
+where,
+
+$a$ is the first number,
+
+$b$ is the last number and
+
+the ratio between consecutive numbers is $k$.
+
+A special case of a sum of a geometric progression is the formula
+\[1+2+4+8+\ldots+2^{n-1}=2^n-1.\]
+
+\chapter{Number Theory}
+
+Number theory is a branch of mathematics that studies integers. Number
+theory is a fascinating field, because many questions involving integers are very
+difficult to solve even if they seem simple at first glance.
+
+Mastering as many topics as possible in the field of number theory is important as some
+mathematics problems become easy (or easier) if you know the theory behind the problems.
+Otherwise, either a plain brute force attack leads to a TLE response or you simply cannot
+work with the given input as it is too large without some pre-processing
+
+\section{Primality check}
+\begin{problem}
+Test whether a given natural number $N$ is prime or not.
+\end{problem}
+\begin{solution}
+\hfill\break
+We do the following optimisation:
+\begin{enumerate}
+    \item Instead of checking till $n$, we can check till $\sqrt{n}$
+    \item The algorithm can be improved further by observing that all primes are of the form $6k \pm 1$, with the exception of 2 and 3.
+\end{enumerate}
+\begin{lstlisting}
+bool isPrime(int n)
+{
+    if (n <= 1)  return false;
+    if (n <= 3)  return true;
+    if (n%2 == 0 || n%3 == 0) return false;
+    for (int i=5; i*i<=n; i=i+6)
+        if (n%i == 0 || n%(i+2) == 0)
+           return false;
+    return true;
+}
+\end{lstlisting}
+\end{solution}
+\section{Sieve of Eratosthenes}
+The sieve of Eratosthenes is one of the most efficient ways to find all primes smaller than $n$ when $n$ is smaller than 10 million
+\begin{problem}
+Given a number $n$, print all primes smaller than or equal to $n$. It is also given that $n$ is a small number.
+\end{problem}
+\begin{solution}
+\hfill\break
+Following is the algorithm to find all the prime numbers less than or equal to a given integer n by Eratosthenes’ method:
+\begin{enumerate}
+    \item The algorithm builds an array \texttt{sieve} whose positions $0, 1,2,3,...,n$ are used.The value \texttt{sieve[k] = 0} means that $k$ is prime, and the value \texttt{sieve[k] $\neq$ 0} means that $k$ is not a prime and one of its prime factors is \texttt{sieve[k]}.
+    \item The algorithm iterates through the numbers $2...n$ one by one. Always when a new prime $x$ is found, the algorithm records that the multiples of $x$ $(2x,3x,4x,...)$ which are $\geq x^2$ are not primes, because the number $x$ divides them.
+\end{enumerate}
+For example, if $n=20$, the array is as follows:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6]
+\draw (0,0) grid (21,1);
+
+\node at (0.5,0.5) {$0$};
+\node at (1.5,0.5) {$0$};
+\node at (2.5,0.5) {$0$};
+\node at (3.5,0.5) {$0$};
+\node at (4.5,0.5) {$2$};
+\node at (5.5,0.5) {$0$};
+\node at (6.5,0.5) {$2$};
+\node at (7.5,0.5) {$0$};
+\node at (8.5,0.5) {$2$};
+\node at (9.5,0.5) {$3$};
+\node at (10.5,0.5) {$2$};
+\node at (11.5,0.5) {$0$};
+\node at (12.5,0.5) {$3$};
+\node at (13.5,0.5) {$0$};
+\node at (14.5,0.5) {$2$};
+\node at (15.5,0.5) {$3$};
+\node at (16.5,0.5) {$2$};
+\node at (17.5,0.5) {$0$};
+\node at (18.5,0.5) {$3$};
+\node at (19.5,0.5) {$0$};
+\node at (20.5,0.5) {$2$};
+
+\footnotesize
+
+\node at (0.5,1.5) {$0$};
+\node at (1.5,1.5) {$1$};
+\node at (2.5,1.5) {$2$};
+\node at (3.5,1.5) {$3$};
+\node at (4.5,1.5) {$4$};
+\node at (5.5,1.5) {$5$};
+\node at (6.5,1.5) {$6$};
+\node at (7.5,1.5) {$7$};
+\node at (8.5,1.5) {$8$};
+\node at (9.5,1.5) {$9$};
+\node at (10.5,1.5) {$10$};
+\node at (11.5,1.5) {$11$};
+\node at (12.5,1.5) {$12$};
+\node at (13.5,1.5) {$13$};
+\node at (14.5,1.5) {$14$};
+\node at (15.5,1.5) {$15$};
+\node at (16.5,1.5) {$16$};
+\node at (17.5,1.5) {$17$};
+\node at (18.5,1.5) {$18$};
+\node at (19.5,1.5) {$19$};
+\node at (20.5,1.5) {$20$};
+
+\end{tikzpicture}
+\end{center}
+
+\begin{lstlisting}
+int n = 20; //example
+int sieve[n+1];
+memset(sieve, 0, sizeof(sieve)); //initialize to zero
+for (int x = 2; x*x <= n; x++)
+{
+    if (sieve[x]) continue;
+    for (int u = x*x; u <= n; u += x)
+    {
+        sieve[u] = x;
+    }
+}
+for(int i = 2; i<=n; i++)
+{   //print all prime numbers
+    if(!sieve[i])
+        cout << i << "\n";
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(n\log{(\log{n})})$ which is very close to linear $\mathcal{O}(n)$
+\end{solution}
+\section{Prime Factorization}
+\begin{problem}
+Given a number $n$, print all prime factors of $n$.
+\end{problem}
+\begin{solution}
+\hfill\break
+Following are the steps to find all prime factors.
+\begin{enumerate}
+    \item While $n$ is divisible by $2$, print $2$ and divide $n$ by $2$.
+    \item After step $1$, $n$ must be odd. Now start a loop from $i = 3$ to $\sqrt{n}$. While $i$ divides $n$, print $i$ and divide $n$ by $i$, increment i by $2$ and continue.
+    \item If $n$ is a prime number and is greater than $2$, then $n$ will not become $1$ by above two steps. So print $n$ if it is greater than $2$.
+\end{enumerate}
+\begin{lstlisting}
+vector<int> factors(int n)
+{
+    vector<int> f;
+    while (n%2 == 0)
+    {
+        f.push_back(2);
+        n = n/2;
+    }
+    for (int i = 3; i <= sqrt(n); i = i+2)
+    {
+        while (n%i == 0)
+        {
+            f.push_back(i);
+            n = n/i;
+        }
+    }
+    // This condition is to handle the case when n
+    // is a prime number greater than 2
+    if (n > 2)
+        f.push_back(n);
+    return f;
+}
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(\sqrt{n})$
+
+There is an even efficient solution which uses Sieve of Eratosthenes to precompute prime numbers. It has time complexity $\mathcal{O}(\log{n})$. You can read about it on GeeksforGeeks or CP3 book.
+\end{solution}
+\section{Common Conjectures}
+In mathematics, a conjecture is a conclusion or proposition based on incomplete information, for which no proof has been found. But many of them have been verified for very large numbers. In competitive programming, some problems are based on these common conjectures.
+
+\begin{conjecture}[Goldbach’s conjecture]
+Each even integer $n$ \textgreater $2$ can be represented as a sum $n = a+ b$ so that both a and b are primes.
+\end{conjecture}
+\begin{conjecture}[Goldbach's weak conjecture]
+Every odd number greater than $5$ can be expressed as the sum of three primes. (A prime may be used more than once in the same sum.) This is trivial to prove if the above conjecture is proved to be true.
+\end{conjecture}
+\begin{conjecture}[Twin prime conjecture]
+There is an infinite number of pairs of the form ${p, p +2}$, where both $p$ and $p+2$ are primes.
+\end{conjecture}
+\begin{conjecture}[Legendre’s conjecture]
+ There is always a prime between numbers $n^2$ and $(n+1)^2$, where $n$ is any positive integer.
+\end{conjecture}
+\begin{conjecture}[Collatz Conjecture]
+Collatz conjecture states that a number $n$ converges to $1$ on repeatedly performing the following operations:
+
+$$n \rightarrow n/2 \text{ if }n \text{ is even}$$
+$$n \rightarrow 3n+1 \text{ if }n \text{ is odd}$$
+
+This has been verified for numbers upto $5.6 \times 10^{13}$. For example is $x = 3$, then:
+
+$$3 \rightarrow 10 \rightarrow 5 \rightarrow 16 \rightarrow 8 \rightarrow 4 \rightarrow 2 \rightarrow 1$$
+\end{conjecture}
+
+\begin{conjecture}[Mersenne Prime Conjecture]
+There are infinitely positive integers $n$ for which $2n - 1$ is a prime number. (There are currently 47 Mersenne primes known)
+\end{conjecture}
+\newpage
+\section{Modular Exponentiation}
+\begin{problem}
+Given $x$,$m$,$n$, find $x^n \mod m$
+\end{problem}
+\begin{solution}
+\hfill\break
+The naive solution would run in $\mathcal{O}(n)$ time. Using modular exponentiation we can bring down the complexity to $\mathcal{O}(\log{n})$ by using the following algorithm:
+
+\begin{equation*}
+    x^n = \begin{cases}
+               1        & n = 0\\
+               x^{n/2} \cdot x^{n/2} & \text{$n$ is even}\\
+               x^{n-1} \cdot x & \text{$n$ is odd}
+           \end{cases}
+\end{equation*}
+
+\begin{lstlisting}
+int power(int x, int n, int m)
+{
+    if (n == 0) return 1%m;
+    long long u = power(x,n/2,m);
+    u = (u*u)%m;
+    if (n%2 == 1) u = (u*x)%m;
+    return u;
+}
+\end{lstlisting}
+
+\end{solution}
+\end{document}
