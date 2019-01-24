@@ -2272,4 +2272,66 @@ int power(int x, int n, int m)
 \end{lstlisting}
 
 \end{solution}
+\section{Euler's Totient Function}
+
+
+\key{Euler's totient function} $\varphi(n)$
+gives the number of coprime numbers to $n$
+between $1$ and $n$.
+For example, $\varphi(14)=6$,
+because 1, 3, 5, 9, 11 and 13
+are coprime to 14.
+
+The value of $\varphi(n)$ can be calculated
+from the prime factorization of $n$
+using the formula
+
+\begin{equation}
+\varphi (n)=n\prod _{p\mid n}\left(1-{\frac {1}{p}}\right),
+\end{equation}
+
+Where the product is over the distinct prime numbers dividing $n$.Note that $\varphi(n)=n-1$ if $n$ is prime. The implementation is shown on the next page.
+\newpage
+\begin{lstlisting}
+int totient(int n) 
+{ 
+	int result = n;
+	for (int p = 2; p * p <= n; ++p) 
+	{ 
+		if (n % p == 0) 
+		{ 
+			while (n % p == 0) 
+				n /= p; 
+			result -= result / p; 
+		} 
+	} 
+	
+	if (n > 1) 
+		result -= result / n; 
+	return result; 
+} 
+\end{lstlisting}
+
+\section{Some Common Theorems}
+Theorem is a mathematical result that has been proved for every input value which lies in it's domain.
+
+\subsection{Lagrange’s theorem}
+Lagrange’s theorem states that every positive integer can be represented as a
+sum of four squares. i.e.,
+$$n = a^2 + b^2 + c^2 + d^2$$
+
+where, $n,a,b,c,d \in \mathbb{N}$
+\subsection{Zeckendorf's theorem}
+Zeckendorf's theorem states that every positive integer can be represented uniquely as the sum of one or more distinct Fibonacci numbers in such a way that the sum does not include any two consecutive Fibonacci numbers. More precisely, if $N$ is any positive integer, there exist positive integers $c_i \geq 2$, with $c_{i+1}$ > $c_i + 1$, such that
+\begin{equation}
+N=\sum _{{i=0}}^{k}F_{{c_{i}}}
+\end{equation}
+Where F$_{n}$ is the n$^{th}$ Fibonacci number.
+\subsection{Wilson’s theorem}
+Wilson’s theorem states that a number n is prime exactly when
+\begin{equation}
+(n-1)!\ \bmod\ n = n - 1
+\end{equation}
+However the theorem cannot be applied to large values of $n$, because
+it is difficult to calculate values of $(n-1)!$ when n is even as large as 50.
 \end{document}
