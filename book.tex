@@ -2267,7 +2267,7 @@ int power(int x, int n, int m)
     long long u = power(x,n/2,m);
     u = (u*u)%m;
     if (n%2 == 1) u = (u*x)%m;
-    return u;
+    return u; //last test
 }
 \end{lstlisting}
 
