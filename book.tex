@@ -39,6 +39,7 @@
 
 
 \usepackage{titlesec}
+\usepackage[Lenny]{fncychap}
 
 \usepackage{skak}
 \usepackage[scaled=0.95]{inconsolata}
@@ -106,7 +107,7 @@
 \pagestyle{plain}
 
 \theoremstyle{definition}
-\newtheorem{exmp}{Example}[section]
+\newtheorem*{exmp}{Example}
 
 \usepackage{amsfonts}
 \renewcommand{\familydefault}{\sfdefault}
@@ -118,10 +119,7 @@
 \usepackage{tikz}
 \usepackage{adjustbox}
 \usepackage[framemethod=TikZ]{mdframed}
-\newcounter{solusi}[chapter]\setcounter{solusi}{0}
-\renewcommand{\thesolusi}{\arabic{chapter}.\arabic{solusi}}
 \newenvironment{solution}[2][]{%
-\refstepcounter{solusi}%
 \ifstrempty{#1}%
 {\mdfsetup{%
 frametitle={%
@@ -133,7 +131,7 @@ frametitle={%
 frametitle={%
 \tikz[baseline=(current bounding box.east),outer sep=0pt]
 \node[anchor=east,rectangle,fill=blue!20]
-{\strut Solution~\thesolusi :~#1};}}%
+{\strut Solution :~#1};}}%
 }%
 \mdfsetup{innertopmargin=10pt,linecolor=blue!20,%
 linewidth=2pt,topline=true,%
@@ -161,10 +159,10 @@ frametitleaboveskip=\dimexpr-\ht\strutbox\relax
         {\bfseries\itshape}                 % <theorem head font>
         {\normalfont\bfseries:}         % <punctuation after theorem head>
         {.5em}                                          % <space after theorem head>
-        {}                                                  % <theorem head spec (can be left empty, meaning `normal')>
+        {}                                              
 \theoremstyle{problemstyle}
 
-\newtheorem{problem}{Problem}[section] % Comment out [section] to remove section number dependence
+\newtheorem*{problem}{Problem} % Comment out [section] to remove section number dependence
 
 \lstset{language=C++,frame=single,basicstyle=\ttfamily \small,showstringspaces=false,columns=flexible}
 \lstset{
@@ -1956,47 +1954,47 @@ int binomialCoeff(int n, int k)
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(nk)$
 \end{solution}
-\part{Graphs}
+\part{Graph Theory}
 \chapter{Graph Theory}
 \section{Formal Definition of Graph}
 \key{Graph} is an abstract mathematical structure, to model pairwise relations between discrete objects. A graph $G = (V,E)$ consists of a finite set $V$ ( set of vertices or \key{nodes} ) and a set $E$ (set of \key{edges} ) of 2-subsets of $V$. Each edge is a relation ( adjacency ) between two vertices. In general, the number of vertices is denoted by $n$ and the number of edges is denoted by $m$. The following graph has 6 nodes and 9 edges.
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,3) {$1$};
-	\node[draw, circle] (2) at (4,3) {$2$};
-	\node[draw, circle] (3) at (1,1) {$3$};
-	\node[draw, circle] (4) at (4,1) {$4$};
-	\node[draw, circle] (5) at (6,2) {$5$};
-	\node[draw, circle] (6) at (8,3) {$6$};
-	\node[draw, circle] (7) at (8,1) {$7$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (4,3) {$2$};
+  \node[draw, circle] (3) at (1,1) {$3$};
+  \node[draw, circle] (4) at (4,1) {$4$};
+  \node[draw, circle] (5) at (6,2) {$5$};
+  \node[draw, circle] (6) at (8,3) {$6$};
+  \node[draw, circle] (7) at (8,1) {$7$};
 
-	\path[draw,thick,-] (1) -- (2);
-	\path[draw,thick,-] (1) -- (3);
-	\path[draw,thick,-] (1) -- (4);
-	\path[draw,thick,-] (3) -- (4);
-	\path[draw,thick,-] (2) -- (4);
-	\path[draw,thick,-] (2) -- (5);
-	\path[draw,thick,-] (4) -- (5);
-	\path[draw,thick,-] (5) -- (6);
-	\path[draw,thick,-] (5) -- (7);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (1) -- (3);
+  \path[draw,thick,-] (1) -- (4);
+  \path[draw,thick,-] (3) -- (4);
+  \path[draw,thick,-] (2) -- (4);
+  \path[draw,thick,-] (2) -- (5);
+  \path[draw,thick,-] (4) -- (5);
+  \path[draw,thick,-] (5) -- (6);
+  \path[draw,thick,-] (5) -- (7);
+  \end{tikzpicture}
 \end{center}
 \section{Degree of Node}
 The degree of a node $v$ is the number of edges which are joint to $v$ i.e., the number of edges that are incident on $v$. As each edge contributes 2 to the degree of its endpoints, the sum of all degrees of vertices equals twice the number of edges. The degree of node 2 in the below graph is 3.
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (2,3) {$1$};
-	\node[draw, circle] (2) at (1,1) {$2$};
-	\node[draw, circle] (3) at (3,1) {$3$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (2,3) {$1$};
+  \node[draw, circle] (2) at (1,1) {$2$};
+  \node[draw, circle] (3) at (3,1) {$3$};
 
-	\path[draw,thick,-] (1) -- (2);
-	\path[draw,thick,-] (3) -- (2);
-	\path[draw,thick,-] (1) -- (3);
-	\tikzset{every loop/.style={in=135,out=190}}
-	\path[draw,thick,-] (2) edge [loop left] (2);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (3) -- (2);
+  \path[draw,thick,-] (1) -- (3);
+  \tikzset{every loop/.style={in=135,out=190}}
+  \path[draw,thick,-] (2) edge [loop left] (2);
+  \end{tikzpicture}
 \end{center}
 
 Note: A loop contributes 2 to the degree of the vertex it is incident on.
@@ -2012,25 +2010,25 @@ of length 3
 from node 1 to node 5:
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,3) {$1$};
-	\node[draw, circle] (2) at (4,3) {$2$};
-	\node[draw, circle] (3) at (1,1) {$3$};
-	\node[draw, circle] (4) at (4,1) {$4$};
-	\node[draw, circle] (5) at (6,2) {$5$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (4,3) {$2$};
+  \node[draw, circle] (3) at (1,1) {$3$};
+  \node[draw, circle] (4) at (4,1) {$4$};
+  \node[draw, circle] (5) at (6,2) {$5$};
 
-	\path[draw,thick,-] (1) -- (2);
-	\path[draw,thick,-] (1) -- (3);
-	\path[draw,thick,-] (1) -- (4);
-	\path[draw,thick,-] (3) -- (4);
-	\path[draw,thick,-] (2) -- (4);
-	\path[draw,thick,-] (2) -- (5);
-	\path[draw,thick,-] (4) -- (5);
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (1) -- (3);
+  \path[draw,thick,-] (1) -- (4);
+  \path[draw,thick,-] (3) -- (4);
+  \path[draw,thick,-] (2) -- (4);
+  \path[draw,thick,-] (2) -- (5);
+  \path[draw,thick,-] (4) -- (5);
 
-	\path[draw=red,thick,->,line width=2pt] (1) -- (3);
-	\path[draw=red,thick,->,line width=2pt] (3) -- (4);
-	\path[draw=red,thick,->,line width=2pt] (4) -- (5);
-	\end{tikzpicture}
+  \path[draw=red,thick,->,line width=2pt] (1) -- (3);
+  \path[draw=red,thick,->,line width=2pt] (3) -- (4);
+  \path[draw=red,thick,->,line width=2pt] (4) -- (5);
+  \end{tikzpicture}
 \end{center}
 
 A path is a \key{cycle} if the first and last
@@ -2046,40 +2044,40 @@ at most once in the path.
 A graph is connected when there is a path(not necessarily a direct edge) between every pair of vertices. In a connected graph, there are no unreachable vertices. A graph that is not connected is disconnected.
 For example, the following graph is connected:
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,3) {$1$};
-	\node[draw, circle] (2) at (4,3) {$2$};
-	\node[draw, circle] (3) at (1,1) {$3$};
-	\node[draw, circle] (4) at (4,1) {$4$};
-	\node[draw, circle] (5) at (6,2) {$5$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (4,3) {$2$};
+  \node[draw, circle] (3) at (1,1) {$3$};
+  \node[draw, circle] (4) at (4,1) {$4$};
+  \node[draw, circle] (5) at (6,2) {$5$};
 
-	\path[draw,thick,-] (1) -- (2);
-	\path[draw,thick,-] (1) -- (3);
-	\path[draw,thick,-] (2) -- (3);
-	\path[draw,thick,-] (3) -- (4);
-	\path[draw,thick,-] (2) -- (4);
-	\path[draw,thick,-] (2) -- (5);
-	\path[draw,thick,-] (4) -- (5);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (1) -- (3);
+  \path[draw,thick,-] (2) -- (3);
+  \path[draw,thick,-] (3) -- (4);
+  \path[draw,thick,-] (2) -- (4);
+  \path[draw,thick,-] (2) -- (5);
+  \path[draw,thick,-] (4) -- (5);
+  \end{tikzpicture}
 \end{center}
 
 The following graph is not connected,
 because it is not possible to get
 from node 5 to any other node and vice-versa:
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,3) {$1$};
-	\node[draw, circle] (2) at (4,3) {$2$};
-	\node[draw, circle] (3) at (1,1) {$3$};
-	\node[draw, circle] (4) at (4,1) {$4$};
-	\node[draw, circle] (5) at (6,2) {$5$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (4,3) {$2$};
+  \node[draw, circle] (3) at (1,1) {$3$};
+  \node[draw, circle] (4) at (4,1) {$4$};
+  \node[draw, circle] (5) at (6,2) {$5$};
 
-	\path[draw,thick,-] (1) -- (2);
-	\path[draw,thick,-] (1) -- (3);
-	\path[draw,thick,-] (2) -- (3);
-	\path[draw,thick,-] (3) -- (4);
-	\path[draw,thick,-] (2) -- (4);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (1) -- (3);
+  \path[draw,thick,-] (2) -- (3);
+  \path[draw,thick,-] (3) -- (4);
+  \path[draw,thick,-] (2) -- (4);
+  \end{tikzpicture}
 \end{center}
 
 
@@ -2089,24 +2087,24 @@ For example, the following graph
 contains three components:
 $\{1,\,2,\,3\}$ and $\{4,\,5,\,6,\,7\}$
 \begin{center}
-	\begin{tikzpicture}[scale=0.8]
-	\node[draw, circle] (1) at (1,3) {$1$};
-	\node[draw, circle] (2) at (4,3) {$2$};
-	\node[draw, circle] (3) at (1,1) {$3$};
+  \begin{tikzpicture}[scale=0.8]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (4,3) {$2$};
+  \node[draw, circle] (3) at (1,1) {$3$};
 
-	\node[draw, circle] (6) at (6,1) {$6$};
-	\node[draw, circle] (7) at (9,1) {$7$};
-	\node[draw, circle] (4) at (6,3) {$4$};
-	\node[draw, circle] (5) at (9,3) {$5$};
+  \node[draw, circle] (6) at (6,1) {$6$};
+  \node[draw, circle] (7) at (9,1) {$7$};
+  \node[draw, circle] (4) at (6,3) {$4$};
+  \node[draw, circle] (5) at (9,3) {$5$};
 
-	\path[draw,thick,-] (1) -- (2);
-	\path[draw,thick,-] (2) -- (3);
-	\path[draw,thick,-] (1) -- (3);
-	\path[draw,thick,-] (4) -- (5);
-	\path[draw,thick,-] (5) -- (7);
-	\path[draw,thick,-] (6) -- (7);
-	\path[draw,thick,-] (6) -- (4);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (2) -- (3);
+  \path[draw,thick,-] (1) -- (3);
+  \path[draw,thick,-] (4) -- (5);
+  \path[draw,thick,-] (5) -- (7);
+  \path[draw,thick,-] (6) -- (7);
+  \path[draw,thick,-] (6) -- (4);
+  \end{tikzpicture}
 \end{center}
 
 \section{Trees}
@@ -2114,55 +2112,55 @@ A tree is an undirected graph in which any two vertices are connected by exactly
 For example, the following graph is a tree:
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,3) {$1$};
-	\node[draw, circle] (2) at (4,3) {$2$};
-	\node[draw, circle] (3) at (1,1) {$3$};
-	\node[draw, circle] (4) at (4,1) {$4$};
-	\node[draw, circle] (5) at (6,2) {$5$};
-	\node[draw, circle] (6) at (3,0) {$6$};
-	\node[draw, circle] (7) at (5,0) {$7$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (4,3) {$2$};
+  \node[draw, circle] (3) at (1,1) {$3$};
+  \node[draw, circle] (4) at (4,1) {$4$};
+  \node[draw, circle] (5) at (6,2) {$5$};
+  \node[draw, circle] (6) at (3,0) {$6$};
+  \node[draw, circle] (7) at (5,0) {$7$};
 
-	\path[draw,thick,-] (1) -- (2);
-	\path[draw,thick,-] (1) -- (3);
-	\path[draw,thick,-] (2) -- (5);
-	\path[draw,thick,-] (2) -- (4);
-	\path[draw,thick,-] (4) -- (6);
-	\path[draw,thick,-] (4) -- (7);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (1) -- (3);
+  \path[draw,thick,-] (2) -- (5);
+  \path[draw,thick,-] (2) -- (4);
+  \path[draw,thick,-] (4) -- (6);
+  \path[draw,thick,-] (4) -- (7);
+  \end{tikzpicture}
 \end{center}
 
 A binary tree is a tree in which each node has at most two children, which are referred to as the left child and the right child. The following tree is a binary tree of size 13 and depth 3, with 1 at the root:
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (8,6) {$1$};
-	\node[draw, circle] (2) at (4,4) {$2$};
-	\node[draw, circle] (3) at (12,4) {$3$};
-	\node[draw, circle] (4) at (2,2) {$4$};
-	\node[draw, circle] (5) at (6,2) {$5$};
-	\node[draw, circle] (6) at (10,2) {$6$};
-	\node[draw, circle] (7) at (14,2) {$7$};
-	\node[draw, circle] (8) at (1,0) {$8$};
-	\node[draw, circle] (9) at (3,0) {$9$};
-	\node[draw, circle] (10) at (5,0) {$10$};
-	\node[draw, circle] (11) at (7,0) {$11$};
-	\node[draw, circle] (12) at (11,0) {$12$};
-	\node[draw, circle] (13) at (13,0) {$13$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (8,6) {$1$};
+  \node[draw, circle] (2) at (4,4) {$2$};
+  \node[draw, circle] (3) at (12,4) {$3$};
+  \node[draw, circle] (4) at (2,2) {$4$};
+  \node[draw, circle] (5) at (6,2) {$5$};
+  \node[draw, circle] (6) at (10,2) {$6$};
+  \node[draw, circle] (7) at (14,2) {$7$};
+  \node[draw, circle] (8) at (1,0) {$8$};
+  \node[draw, circle] (9) at (3,0) {$9$};
+  \node[draw, circle] (10) at (5,0) {$10$};
+  \node[draw, circle] (11) at (7,0) {$11$};
+  \node[draw, circle] (12) at (11,0) {$12$};
+  \node[draw, circle] (13) at (13,0) {$13$};
 
-	\path[draw,thick,-] (1) -- (2);
-	\path[draw,thick,-] (1) -- (3);
-	\path[draw,thick,-] (2) -- (5);
-	\path[draw,thick,-] (2) -- (4);
-	\path[draw,thick,-] (4) -- (8);
-	\path[draw,thick,-] (4) -- (9);
-	\path[draw,thick,-] (5) -- (10);
-	\path[draw,thick,-] (5) -- (11);
-	\path[draw,thick,-] (3) -- (6);
-	\path[draw,thick,-] (3) -- (7);
-	\path[draw,thick,-] (6) -- (12);
-	\path[draw,thick,-] (7) -- (13);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (1) -- (3);
+  \path[draw,thick,-] (2) -- (5);
+  \path[draw,thick,-] (2) -- (4);
+  \path[draw,thick,-] (4) -- (8);
+  \path[draw,thick,-] (4) -- (9);
+  \path[draw,thick,-] (5) -- (10);
+  \path[draw,thick,-] (5) -- (11);
+  \path[draw,thick,-] (3) -- (6);
+  \path[draw,thick,-] (3) -- (7);
+  \path[draw,thick,-] (6) -- (12);
+  \path[draw,thick,-] (7) -- (13);
+  \end{tikzpicture}
 \end{center}
 
 \section{Types of Graphs}
@@ -2171,17 +2169,17 @@ A binary tree is a tree in which each node has at most two children, which are r
 An undirected graph is a graph in which all the edges are bi-directional i.e. the edges do not point in any specific direction. The following graph is undirected:
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,3) {$1$};
-	\node[draw, circle] (2) at (3,3) {$2$};
-	\node[draw, circle] (3) at (3,1) {$3$};
-	\node[draw, circle] (4) at (1,1) {$4$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (3,3) {$2$};
+  \node[draw, circle] (3) at (3,1) {$3$};
+  \node[draw, circle] (4) at (1,1) {$4$};
 
-	\path[draw,thick,-] (1) -- (2);
-	\path[draw,thick,-] (2) -- (3);
-	\path[draw,thick,-] (3) -- (4);
-	\path[draw,thick,-] (4) -- (1);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (2) -- (3);
+  \path[draw,thick,-] (3) -- (4);
+  \path[draw,thick,-] (4) -- (1);
+  \end{tikzpicture}
 \end{center}
 
 \subsection{Directed Graph}
@@ -2189,18 +2187,18 @@ An undirected graph is a graph in which all the edges are bi-directional i.e. th
 A directed graph is a graph in which all the edges are uni-directional i.e. the edges point in a single direction. A typical example would be an airways map. The following graph is directed:
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,3) {$1$};
-	\node[draw, circle] (2) at (3,3) {$2$};
-	\node[draw, circle] (3) at (3,1) {$3$};
-	\node[draw, circle] (4) at (1,1) {$4$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (3,3) {$2$};
+  \node[draw, circle] (3) at (3,1) {$3$};
+  \node[draw, circle] (4) at (1,1) {$4$};
 
-	\path[draw,thick,->,>=latex] (1) -- (2);
-	\path[draw,thick,->,>=latex] (3) edge [bend left=30] (2);
-	\path[draw,thick,->,>=latex] (4) -- (1);
-	\path[draw,thick,->,>=latex] (4) -- (3);
-	\path[draw,thick,->,>=latex] (2) edge [bend left=30] (3);
-	\end{tikzpicture}
+  \path[draw,thick,->,>=latex] (1) -- (2);
+  \path[draw,thick,->,>=latex] (3) edge [bend left=30] (2);
+  \path[draw,thick,->,>=latex] (4) -- (1);
+  \path[draw,thick,->,>=latex] (4) -- (3);
+  \path[draw,thick,->,>=latex] (2) edge [bend left=30] (3);
+  \end{tikzpicture}
 \end{center}
 
 \subsection{Weighted Graph}
@@ -2214,18 +2212,18 @@ In a weighted graph, each edge is assigned a weight or cost. Consider a graph of
 \end{enumerate}
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,4) {$1$};
-	\node[draw, circle] (2) at (4,4) {$2$};
-	\node[draw, circle] (3) at (4,1) {$3$};
-	\node[draw, circle] (4) at (1,1) {$4$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,4) {$1$};
+  \node[draw, circle] (2) at (4,4) {$2$};
+  \node[draw, circle] (3) at (4,1) {$3$};
+  \node[draw, circle] (4) at (1,1) {$4$};
 
-	\path[draw,thick,-] (1) -- node[font=\small,label=above:1] {} (2);
-	\path[draw,thick,-] (2) -- node[font=\small,label=right:1] {} (3);
-	\path[draw,thick,-] (3) -- node[font=\small,label=below:2] {} (4);
-	\path[draw,thick,-] (4) -- node[font=\small,label=left:3] {} (1);
-	\path[draw,thick,-] (1) -- node[font=\small,label=above:1] {} (3);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- node[font=\small,label=above:1] {} (2);
+  \path[draw,thick,-] (2) -- node[font=\small,label=right:1] {} (3);
+  \path[draw,thick,-] (3) -- node[font=\small,label=below:2] {} (4);
+  \path[draw,thick,-] (4) -- node[font=\small,label=left:3] {} (1);
+  \path[draw,thick,-] (1) -- node[font=\small,label=above:1] {} (3);
+  \end{tikzpicture}
 \end{center}
 
 \subsection{Cyclic Graph}
@@ -2233,21 +2231,21 @@ In a weighted graph, each edge is assigned a weight or cost. Consider a graph of
 A graph is cyclic if the graph comprises a cycle(a path that starts from a vertex and ends at the same vertex). An acyclic graph is a graph that has no cycle. The following is a cyclic directed graph.
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,3) {$1$};
-	\node[draw, circle] (2) at (3,3) {$2$};
-	\node[draw, circle] (3) at (5,3) {$3$};
-	\node[draw, circle] (4) at (7,3) {$4$};
-	\node[draw, circle] (5) at (9,3) {$5$};
-	\node[draw, circle] (6) at (8,5) {$6$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (3,3) {$2$};
+  \node[draw, circle] (3) at (5,3) {$3$};
+  \node[draw, circle] (4) at (7,3) {$4$};
+  \node[draw, circle] (5) at (9,3) {$5$};
+  \node[draw, circle] (6) at (8,5) {$6$};
 
-	\path[draw,thick,->,>=latex] (1) -- (2);
-	\path[draw,thick,->,>=latex] (2) -- (3);
-	\path[draw,thick,->,>=latex] (3) -- (4);
-	\path[draw,thick,->,>=latex] (4) -- (5);
-	\path[draw,thick,->,>=latex] (5) -- (6);
-	\path[draw,thick,->,>=latex] (6) -- (4);
-	\end{tikzpicture}
+  \path[draw,thick,->,>=latex] (1) -- (2);
+  \path[draw,thick,->,>=latex] (2) -- (3);
+  \path[draw,thick,->,>=latex] (3) -- (4);
+  \path[draw,thick,->,>=latex] (4) -- (5);
+  \path[draw,thick,->,>=latex] (5) -- (6);
+  \path[draw,thick,->,>=latex] (6) -- (4);
+  \end{tikzpicture}
 \end{center}
 \section{Graph Colouring}
 
@@ -2386,17 +2384,17 @@ Adjacency matrix provides constant time access $\mathcal{O}(1)$ to determine if 
 For example the graph
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,3) {$1$};
-	\node[draw, circle] (2) at (3,3) {$2$};
-	\node[draw, circle] (3) at (3,1) {$3$};
-	\node[draw, circle] (4) at (1,1) {$4$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (3,3) {$2$};
+  \node[draw, circle] (3) at (3,1) {$3$};
+  \node[draw, circle] (4) at (1,1) {$4$};
 
-	\path[draw,thick,-] (1) -- (2);
-	\path[draw,thick,-] (2) -- (3);
-	\path[draw,thick,-] (3) -- (4);
-	\path[draw,thick,-] (4) -- (1);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (2) -- (3);
+  \path[draw,thick,-] (3) -- (4);
+  \path[draw,thick,-] (4) -- (1);
+  \end{tikzpicture}
 \end{center}
 
 can be represented as follows:
@@ -2436,18 +2434,18 @@ so that the matrix contains the weight of the edge if the edge exists. Using thi
 representation, the graph
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.9]
-	\node[draw, circle] (1) at (1,5) {$1$};
-	\node[draw, circle] (2) at (5,5) {$2$};
-	\node[draw, circle] (3) at (5,1) {$3$};
-	\node[draw, circle] (4) at (1,1) {$4$};
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,5) {$1$};
+  \node[draw, circle] (2) at (5,5) {$2$};
+  \node[draw, circle] (3) at (5,1) {$3$};
+  \node[draw, circle] (4) at (1,1) {$4$};
 
-	\path[draw,thick,-] (1) -- node[font=\small,label=above:6] {} (2);
-	\path[draw,thick,-] (2) -- node[font=\small,label=right:10] {} (3);
-	\path[draw,thick,-] (3) -- node[font=\small,label=below:4] {} (4);
-	\path[draw,thick,-] (4) -- node[font=\small,label=left:15] {} (1);
-	\path[draw,thick,-] (1) -- node[font=\small,label=above:7] {} (3);
-	\end{tikzpicture}
+  \path[draw,thick,-] (1) -- node[font=\small,label=above:6] {} (2);
+  \path[draw,thick,-] (2) -- node[font=\small,label=right:10] {} (3);
+  \path[draw,thick,-] (3) -- node[font=\small,label=below:4] {} (4);
+  \path[draw,thick,-] (4) -- node[font=\small,label=left:15] {} (1);
+  \path[draw,thick,-] (1) -- node[font=\small,label=above:7] {} (3);
+  \end{tikzpicture}
 \end{center}
 
 corresponds to the following matrix
@@ -2486,6 +2484,198 @@ The drawback of the adjacency matrix representation is that the matrix
 contains $n^2$ elements, and usually most of them are zero. For this reason, the
 representation cannot be used if the graph is large as a lot of space is wasted.
 
+\section{Adjacency List}
+
+The other way to represent a graph is by using an adjacency list. An adjacency list is an array $A$ of separate lists. Each element of the array $A_i$ is a list, which contains all the vertices that are adjacent to vertex $i$. In an undirected graph, if vertex $j$ is in list $A_i$ then vertex $i$ will be in list $A_j$. Adjacency List can be implemented using an array of vectors:
+
+\begin{lstlisting}
+vector<int> graph[n];
+\end{lstlisting}
+
+Then edges can be added as follows:
+
+\begin{lstlisting}
+graph[u].push_back(v);
+\end{lstlisting}
+
+For a weighted graph, the weight or cost of the edge is stored along with the vertex in the list using pairs:
+
+\begin{lstlisting}
+vector<pair<int, int>> graph[n];
+\end{lstlisting}
+
+The space complexity of adjacency list is $\mathcal{O}(V + E)$ because in an adjacency list information is stored only for those edges that actually exist in the graph. This is why adjacency list is the most popular form of representation especially in sparse graphs \footnote{A sparse matrix is a matrix in which most of the elements are zero, whereas a dense matrix is a matrix in which most of the elements are non-zero.}.
+
+For example, the graph
+
+\begin{center}
+  \begin{tikzpicture}[scale=0.9]
+  \node[draw, circle] (1) at (1,3) {$1$};
+  \node[draw, circle] (2) at (3,3) {$2$};
+  \node[draw, circle] (3) at (3,1) {$3$};
+  \node[draw, circle] (4) at (1,1) {$4$};
+
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (2) -- (3);
+  \path[draw,thick,-] (3) -- (4);
+  \path[draw,thick,-] (4) -- (1);
+  \end{tikzpicture}
+\end{center}
+
+can be represented as:
+\begin{lstlisting}
+graph[1].push_back(2);
+graph[1].push_back(4);
+graph[2].push_back(1);
+graph[2].push_back(3);
+graph[3].push_back(2);
+graph[3].push_back(4);
+graph[4].push_back(3);
+graph[4].push_back(1);
+\end{lstlisting}
+
+\begin{align*}
+\resizebox{0.25\hsize}{!}{$\fbox{1}\rightarrow\fbox{2}\fbox{4}$}\\
+\resizebox{0.25\hsize}{!}{$\fbox{2}\rightarrow\fbox{1}\fbox{3}$}\\
+\resizebox{0.25\hsize}{!}{$\fbox{3}\rightarrow\fbox{2}\fbox{4}$} \\
+\resizebox{0.25\hsize}{!}{$\fbox{4}\rightarrow\fbox{1}\fbox{3}$}
+\end{align*}
+
+Another benefit of using adjacency lists is that we can efficiently find the nodes which are directly adjacent to a given node. The following loop goes through all nodes to which we can move from node $i$ through an edge:
+
+\begin{lstlisting}
+for(auto u: graph[i])
+{
+    //we can reach u from i
+}
+\end{lstlisting}
+
+P.S.: As a side note, it is important to take note of 0-based indexing or 1-based indexing which is used in the problem statement and adjust all graph algorithms accordingly.
+
+\chapter{Depth First Search}
+DFS is a simple graph traversal algorithm i.e. it is given a starting node in the graph, and it visits all nodes that can be reached from the starting node. The DFS algorithm is a recursive algorithm that uses the idea of backtracking. It involves exhaustive searches of all the nodes by going ahead, if possible, else by backtracking.
+
+In simple terms, The algorithm begins at a starting node, and proceeds to all other nodes that are reachable from the starting node using the edges of the graph. All the nodes will be visited on the current path till all the unvisited nodes have been traversed after which the next path will be selected.
+
+\section{Implementation}
+
+This recursive nature of DFS can be implemented using recursion(duh!). The basic idea is as follows:
+
+The following function \texttt{dfs} begins a depth-first search at a given node(usually the root node). The function assumes that the graph is stored as an adjacency list in an array
+
+\begin{lstlisting}
+vector<int> graph[n];
+\end{lstlisting}
+
+and also maintains a boolean array
+
+\begin{lstlisting}
+bool visited[n];
+\end{lstlisting}
+
+that keeps track of the visited nodes. Initially, each array value is \texttt{false}, and
+when the search arrives at node $s$, the value of \texttt{visited[s]} becomes \texttt{true}. The function can be implemented as follows:
+\newpage
+
+\begin{lstlisting}
+void dfs(int s) 
+{
+    if (visited[s]) return;
+    visited[s] = true;
+    // process node s
+    for (auto u: adj[s]) 
+    {
+        dfs(u); //dfs on all nodes adjacent to s
+    }
+}
+\end{lstlisting}
+
+\section{Visualization}
+
+DFS on a binary search tree is shown below. Note that the blue arrow reaches the root node at the end.
+
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',every node/.style={circle,draw},level 1/.style={sibling distance=50mm},level 2/.style={sibling distance=20mm},level 3/.style={sibling distance=12mm},
+scale=1.4, transform shape
+]
+\node (nA){A}
+   child { node (nB) {B}
+              child { node (nD) {D}
+                         child { node (nH) {H} }
+                       }
+              child {  node (nE) {E}
+                         child { node (nI) {I} }
+                         child { node (nJ) {J} }
+                       }
+            }
+   child { node (nC) {C}
+              child { node (nF) {F}
+                         child { node (nK) {K}  }
+                         child { node (nL) {L} }
+                         child { node (nM) {M} }
+                       }
+              child {  node (nG) {G} }
+             };
+
+  \draw[->,blue,rounded corners,dashed,line width=0.7pt]
+    ($(nA) + (-0.4,0.2)$) --
+    ($(nB) +(-0.3,0.4)$) --
+    ($(nB) +(-0.6,0.0)$) --
+    ($(nD)  +(-0.4,0.3)$) --
+    ($(nD)  +(-0.5,0.0)$) --
+    ($(nH)  +(-0.5,0.0)$) --
+    ($(nH)  +(-0.4,-0.35)$) --
+    ($(nH)  +(0.0,-0.5)$) --
+    ($(nH)  +(0.4,-0.35)$) --
+    ($(nH)  +(0.5,0.0)$) --
+%    ($(nD)  +(0.45,-0.2)$) --
+    ($(nD)  +(0.45,0.0)$) --
+    ($(nB)  +(0.0,-0.4)$) --
+    ($(nE)  +(-0.45,0.0)$) --
+    ($(nI)  +(-0.45,0.0)$) --
+    ($(nI)  +(-0.35,-0.35)$) --
+    ($(nI)  +(0.0,-0.45)$) --
+    ($(nI)  +(0.35,-0.35)$) --
+    ($(nI)  +(0.4,0.0)$) --
+    ($(nE)  +(0.0,-0.4)$) --
+    ($(nJ)  +(-0.45,0.0)$) --
+    ($(nJ)  +(-0.35,-0.35)$) --
+    ($(nJ)  +(0.0,-0.45)$) --
+    ($(nJ)  +(0.35,-0.35)$) --
+    ($(nJ)  +(0.45,0.0)$) --
+    ($(nE)  +(0.4,0.2)$) --
+    ($(nB)  +(0.4,0.0)$) --
+    ($(nA)  +(0.0,-0.4)$) --
+    ($(nC)  +(-0.4,0.0)$) --
+%    ($(nF)  +(-0.6,0.0)$) --
+    ($(nK)  +(-0.5,0.1)$) --
+    ($(nK)  +(-0.4,-0.35)$) --
+    ($(nK)  +(0.0,-0.5)$) --
+    ($(nK)  +(0.4,-0.3)$) --
+    ($(nF)  +(-0.15,-0.4)$) --
+    ($(nL)  +(-0.5,0.0)$) --
+    ($(nL)  +(-0.4,-0.35)$) --
+    ($(nL)  +(0.0,-0.5)$) --
+    ($(nL)  +(0.4,-0.35)$) --
+    ($(nL)  +(0.5,0.0)$) --
+    ($(nF)  +(0.15,-0.4)$) --
+    ($(nM)  +(-0.5,0.0)$) --
+    ($(nM)  +(-0.4,-0.35)$) --
+    ($(nM)  +(0.0,-0.5)$) --
+    ($(nM)  +(0.4,-0.35)$) --
+    ($(nM)  +(0.5,0.2)$) --
+    ($(nF)  +(0.4,0.0)$) --
+    ($(nC)  +(0.0,-0.4)$) --
+    ($(nG)  +(-0.5,0.0)$) --
+    ($(nG)  +(-0.4,-0.35)$) --
+    ($(nG)  +(0.0,-0.5)$) --
+    ($(nG)  +(0.4,-0.35)$) --
+    ($(nG)  +(0.5,0.1)$) --
+    ($(nC) +(0.6,0.0)$) --
+    ($(nC) +(0.3,0.4)$) --
+    ($(nA) + (0.4,0.2)$);
+\end{tikzpicture}
+\end{center}
 
 \part{Mathematics}
 \chapter{Basic Maths}
@@ -2777,7 +2967,7 @@ There are infinitely positive integers $n$ for which $2n - 1$ is a prime number.
 \newpage
 \section{Modulo of Big Number}
 \begin{problem}
-	Given a big number \texttt{num} represented as string and an integer $x$, find value of $num \mod x$. Output is expected as an integer.
+  Given a big number \texttt{num} represented as string and an integer $x$, find value of $num \mod x$. Output is expected as an integer.
 \end{problem}
 \begin{solution}
 \hfill\break
@@ -2785,13 +2975,13 @@ The idea is to process all digits one by one and use the property that $(xy) \mo
 \begin{lstlisting}
 int modulo(string num, int x)
 {
-	// Initialize result
-	int res = 0;
+  // Initialize result
+  int res = 0;
 
-	// One by one process all digits of 'num'
-	for (int i = 0; i < num.length(); i++)
-		res = (res*10 + (int)num[i] - '0') % x;
-	return res;
+  // One by one process all digits of 'num'
+  for (int i = 0; i < num.length(); i++)
+    res = (res*10 + (int)num[i] - '0') % x;
+  return res;
 }
 \end{lstlisting}
 \end{solution}
@@ -2845,20 +3035,20 @@ Where the product is over the distinct prime numbers dividing $n$.Note that $\va
 \begin{lstlisting}
 int totient(int n)
 {
-	int result = n;
-	for (int p = 2; p * p <= n; ++p)
-	{
-		if (n % p == 0)
-		{
-			while (n % p == 0)
-				n /= p;
-			result -= result / p;
-		}
-	}
+  int result = n;
+  for (int p = 2; p * p <= n; ++p)
+  {
+    if (n % p == 0)
+    {
+      while (n % p == 0)
+        n /= p;
+      result -= result / p;
+    }
+  }
 
-	if (n > 1)
-		result -= result / n;
-	return result;
+  if (n > 1)
+    result -= result / n;
+  return result;
 }
 \end{lstlisting}
 
@@ -2887,7 +3077,7 @@ it is difficult to calculate values of $(n-1)!$ when n is even as large as 50.
 \section{Linear Diophantine Equations}
 A Diophantine equation is a polynomial equation, usually in two or more unknowns, such that only the integral solutions are required. An Integral solution is a solution such that all the unknown variables take only integer values.
 \begin{problem}
-	Given three integers $a$, $b$, $c$ representing a linear equation of the form : $ax + by = c$. Determine if the equation has a solution such that $x$ and $y$ are both integral values.
+  Given three integers $a$, $b$, $c$ representing a linear equation of the form : $ax + by = c$. Determine if the equation has a solution such that $x$ and $y$ are both integral values.
 \end{problem}
 \begin{solution}
 \hfil\break
@@ -2897,9 +3087,9 @@ Thus the algorithm to determine if an equation has integral solution is pretty s
 \begin{lstlisting}
 bool isPossible(int a, int b, int c)
 {
-	// __gcd() is an inbuilt function in C++ STL to return
-	// GCD of two numbers.
-	return (c%__gcd(a,b) == 0);
+  // __gcd() is an inbuilt function in C++ STL to return
+  // GCD of two numbers.
+  return (c%__gcd(a,b) == 0);
 }
 \end{lstlisting}
 \end{solution}
