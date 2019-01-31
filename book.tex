@@ -381,7 +381,7 @@ Comparison sorts compare elements at each step of the algorithm to determine if 
 
 Comparison sorts are usually more straightforward to implement than integer sorts, but comparison sorts are limited by a lower bound of $\mathcal{O}(n\log{n})$, meaning that, on average, comparison sorts cannot be faster than $\mathcal{O}(n\log{n})$.
 \subsubsection{Integer Sorts}
-Integer sorts are sometimes called counting sorts (though there is a specific integer sort algorithm called counting sort). Integer sorts do not make comparisons. Integer sorts determine for each element $x$ - how many elements are less than $x$. For example, if there are $14$ elements that are less than $x$, then $x$ will be placed in the $15^{th}$ slot. This information is used to place each element into the correct slot immediately, so ther is no need to rearrange lists.
+Integer sorts are sometimes called counting sorts (though there is a specific integer sort algorithm called counting sort). Integer sorts do not make comparisons. Integer sorts determine for each element $x$ - how many elements are less than $x$. For example, if there are $14$ elements that are less than $x$, then $x$ will be placed in the $15^{th}$ slot. This information is used to place each element into the correct slot immediately, so there is no need to rearrange lists.
 \subsection{Stability}
 Stable sorting algorithms maintain the relative order of records with equal keys (i.e. values). That is, a sorting algorithm is stable if whenever there are two records $R$ and $S$ with the same key and with $R$ appearing before $S$ in the original list, $R$ will appear before $S$ in the sorted list.
 \subsection{Adaptability}
@@ -478,7 +478,7 @@ Bubble sort is a simple sorting algorithm. The algorithm starts at the beginning
 Example of Bubble Sort
 \end{center}
 \subsection{Insertion Sort}
-Insertion sort is a simple sorting algorithm that is relatively efficient for small lists and mostly sorted lists, and is often used as part of more sophisticated algorithms. It works by taking elements from the list one by one and inserting them in their correct position into a new sorted list.In arrays, the new list and the remaining elements can share the array's space, but insertion is expensive, requiring shifting all following elements over by one.
+Insertion sort is a simple sorting algorithm that is relatively efficient for small lists and mostly sorted lists, and is often used as part of more sophisticated algorithms. It works by taking elements from the list one by one and inserting them in their correct position into a new sorted list. In arrays, the new list and the remaining elements can share the array's space, but insertion is expensive, requiring shifting all following elements over by one.
 
 \begin{figure}[htbp]
   \centering
@@ -752,7 +752,7 @@ An ordinary array can be sorted as follows:
 \begin{lstlisting}
 int n = 7; // array size
 int a[] = {4,2,5,3,5,8,3};
-sort(a,a+n);
+sort(a, a+n);
 \end{lstlisting}
 The following code sorts the string \texttt{s}:
 \begin{lstlisting}
@@ -768,7 +768,7 @@ Integer containers can be sorted in decreasing order as follows:
 \begin{lstlisting}
 int n = 7; // array size
 int a[] = {4,2,5,3,5,8,3};
-sort(a,a+n, greater<int>());// greater<int>() as third parameter
+sort(a, a+n, greater<int>());// greater<int>() as third parameter
 // final array is int a[] = {8,5,5,4,3,3,2};
 \end{lstlisting}
 
@@ -1049,7 +1049,7 @@ do {
     // process subset b
 } while (b=(b-x)&x);
 \end{lstlisting}
-
+\newpage
 \section{Example Problems}
 \subsection{Counting Grids with Black Corners}
 \begin{problem}
@@ -1929,21 +1929,21 @@ Output: 84
 \end{exmp}
 \begin{solution}
 \hfill\break
-This is also called as the Binomial Coefficiant Problem
+This is also called as the Binomial Coefficient Problem
 \begin{lstlisting}
 // Returns value of Binomial Coefficient C(n, k)
-int binomialCoeff(int n, int k)
+int binomial(int n, int k)
 {
     int C[n + 1][k + 1];
 
-    // Caculate value of Binomial Coefficient in bottom up manner
+    // Calculate value of Binomial Coefficient in bottom up manner
     for (int i = 0; i <= n; i++) {
         for (int j = 0; j <= min(i, k); j++) {
             // Base Cases
             if (j == 0 || j == i)
                 C[i][j] = 1;
 
-            // Calculate value using previosly stored values
+            // Calculate value using previously stored values
             else
                 C[i][j] = C[i - 1][j - 1] + C[i - 1][j];
         }
@@ -1954,7 +1954,7 @@ int binomialCoeff(int n, int k)
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(nk)$
 \end{solution}
-\part{Graph Theory}
+\part{Basic Graph Theory}
 \chapter{Graph Theory}
 \section{Formal Definition of Graph}
 \key{Graph} is an abstract mathematical structure, to model pairwise relations between discrete objects. A graph $G = (V,E)$ consists of a finite set $V$ ( set of vertices or \key{nodes} ) and a set $E$ (set of \key{edges} ) of 2-subsets of $V$. Each edge is a relation ( adjacency ) between two vertices. In general, the number of vertices is denoted by $n$ and the number of edges is denoted by $m$. The following graph has 6 nodes and 9 edges.
@@ -2552,6 +2552,8 @@ for(auto u: graph[i])
 
 P.S.: As a side note, it is important to take note of 0-based indexing or 1-based indexing which is used in the problem statement and adjust all graph algorithms accordingly.
 
+\part{Graph Traversals}
+
 \chapter{Depth First Search}
 DFS is a simple graph traversal algorithm i.e. it is given a starting node in the graph, and it visits all nodes that can be reached from the starting node. The DFS algorithm is a recursive algorithm that uses the idea of backtracking. It involves exhaustive searches of all the nodes by going ahead, if possible, else by backtracking.
 
@@ -2589,6 +2591,10 @@ void dfs(int s)
     }
 }
 \end{lstlisting}
+
+The time complexity of depth-first search is $\mathcal{O}(n+m)$
+where $n$ is the number of nodes and $m$ is the
+number of edges,
 
 \section{Visualization}
 
@@ -2677,6 +2683,436 @@ scale=1.4, transform shape
 \end{tikzpicture}
 \end{center}
 
+\subsection{DFS on a normal graph}
+
+Let us consider how depth-first search processes
+the following graph:
+
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle] (1) at (1,5) {$1$};
+\node[draw, circle] (2) at (3,5) {$2$};
+\node[draw, circle] (3) at (5,4) {$3$};
+\node[draw, circle] (4) at (1,3) {$4$};
+\node[draw, circle] (5) at (3,3) {$5$};
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (3) -- (5);
+\path[draw,thick,-] (2) -- (5);
+\end{tikzpicture}
+\end{center}
+We may begin the search at any node of the graph;
+now we will begin the search at node 1.
+
+The search first proceeds to node 2:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
+\node[draw, circle,fill=lightgray] (2) at (3,5) {$2$};
+\node[draw, circle] (3) at (5,4) {$3$};
+\node[draw, circle] (4) at (1,3) {$4$};
+\node[draw, circle] (5) at (3,3) {$5$};
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (3) -- (5);
+\path[draw,thick,-] (2) -- (5);
+
+\path[draw=red,thick,->,line width=2pt] (1) -- (2);
+\end{tikzpicture}
+\end{center}
+After this, nodes 3 and 5 will be visited:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
+\node[draw, circle,fill=lightgray] (2) at (3,5) {$2$};
+\node[draw, circle,fill=lightgray] (3) at (5,4) {$3$};
+\node[draw, circle] (4) at (1,3) {$4$};
+\node[draw, circle,fill=lightgray] (5) at (3,3) {$5$};
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (3) -- (5);
+\path[draw,thick,-] (2) -- (5);
+
+\path[draw=red,thick,->,line width=2pt] (1) -- (2);
+\path[draw=red,thick,->,line width=2pt] (2) -- (3);
+\path[draw=red,thick,->,line width=2pt] (3) -- (5);
+\end{tikzpicture}
+\end{center}
+The neighbors of node 5 are 2 and 3,
+but the search has already visited both of them,
+so it is time to return to the previous nodes.
+Also the neighbors of nodes 3 and 2
+have been visited, so we next move
+from node 1 to node 4:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
+\node[draw, circle,fill=lightgray] (2) at (3,5) {$2$};
+\node[draw, circle,fill=lightgray] (3) at (5,4) {$3$};
+\node[draw, circle,fill=lightgray] (4) at (1,3) {$4$};
+\node[draw, circle,fill=lightgray] (5) at (3,3) {$5$};
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (3) -- (5);
+\path[draw,thick,-] (2) -- (5);
+
+\path[draw=red,thick,->,line width=2pt] (1) -- (4);
+\end{tikzpicture}
+\end{center}
+After this, the search terminates because it has visited
+all nodes.
+
+\section{Applications of DFS}
+
+\subsection{Checking if Graph is Connected}
+
+We can check if a graph is connected
+by starting at an arbitrary node and
+finding out if we can reach all other nodes.
+
+For example, in the graph
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle] (2) at (7,5) {$2$};
+\node[draw, circle] (1) at (3,5) {$1$};
+\node[draw, circle] (3) at (5,4) {$3$};
+\node[draw, circle] (5) at (7,3) {$5$};
+\node[draw, circle] (4) at (3,3) {$4$};
+
+\path[draw,thick,-] (1) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (3) -- (4);
+\path[draw,thick,-] (2) -- (5);
+\end{tikzpicture}
+\end{center}
+a depth-first search from node $1$ visits
+the following nodes:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle] (2) at (7,5) {$2$};
+\node[draw, circle,fill=lightgray] (1) at (3,5) {$1$};
+\node[draw, circle,fill=lightgray] (3) at (5,4) {$3$};
+\node[draw, circle] (5) at (7,3) {$5$};
+\node[draw, circle,fill=lightgray] (4) at (3,3) {$4$};
+
+\path[draw,thick,-] (1) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (3) -- (4);
+\path[draw,thick,-] (2) -- (5);
+
+\path[draw=red,thick,->,line width=2pt] (1) -- (3);
+\path[draw=red,thick,->,line width=2pt] (3) -- (4);
+
+\end{tikzpicture}
+\end{center}
+
+Since the search did not visit all the nodes,
+we can conclude that the graph is not connected.
+In a similar way, we can also find all connected components
+of a graph by iterating through the nodes and always
+starting a new depth-first search if the current node
+does not belong to any component yet.
+\subsection{Detecting cycle in a graph}
+
+\key{A Back Edge is an edge that connects a vertex to a vertex that is discovered before it's parent.}
+
+In simple terms, A graph contains a cycle if during a graph traversal, we find a node whose neighbor(other than the previous node in the current path) has already been visited.
+
+A graph has cycle if and only if we see a back edge during DFS. So we can run DFS for the graph and check for back edges.
+
+\subsection{Path Finding}
+We can specialize the DFS algorithm to find a path between two given vertices $u$ and $z$. The following are the steps in brief:
+
+\begin{enumerate}
+    \item Call DFS(u) with $u$ as the start vertex.
+    \item Use a stack $S$ to keep track of the path between the start vertex and the current vertex.
+    \item As soon as destination vertex $z$ is encountered, return the path as the i.e. the contents of the stack
+\end{enumerate}
+
+\key{This path may not be the shortest path}
+
+\chapter{Breadth First Search}
+
+Breadth First Search (BFS) is the most commonly used approach to traverse graph. BFS visits the nodes in increasing order of their distance
+from the starting node. Thus, we can calculate the distance from the starting
+node to all other nodes using breadth-first search. However, breadth-first search is more difficult to implement than depth-first search.
+
+Breadth-first search goes through the nodes one level after another. First the
+search explores the nodes whose distance from the starting node is 1, then the
+nodes whose distance is 2, and so on. This process continues until all nodes have been visited.
+
+\section{Implementation}
+
+Breadth-first search is more difficult
+to implement than depth-first search,
+because the algorithm visits nodes
+in different parts of the graph.
+A typical implementation is based on
+a queue that contains nodes.
+At each step, the next node in the queue
+will be processed.
+
+The following code assumes that the graph is stored
+as adjacency lists and maintains the following
+data structures:
+\begin{lstlisting}
+queue<int> q;
+bool visited[N];
+int distance[N];
+\end{lstlisting}
+
+The queue \texttt{q}
+contains nodes to be processed
+in increasing order of their distance.
+New nodes are always added to the end
+of the queue, and the node at the beginning
+of the queue is the next node to be processed.
+The array \texttt{visited} indicates
+which nodes the search has already visited,
+and the array \texttt{distance} will contain the
+distances from the starting node to all nodes of the graph.
+\newpage
+The search can be implemented as follows,
+starting at node $x$:
+\begin{lstlisting}
+visited[x] = true;
+distance[x] = 0;
+q.push(x);
+while (!q.empty()) {
+    int s = q.front(); q.pop();
+    // process node s
+    for (auto u : adj[s]) {
+        if (visited[u]) continue;
+        visited[u] = true;
+        distance[u] = distance[s]+1;
+        q.push(u);
+    }
+}
+\end{lstlisting}
+
+Like in depth-first search,
+the time complexity of breadth-first search
+is $\mathcal{O}(n+m)$, where $n$ is the number of nodes
+and $m$ is the number of edges.
+
+\section{Visualization}
+
+\begin{center}
+  \begin{tikzpicture}[scale=1.2]
+  \node[draw, circle] (1) at (8,6) {$1$};
+  \node[draw, circle] (2) at (4,4) {$2$};
+  \node[draw, circle] (3) at (12,4) {$3$};
+  \node[draw, circle] (4) at (2,2) {$4$};
+  \node[draw, circle] (5) at (6,2) {$5$};
+  \node[draw, circle] (6) at (10,2) {$6$};
+  \node[draw, circle] (7) at (14,2) {$7$};
+  \node[draw, circle] (8) at (1,0) {$8$};
+  \node[draw, circle] (9) at (3,0) {$9$};
+  \node[draw, circle] (10) at (5,0) {$10$};
+  \node[draw, circle] (11) at (7,0) {$11$};
+  \node[draw, circle] (12) at (11,0) {$12$};
+  \node[draw, circle] (13) at (13,0) {$13$};
+
+  \path[draw,thick,-] (1) -- (2);
+  \path[draw,thick,-] (1) -- (3);
+  \path[draw,thick,-] (2) -- (5);
+  \path[draw,thick,-] (2) -- (4);
+  \path[draw,thick,-] (4) -- (8);
+  \path[draw,thick,-] (4) -- (9);
+  \path[draw,thick,-] (5) -- (10);
+  \path[draw,thick,-] (5) -- (11);
+  \path[draw,thick,-] (3) -- (6);
+  \path[draw,thick,-] (3) -- (7);
+  \path[draw,thick,-] (6) -- (12);
+  \path[draw,thick,-] (7) -- (13);
+  \end{tikzpicture}
+\end{center}
+
+In the above graph BFS traverses nodes in the numeric order(1-2-3-4-5-6...)
+\newpage
+\subsection{BFS on a normal Graph}
+
+Let us consider how breadth-first search processes
+the following graph:
+
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle] (1) at (1,5) {$1$};
+\node[draw, circle] (2) at (3,5) {$2$};
+\node[draw, circle] (3) at (5,5) {$3$};
+\node[draw, circle] (4) at (1,3) {$4$};
+\node[draw, circle] (5) at (3,3) {$5$};
+\node[draw, circle] (6) at (5,3) {$6$};
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (3) -- (6);
+\path[draw,thick,-] (2) -- (5);
+\path[draw,thick,-] (5) -- (6);
+\end{tikzpicture}
+\end{center}
+Suppose that the search begins at node 1.
+First, we process all nodes that can be reached
+from node 1 using a single edge:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
+\node[draw, circle,fill=lightgray] (2) at (3,5) {$2$};
+\node[draw, circle] (3) at (5,5) {$3$};
+\node[draw, circle,fill=lightgray] (4) at (1,3) {$4$};
+\node[draw, circle] (5) at (3,3) {$5$};
+\node[draw, circle] (6) at (5,3) {$6$};
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (3) -- (6);
+\path[draw,thick,-] (2) -- (5);
+\path[draw,thick,-] (5) -- (6);
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (2) -- (5);
+
+\path[draw=red,thick,->,line width=2pt] (1) -- (2);
+\path[draw=red,thick,->,line width=2pt] (1) -- (4);
+\end{tikzpicture}
+\end{center}
+After this, we proceed to nodes 3 and 5:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
+\node[draw, circle,fill=lightgray] (2) at (3,5) {$2$};
+\node[draw, circle,fill=lightgray] (3) at (5,5) {$3$};
+\node[draw, circle,fill=lightgray] (4) at (1,3) {$4$};
+\node[draw, circle,fill=lightgray] (5) at (3,3) {$5$};
+\node[draw, circle] (6) at (5,3) {$6$};
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (3) -- (6);
+\path[draw,thick,-] (2) -- (5);
+\path[draw,thick,-] (5) -- (6);
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (2) -- (5);
+
+\path[draw=red,thick,->,line width=2pt] (2) -- (3);
+\path[draw=red,thick,->,line width=2pt] (2) -- (5);
+\end{tikzpicture}
+\end{center}
+Finally, we visit node 6:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
+\node[draw, circle,fill=lightgray] (2) at (3,5) {$2$};
+\node[draw, circle,fill=lightgray] (3) at (5,5) {$3$};
+\node[draw, circle,fill=lightgray] (4) at (1,3) {$4$};
+\node[draw, circle,fill=lightgray] (5) at (3,3) {$5$};
+\node[draw, circle,fill=lightgray] (6) at (5,3) {$6$};
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (3) -- (6);
+\path[draw,thick,-] (2) -- (5);
+\path[draw,thick,-] (5) -- (6);
+
+\path[draw,thick,-] (1) -- (2);
+\path[draw,thick,-] (2) -- (3);
+\path[draw,thick,-] (1) -- (4);
+\path[draw,thick,-] (2) -- (5);
+
+\path[draw=red,thick,->,line width=2pt] (3) -- (6);
+\path[draw=red,thick,->,line width=2pt] (5) -- (6);
+\end{tikzpicture}
+\end{center}
+Now we have calculated the distances
+from the starting node to all nodes of the graph.
+The distances are as follows:
+
+\begin{tabular}{ll}
+\\
+node & distance \\
+\hline
+1 & 0 \\
+2 & 1 \\
+3 & 2 \\
+4 & 1 \\
+5 & 2 \\
+6 & 3 \\
+\\
+\end{tabular}
+
+\section{Application of BFS}
+
+\subsection{Check whether Graph is Bipartite}
+
+Following is a simple algorithm to find out whether a given graph is Bipartite or not using BFS.
+
+\begin{enumerate}
+    \item Assign RED color to the source vertex (putting into set U).
+    \item Color all the neighbors with BLUE color (putting into set V).
+    \item Color all neighbor’s neighbor with RED color (putting into set U).
+    \item This way, assign color to all vertices such that it satisfies all the constraints of $m$ way coloring problem where $m = 2$.
+    \item While assigning colors, if we find a neighbor which is colored with same color as current vertex, then the graph cannot be colored with 2 vertices (or graph is not Bipartite).
+\end{enumerate}
+
+\subsection{Finding Shortest path in an unweighted graph}
+
+BFS can be used to find the shortest path in an \key{unweighted graph}. The length of shortest path can be accessed from the distance array in our implementation.
+
+\section{0 - 1 BFS}
+
+\begin{problem}
+  Given a graph where every edge has weight as either $0$ or $k$. A source vertex is also given in the graph. Find the shortest path from source vertex to every other vertex.
+\end{problem}
+
+The basic idea is to take a path if it has edge 0 because that will unlock more paths without increasing the distance. But, using a normal queue data structure , we cannot insert and keep it sorted in $\mathcal{O}(1)$. Using priority queue cost us $\mathcal{O}(\log{n})$ to keep it sorted. The problem with the normal queue is the absence of methods which helps us to perform all of these functions :
+
+\begin{enumerate}
+    \item Remove Top Element (To get vertex for BFS)
+    \item Insert At the beginning (To push a vertex with same level i.e. zero weight)
+    \item Insert At the end (To push a vertex on next level i.e. one weight)
+\end{enumerate}
+Fortunately, all of these operations are supported by a double ended queue (or deque in C++ STL).
+\newpage
+\begin{lstlisting}
+vector<int> d(n, INF); //distance array initialised to infinity
+d[s] = 0;
+deque<int> q;
+q.push_front(s);
+while (!q.empty()) {
+    int v = q.front();
+    q.pop_front();
+    for (auto edge : adj[v]) {
+        int u = edge.first;
+        int w = edge.second;
+        if (d[v] + w < d[u]) {
+            d[u] = d[v] + w;
+            if (w == 1)
+                q.push_back(u);
+            else
+                q.push_front(u);
+        }
+    }
+}
+\end{lstlisting}
+
+\part{Shortest Path Algorithms}
 \part{Mathematics}
 \chapter{Basic Maths}
 
@@ -2817,7 +3253,7 @@ Given a number $n$, print all primes smaller than or equal to $n$. It is also gi
 \hfill\break
 Following is the algorithm to find all the prime numbers less than or equal to a given integer n by Eratosthenes's method:
 \begin{enumerate}
-    \item The algorithm builds an array \texttt{sieve} whose positions $0, 1,2,3,...,n$ are used.The value \texttt{sieve[k] = 0} means that $k$ is prime, and the value \texttt{sieve[k] $\neq$ 0} means that $k$ is not a prime and one of its prime factors is \texttt{sieve[k]}.
+    \item The algorithm builds an array \texttt{sieve} whose positions $0, 1,2,3,...,n$ are used. The value \texttt{sieve[k] = 0} means that $k$ is prime, and the value \texttt{sieve[k] $\neq$ 0} means that $k$ is not a prime and one of its prime factors is \texttt{sieve[k]}.
     \item The algorithm iterates through the numbers $2...n$ one by one. Always when a new prime $x$ is found, the algorithm records that the multiples of $x$ $(2x,3x,4x,...)$ which are $\geq x^2$ are not primes, because the number $x$ divides them.
 \end{enumerate}
 For example, if $n=20$, the array is as follows:
