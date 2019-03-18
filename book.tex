@@ -4,6 +4,7 @@
 \usepackage{pdfrender}
 \usepackage{shapepar}
 \usepackage{standalone}
+\usepackage{epsfig}
 \usepackage{microtype}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -16,6 +17,9 @@
 \usepackage{hyperref}
 \usepackage{array}
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\renewcommand{\thealgocf}{}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
 
 \usepackage{fouriernc}
 \usepackage{fourier}
@@ -3113,6 +3117,625 @@ while (!q.empty()) {
 \end{lstlisting}
 
 \part{Shortest Path Algorithms}
+
+\chapter{Theory}
+
+\begin{itemize}
+\item Formal definition of shortest path: 
+
+  $G = (V,E)$ weighted graph, directed or undirected. 
+
+Weight of path $P = <v_0,v_1,v_2, \cdots, v_k>$ is $w(P) =
+  \sum_{i=1}^k w(v_{i-1},v_i)$. 
+
+Shortest path $\delta(u,v)$ from $u$ to $v$ has weight
+  
+  \[ \delta(u,v) = \left\{ \begin{array}{ll}
+                \min\{w(P): \mbox{$P$ is path from $u$ to $v$}\} & \mbox{If
+                  path exists} \\
+                \infty                                     & \mbox{Otherwise} \\
+              \end{array} \right. \]
+            
+            Example: Shortest path from $a$ to $e$ (of length 21) \\
+
+            \centerline{\epsfig{file=SSSP_example.eps,height=3cm}}
+            
+\item Properties of shortest paths:
+            
+\begin{itemize}
+\item Subpaths of shortest paths are shortest paths: If $P =
+  <u=v_0,v_1,v_2, \cdots, v_k=v>$ is shortest path from $u$ to $v$
+  then for all $i<k$ $P'= <u=v_0,v_1,v_2, \cdots, v_i>$ is shortest
+  path from $u$ to $v_i$
+  
+  
+\item No (unique) shortest path exists if graph has cycle with
+  negative weight \\
+  
+  Example: If we change weight of edge $(h,i)$ to $-8$, we have a
+  cycle (i,h,g) with negative weight ($-1$). Using this we can make the 
+  weight of path between $a$ and $e$ arbitrarily low by going through
+  the cycle several times \\
+  
+  \centerline{\epsfig{file=SSSP_negative.eps,height=3cm}}
+  
+  On the other hand, the problem is well defined if we let edge
+  $(h,i)$ have weight $-7$ (no negative cycles)
+\end{itemize}
+\item Different variants of shortest path problem:
+  \begin{itemize}
+  \item {\em Single pair shortest path}: Find shortest path from $u$
+    to $v$
+  \item {\em Single source shortest path (SSSP)}: Find shortest path
+    from source $s$ to all vertices $v \in V$
+  \item {\em All pair shortest path (APSP)}: Find shortest path from
+    $u$ to $v$ for all $u,v \in V$
+  \end{itemize}
+\item Note:
+  \begin{itemize}
+  \item No algorithm is known for computing a single pair shortest path
+    better than solving the (``bigger'') SSSP problem
+  \item APSP can be solved by running SSSP $\vert V \vert$ times \\
+    $\Downarrow$ \\
+    We concentrate only on the SSSP problem to solve APSP.
+  \end{itemize}
+\end{itemize}
+
+\chapter{Dijkstra’s Algorithm}
+
+Dijkstra’s algorithm for SSSP\footnote{\key{S}ingle \key{S}ource \key{S}hortest \key{P}ath : Find shortest path from source $s$ to all vertices $v \in V$} is a greedy algorithm for directed graphs\footnote{Undirected Graph is a special case of directed graph with all edges having same weight} with only \key{non-negative weights}.
+
+Dijkstra’s algorithm maintains distances
+to the nodes and reduces them during the search. Dijkstra’s algorithm is efficient,
+because it only processes each edge in the graph once, using the fact that there
+are no negative edges. It finds a shortest path tree from a single source node, by building a set of nodes that have minimum distance from the source
+
+Dijkstra's algorithm can be efficiently implemented using a \texttt{priority queue} in C++ STL.
+
+\section{Steps of Algorithm}
+
+First we initialise three values:
+\begin{enumerate}
+    \item \texttt{dist[]}: an array of distances from the source node $s$ to each node in the graph, initialised the following way: \texttt{dist[s] = 0;} and for all other nodes , \texttt{dist[v]} $= \infty$. This is done at the beginning because as the algorithm proceeds, the \texttt{dist} from the source to each node $v$ in the graph will be recalculated and finalised when the shortest distance to $v$ is found
+    
+    \item $Q$: a \texttt{priority queue} of all nodes in the graph. At the end of the algorithm's progress, $Q$ will be empty. $Q$ contains pairs of the form \texttt{(-d, x)}, meaning that the current distance to node $x$ is $d$. Note that the \texttt{priority queue} contains \key{negative} distances to nodes. The reason for this is that the default version of the C++ \texttt{priority queue} finds \key{maximum} elements, while we want to find \key{minimum} elements. By using negative distances, we can directly use the default \texttt{priority queue}. 
+    
+    \item \texttt{visited[]}: a boolean array that indicates whether a node has
+    been processed. Initially all values are set to \texttt{false}.
+\end{enumerate}
+
+The steps of Dijkstra's Algorithm to find shortest distance of all vertices from vertex $s$ are as follows:
+\begin{enumerate}
+
+    \item Set all values of \texttt{dist[]} to $\infty$ except for the source vertex $s$, set \texttt{dist[s]} to $0$. Push \texttt{(0,s)} to $Q$.
+    \item While $Q$ is not empty, pop the node $v$, that is not already set to \texttt{true} in \texttt{visited}, from $Q$ with the smallest \texttt{dist[v]}. In the first run, source node $s$ will be chosen because \texttt{dist[s]} was initialised to $0$. In the next run, the next node with the smallest \texttt{dist[]} value is chosen i.e. the first value in $Q$.
+    \item Mark \texttt{visited[v]} as true to indicate that $v$ has been visited
+    \item Update \texttt{dist[]} values of adjacent nodes of the current node $v$ as follows: for each new adjacent node $u$,
+    \begin{itemize}
+        \item if \texttt{dist[v]} $+$ \texttt{weight(u,v)} < \texttt{dist[u]}, there is a new minimal distance found for $u$, so update \texttt{dist[u]} to the new minimal distance value. Then push \texttt{(-dist[u],u)} to $Q$
+        \item otherwise, no updates are made to \texttt{dist[u]}.
+    \end{itemize}
+    \item Apply the same algorithm again until $Q$ is empty.
+    \item The algorithm has visited all nodes in the graph when \key{$Q$ is empty} and found the smallest distance to each node. \texttt{dist[]} now contains the shortest path tree from source $s$.
+\end{enumerate}
+
+\section{Example}
+
+\centerline{\epsfig{file=dijk_1.eps,width=13cm}}
+
+A remarkable property in Dijkstra’s algorithm is that whenever a node is
+selected, its distance is final. For example, at this point of the algorithm, the
+distances 4, 8 and 12 are the final distances to nodes $b$, $h$ and $c$ respectively.
+
+\centerline{\epsfig{file=dijk_2.eps,width=13cm}}
+
+\section{Negative Edges}
+
+The efficiency of Dijkstra's algorithm is
+based on the fact that the graph does not
+contain negative edges.
+If there is a negative edge,
+the algorithm may give incorrect results.
+As an example, consider the following graph:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\node[draw, circle] (1) at (0,0) {$1$};
+\node[draw, circle] (2) at (2,1) {$2$};
+\node[draw, circle] (3) at (2,-1) {$3$};
+\node[draw, circle] (4) at (4,0) {$4$};
+
+\path[draw,thick,-] (1) -- node[font=\small,label=above:2] {} (2);
+\path[draw,thick,-] (2) -- node[font=\small,label=above:3] {} (4);
+\path[draw,thick,-] (1) -- node[font=\small,label=below:6] {} (3);
+\path[draw,thick,-] (3) -- node[font=\small,label=below:$-5$] {} (4);
+
+\path[draw=green,thick,->,line width=2pt] (1) -- (3);
+\path[draw=green,thick,->,line width=2pt] (3) -- (4);
+\path[draw=red,thick,->,line width=2pt] (1) -- (2);
+\path[draw=red,thick,->,line width=2pt] (2) -- (4);
+\end{tikzpicture}
+\end{center}
+\noindent
+The shortest path from node 1 to node 4 is
+$1 \rightarrow 3 \rightarrow 4$
+and its length is 1.
+However, Dijkstra's algorithm
+finds the path $1 \rightarrow 2 \rightarrow 4$
+by following the minimum weight edges.
+The algorithm does not take into account that
+on the other path, the weight $-5$
+compensates the previous large weight $6$.
+\newpage
+
+\section{Implementation}
+
+The following implementation of Dijkstra's algorithm
+calculates the minimum distances from a node $x$
+to other nodes of the graph.
+The graph is stored as adjacency lists
+so that \texttt{adj[$a$]} contains a pair $(b,w)$
+always when there is an edge from node $a$ to node $b$
+with weight $w$.
+
+In the following code, the priority queue
+\texttt{q} contains pairs of the form $(-d,x)$,
+meaning that the current distance to node $x$ is $d$.
+The array $\texttt{distance}$ contains the distance to
+each node, and the array $\texttt{processed}$ indicates
+whether a node has been processed.
+Initially the distance is $0$ to $x$ and $\infty$ to all other nodes.
+
+\begin{solution}
+
+\begin{lstlisting}
+for (int i = 1; i <= n; i++) distance[i] = INF;
+distance[x] = 0;
+q.push({0,x});
+while (!q.empty()) 
+{
+    int a = q.top().second;
+    q.pop();
+    if (processed[a]) continue;
+    processed[a] = true;
+    for (auto u : adj[a]) 
+    {
+        int b = u.first, w = u.second;
+        if (distance[a]+w < distance[b]) 
+        {
+            distance[b] = distance[a]+w;
+            q.push({-distance[b],b});
+        }
+    }
+}
+\end{lstlisting}
+
+Time Complexity of this particular implementation of Dijkstra's Algorithm is $\mathcal{O}(n + m\log{m})$ because the algorithm goes through all nodes of the graph and adds for each edge at most one distance to the priority queue.
+
+
+\end{solution}
+
+\chapter{Bellman–Ford algorithm}
+
+Bellman–Ford algorithm finds shortest paths from a starting node to all nodes of a directed graphs with \key{any weights}(but if there is a cycle with negative weight, then this problem will be \key{NP}).
+
+Advantages of using Bellman-Ford over Dijkstra are:
+
+\fbox{\begin{minipage}{33em}
+\begin{itemize}
+    \setlength\itemsep{1em}
+    \item Bellman-Ford supports finding shortest path in graphs with negative weight edges.
+    \item Bellman-Ford can find negative weight cycles in graphs. In the $n^{th}$ step, we can reduce any distance $\iff$ we have a negative cycle.
+    \item It is very easy and short to implement.
+\end{itemize}
+\end{minipage}}
+
+But, we don't use Bellman-Ford every time because it is \key{slower} than Dijkstra.
+
+The algorithm keeps track of distances from the starting node to all nodes
+of the graph. Initially, the distance to the starting node is $0$ and the distance to
+all other nodes is $\infty$. The algorithm reduces the distances by finding edges
+that shorten the paths until it is not possible to reduce any distance.
+
+\section{Pseudo-code}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwResult{\key{S}ingle \key{S}ource \key{S}hortest \key{P}ath}
+ $d[i] = \infty$ for each vertex $i$\;
+ $d[v] = 0$\;
+ \For{$\texttt{step} = 1$ to $n$}{
+ \For{all edges $e$}{
+  $i = \texttt{e.first}$ \tcp*{first end of $e$}\
+  $j = \texttt{e.second}$ \tcp*{second end of $e$}\
+  $w = \texttt{e.weight}$ \tcp*{weight of edge of $e$}\
+  \If{$\texttt{d[j] greater than d[i]} + w$}{
+    \If{$\texttt{step == n}$}
+    { 
+      return "Negative cycle found" \tcp*{for detecting negative cycles}\
+    }
+    $\texttt{d[j] = d[i]} + w$\;
+   }
+ }
+ }
+ \caption{$\texttt{Bellman-Ford(int v)}$}
+\end{algorithm}
+
+\section{Example}
+
+Let us consider how the Bellman–Ford algorithm
+works in the following graph:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle] (1) at (1,3) {1};
+\node[draw, circle] (2) at (4,3) {2};
+\node[draw, circle] (3) at (1,1) {3};
+\node[draw, circle] (4) at (4,1) {4};
+\node[draw, circle] (5) at (6,2) {6};
+\node[color=red] at (1,3+0.55) {$0$};
+\node[color=red] at (4,3+0.55) {$\infty$};
+\node[color=red] at (1,1-0.55) {$\infty$};
+\node[color=red] at (4,1-0.55) {$\infty$};
+\node[color=red] at (6,2-0.55) {$\infty$};
+\path[draw,thick,-] (1) -- node[font=\small,label=above:5] {} (2);
+\path[draw,thick,-] (1) -- node[font=\small,label=left:3] {} (3);
+\path[draw,thick,-] (3) -- node[font=\small,label=below:1] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=left:3] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=above:2] {} (5);
+\path[draw,thick,-] (4) -- node[font=\small,label=below:2] {} (5);
+\path[draw,thick,-] (1) -- node[font=\small,label=above:7] {} (4);
+\end{tikzpicture}
+\end{center}
+Each node of the graph is assigned a distance.
+Initially, the distance to the starting node is 0,
+and the distance to all other nodes is infinite.
+
+The algorithm searches for edges that reduce distances.
+First, all edges from node 1 reduce distances:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle] (1) at (1,3) {1};
+\node[draw, circle] (2) at (4,3) {2};
+\node[draw, circle] (3) at (1,1) {3};
+\node[draw, circle] (4) at (4,1) {4};
+\node[draw, circle] (5) at (6,2) {5};
+\node[color=red] at (1,3+0.55) {$0$};
+\node[color=red] at (4,3+0.55) {$5$};
+\node[color=red] at (1,1-0.55) {$3$};
+\node[color=red] at (4,1-0.55) {$7$};
+\node[color=red] at (6,2-0.55) {$\infty$};
+\path[draw,thick,-] (1) -- node[font=\small,label=above:5] {} (2);
+\path[draw,thick,-] (1) -- node[font=\small,label=left:3] {} (3);
+\path[draw,thick,-] (3) -- node[font=\small,label=below:1] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=left:3] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=above:2] {} (5);
+\path[draw,thick,-] (4) -- node[font=\small,label=below:2] {} (5);
+\path[draw,thick,-] (1) -- node[font=\small,label=above:7] {} (4);
+
+\path[draw=red,thick,->,line width=2pt] (1) -- (2);
+\path[draw=red,thick,->,line width=2pt] (1) -- (3);
+\path[draw=red,thick,->,line width=2pt] (1) -- (4);
+\end{tikzpicture}
+\end{center}
+After this, edges
+$2 \rightarrow 5$ and $3 \rightarrow 4$
+reduce distances:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle] (1) at (1,3) {1};
+\node[draw, circle] (2) at (4,3) {2};
+\node[draw, circle] (3) at (1,1) {3};
+\node[draw, circle] (4) at (4,1) {4};
+\node[draw, circle] (5) at (6,2) {5};
+\node[color=red] at (1,3+0.55) {$0$};
+\node[color=red] at (4,3+0.55) {$5$};
+\node[color=red] at (1,1-0.55) {$3$};
+\node[color=red] at (4,1-0.55) {$4$};
+\node[color=red] at (6,2-0.55) {$7$};
+\path[draw,thick,-] (1) -- node[font=\small,label=above:5] {} (2);
+\path[draw,thick,-] (1) -- node[font=\small,label=left:3] {} (3);
+\path[draw,thick,-] (3) -- node[font=\small,label=below:1] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=left:3] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=above:2] {} (5);
+\path[draw,thick,-] (4) -- node[font=\small,label=below:2] {} (5);
+\path[draw,thick,-] (1) -- node[font=\small,label=above:7] {} (4);
+
+\path[draw=red,thick,->,line width=2pt] (2) -- (5);
+\path[draw=red,thick,->,line width=2pt] (3) -- (4);
+\end{tikzpicture}
+\end{center}
+Finally, there is one more change:
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle] (1) at (1,3) {1};
+\node[draw, circle] (2) at (4,3) {2};
+\node[draw, circle] (3) at (1,1) {3};
+\node[draw, circle] (4) at (4,1) {4};
+\node[draw, circle] (5) at (6,2) {5};
+\node[color=red] at (1,3+0.55) {$0$};
+\node[color=red] at (4,3+0.55) {$5$};
+\node[color=red] at (1,1-0.55) {$3$};
+\node[color=red] at (4,1-0.55) {$4$};
+\node[color=red] at (6,2-0.55) {$6$};
+\path[draw,thick,-] (1) -- node[font=\small,label=above:5] {} (2);
+\path[draw,thick,-] (1) -- node[font=\small,label=left:3] {} (3);
+\path[draw,thick,-] (3) -- node[font=\small,label=below:1] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=left:3] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=above:2] {} (5);
+\path[draw,thick,-] (4) -- node[font=\small,label=below:2] {} (5);
+\path[draw,thick,-] (1) -- node[font=\small,label=above:7] {} (4);
+
+\path[draw=red,thick,->,line width=2pt] (4) -- (5);
+\end{tikzpicture}
+\end{center}
+
+After this, no edge can reduce any distance.
+This means that the distances are final,
+and we have successfully
+calculated the shortest distances
+from the starting node to all nodes of the graph.
+
+For example, the shortest distance 3
+from node 1 to node 5 corresponds to
+the following path:
+
+\begin{center}
+\begin{tikzpicture}
+\node[draw, circle] (1) at (1,3) {1};
+\node[draw, circle] (2) at (4,3) {2};
+\node[draw, circle] (3) at (1,1) {3};
+\node[draw, circle] (4) at (4,1) {4};
+\node[draw, circle] (5) at (6,2) {5};
+\node[color=red] at (1,3+0.55) {$0$};
+\node[color=red] at (4,3+0.55) {$5$};
+\node[color=red] at (1,1-0.55) {$3$};
+\node[color=red] at (4,1-0.55) {$4$};
+\node[color=red] at (6,2-0.55) {$6$};
+\path[draw,thick,-] (1) -- node[font=\small,label=above:5] {} (2);
+\path[draw,thick,-] (1) -- node[font=\small,label=left:3] {} (3);
+\path[draw,thick,-] (3) -- node[font=\small,label=below:1] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=left:3] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=above:2] {} (5);
+\path[draw,thick,-] (4) -- node[font=\small,label=below:2] {} (5);
+\path[draw,thick,-] (1) -- node[font=\small,label=above:7] {} (4);
+
+\path[draw=red,thick,->,line width=2pt] (1) -- (3);
+\path[draw=red,thick,->,line width=2pt] (3) -- (4);
+\path[draw=red,thick,->,line width=2pt] (4) -- (5);
+\end{tikzpicture}
+\end{center}
+
+\section{Implementation}
+
+The following implementation of the
+Bellman–Ford algorithm determines the shortest distances
+from a node $x$ to all nodes of the graph.
+The code assumes that the graph is stored
+as an edge list \texttt{edges}
+that consists of tuples of the form $(a,b,w)$,
+meaning that there is an edge from node $a$ to node $b$
+with weight $w$.
+
+The algorithm consists of $n-1$ rounds,
+and on each round the algorithm goes through
+all edges of the graph and tries to
+reduce the distances.
+The algorithm constructs an array \texttt{distance}
+that will contain the distances from $x$
+to all nodes of the graph.
+The constant \texttt{INF} denotes an infinite distance.
+
+\begin{solution}
+
+\begin{lstlisting}
+for (int i = 1; i <= n; i++) distance[i] = INF;
+distance[x] = 0;
+for (int i = 1; i <= n-1; i++) {
+    for (auto e : edges) {
+        int a, b, w;
+        tie(a, b, w) = e;
+        distance[b] = min(distance[b], distance[a]+w);
+    }
+}
+\end{lstlisting}
+
+The time complexity of the algorithm is $\mathcal{O}(nm)$,
+because the algorithm consists of $n-1$ rounds and
+iterates through all $m$ edges during a round.
+If there are no negative cycles in the graph,
+all distances are final after $n-1$ rounds,
+because each shortest path can contain at most $n-1$ edges.
+
+\end{solution}
+
+In practice, this algorithm can be somewhat optimised: often we already get the answer in a few phases and no useful work is done in remaining phases till $n-1$, just a waste visiting all edges. So, let's keep the flag, to tell whether something changed in the current phase or not, and if any phase, nothing changed, the algorithm can be stopped.
+
+\begin{solution}
+
+\begin{lstlisting}
+for (int i = 1; i <= n; i++) distance[i] = INF;
+distance[x] = 0;
+for (int i = 1; i <= n-1; i++) 
+{
+    bool flag = false;//flag
+    for (auto e : edges) 
+    {
+        int a, b, w;
+        tie(a, b, w) = e;
+        if(distance[b] > distance[a]+w)
+        {
+            distance[b] = distance[a]+w;
+            any = true;
+        }
+    }
+    if(!flag)//no change takes place
+    {
+        break;
+    }
+}
+\end{lstlisting}
+
+\end{solution}
+\subsection{Catching Negative Cycles}
+
+The Bellman–Ford algorithm can also be used to
+check if the graph contains a cycle with negative length.
+For example, the graph
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\node[draw, circle] (1) at (0,0) {$1$};
+\node[draw, circle] (2) at (2,1) {$2$};
+\node[draw, circle] (3) at (2,-1) {$3$};
+\node[draw, circle] (4) at (4,0) {$4$};
+
+\path[draw,thick,-] (1) -- node[font=\small,label=above:$3$] {} (2);
+\path[draw,thick,-] (2) -- node[font=\small,label=above:$1$] {} (4);
+\path[draw,thick,-] (1) -- node[font=\small,label=below:$5$] {} (3);
+\path[draw,thick,-] (3) -- node[font=\small,label=below:$-7$] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=right:$2$] {} (3);
+
+\path[draw=red,thick,->,line width=2pt] (2) -- (3);
+\path[draw=red,thick,->,line width=2pt] (3) -- (4);
+\path[draw=red,thick,->,line width=2pt] (4) -- (2);
+\end{tikzpicture}
+\end{center}
+\noindent
+contains a negative cycle
+$2 \rightarrow 3 \rightarrow 4 \rightarrow 2$
+with length $-4$.
+
+If the graph contains a negative cycle,
+we can shorten infinitely many times
+any path that contains the cycle by repeating the cycle
+again and again.
+Thus, the concept of a shortest path
+is not meaningful in this situation.
+
+A negative cycle can be detected
+using the Bellman–Ford algorithm by
+running the algorithm for $n$ rounds.
+If the last round reduces any distance,
+the graph contains a negative cycle.
+Note that this algorithm can be used to
+search for
+a negative cycle in the whole graph
+regardless of the starting node.
+
+\begin{solution}
+
+\begin{lstlisting}
+for (int i = 1; i <= n; i++) distance[i] = INF;
+distance[x] = 0;
+for (int i = 1; i <= n-1; i++) 
+{
+    bool flag = false;//flag
+    for (auto e : edges) 
+    {
+        int a, b, w;
+        tie(a, b, w) = e;
+        if(distance[b] > distance[a]+w)
+        {
+            if(i == n-1) cout << "Negative Cycle is found";`//break
+            distance[b] = distance[a]+w;
+            any = true;
+        }
+    }
+    if(!flag)//no change takes place
+    {
+        break;
+    }
+}
+\end{lstlisting}
+
+\end{solution}
+
+\section{SPFA Algorithm}
+
+The \key{SPFA algorithm}\footnote{The origin of this algorithm is unknown. It's said that at first Chinese coders used it in programming contests.} (\key{S}hortest \key{P}ath \key{F}aster \key{A}lgorithm)
+is a variant of the Bellman–Ford algorithm,
+that is often more efficient than the original algorithm.
+The SPFA algorithm does not go through all the edges on each round,
+but instead, it chooses the edges to be examined
+in a more intelligent way.
+
+The algorithm maintains a queue of nodes that might
+be used for reducing the distances.
+First, the algorithm adds the starting node $x$
+to the queue.
+Then, the algorithm always processes the
+first node in the queue, and when an edge
+$a \rightarrow b$ reduces a distance,
+node $b$ is added to the queue.
+
+The following implementation uses a 
+\texttt{queue} \texttt{q}.
+In addition, an array \texttt{inqueue} indicates
+if a node is already in the queue,
+in which case the algorithm does not add
+the node to the queue again.
+
+\begin{lstlisting}
+for (int i = 1; i <= n; i++) distance[i] = INF;
+distance[x] = 0;
+q.push(x);
+while (!q.empty()) 
+{
+    int a = q.front(); q.pop();
+    inqueue[a] = false;
+    for (auto b : v[a]) 
+    {
+        if (distance[a]+b.second < distance[b.first])
+        {
+            distance[b.first] = distance[a]+b.second;
+            if (!inqueue[b]) 
+            {q.push(b); inqueue[b] = true;}
+        }
+    }
+}
+\end{lstlisting}
+
+The worst-case running time of the algorithm is $\mathcal{O}(mn)$, just like the standard Bellman-Ford algorithm. Experiments suggest that the average running time is $\mathcal{O}(m)$, but this bound on the average run time has not been proved.
+
+\chapter{Floyd–Warshall algorithm}
+
+Floyd-Warshall algorithm solves the APSP\footnote{\key{A}ll-\key{P}airs \key{S}hortest \key{P}ath: It calculates the value of the shortest path between each pair of nodes in a graph.} problem in a directed graph with any weights but no negative weight cycles (then it becomes NP).
+
+\vspace{10mm}
+
+Floyd-Warshall algorithm is a Dynamic Programming based algorithm. The technique used in this algorithm is known as Matrix Chain Multiplication. A shortest path between $2$ nodes in a graph would be a chain of nodes.
+
+\vspace{10mm}
+
+The algorithm maintains a two-dimensional array that contains distances
+between the nodes. First, distances are calculated only using direct edges between
+the nodes, and after this, the algorithm reduces distances by using intermediate
+nodes in paths.
+
+\vspace{10mm}
+
+\textbf{Why don't we make Dijkstra from each node in our graph and forget about Floyd-Warshall?}
+
+\fbox{\begin{minipage}{33em}
+\begin{itemize}
+    \setlength\itemsep{1em}
+    \item For simple problems and applications of Floyd-Warshall algorithm, its implementation is very short (5-6 lines of code). Hence, if $\mathcal{O}(n^3)$ is good enough, then Floyd-Warshall is preferable.
+    \item Floyd-Warshall can detect the existence of negative cycles in the graph.
+\end{itemize}
+\end{minipage}}
+
+\newpage
+\textbf{What are some examples of applications of Floyd-Warshall algorithm that Dijkstra cannot handle?}
+
+\fbox{\begin{minipage}{33em}
+\begin{itemize}
+    \setlength\itemsep{1em}
+    \item Find the shortest path between $2$ nodes with a restriction that we should traverse exactly $L$ edges (where $L \leq 10^9$). Of course, the question only makes sense when we are allowed to traverse the same edge more than once.
+    \item Find a negative cycle in a weighted graph with minimum number of edges forming this cycle (the total weight doesn't matter) it should just be negative and the number of edges is minimum.
+    \item Often, you will notice that Floyd-Warshall technique can be applied when we need to work with the adjacency matrix representation of a graph.
+\end{itemize}
+\end{minipage}}
+
 \part{Mathematics}
 \chapter{Basic Maths}
 
