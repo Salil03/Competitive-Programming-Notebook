@@ -3740,6 +3740,215 @@ nodes in paths.
 \end{itemize}
 \end{minipage}}
 
+\section{Pseudo-code}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwResult{\key{A}ll-\key{P}airs \key{S}hortest \key{P}ath}
+ $d[v][u] = \infty$ for each pair $(v,u)$\;
+ $d[v][u] = \texttt{weight}(v,u)$ for each adjacent pair $(v,u)$\;
+ $d[v][v] = 0$ for each vertex $v$\;
+ \For{$i = 1$ to $n$}{
+ \For{$j = 1$ to $n$}{
+ \For{$k = 1$ to $n$}{
+     d[j][k] = min(d[j][k], d[j][i] + d[i][k])
+ }
+ }
+ }
+ \caption{Floyd-Warshall}
+\end{algorithm}
+
+\section{Example}
+
+Let us consider how the Floyd–Warshall algorithm
+works in the following graph:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\node[draw, circle] (1) at (1,3) {$3$};
+\node[draw, circle] (2) at (4,3) {$4$};
+\node[draw, circle] (3) at (1,1) {$2$};
+\node[draw, circle] (4) at (4,1) {$1$};
+\node[draw, circle] (5) at (6,2) {$5$};
+
+\path[draw,thick,-] (1) -- node[font=\small,label=above:7] {} (2);
+\path[draw,thick,-] (1) -- node[font=\small,label=left:2] {} (3);
+\path[draw,thick,-] (3) -- node[font=\small,label=below:5] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=left:9] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=above:2] {} (5);
+\path[draw,thick,-] (4) -- node[font=\small,label=below:1] {} (5);
+\end{tikzpicture}
+\end{center}
+
+Initially, the distance from each node to itself is $0$,
+and the distance between nodes $a$ and $b$ is $x$
+if there is an edge between nodes $a$ and $b$ with weight $x$.
+All other distances are infinite.
+
+In this graph, the initial array is as follows:
+\begin{center}
+\begin{tabular}{r|rrrrr}
+ & 1 & 2 & 3 & 4 & 5 \\
+\hline
+1 & 0 & 5 & $\infty$ & 9 & 1 \\
+2 & 5 & 0 & 2 & $\infty$ & $\infty$ \\
+3 & $\infty$ & 2 & 0 & 7 & $\infty$ \\
+4 & 9 & $\infty$ & 7 & 0 & 2 \\
+5 & 1 & $\infty$ & $\infty$ & 2 & 0 \\
+\end{tabular}
+\end{center}
+\vspace{10pt}
+The algorithm consists of consecutive rounds.
+On each round, the algorithm selects a new node
+that can act as an intermediate node in paths from now on,
+and distances are reduced using this node.
+
+On the first round, node 1 is the new intermediate node.
+There is a new path between nodes 2 and 4
+with length 14, because node 1 connects them.
+There is also a new path 
+between nodes 2 and 5 with length 6.
+
+\begin{center}
+\begin{tabular}{r|rrrrr}
+ & 1 & 2 & 3 & 4 & 5 \\
+\hline
+1 & 0 & 5 & $\infty$ & 9 & 1 \\
+2 & 5 & 0 & 2 & \textbf{14} & \textbf{6} \\
+3 & $\infty$ & 2 & 0 & 7 & $\infty$ \\
+4 & 9 & \textbf{14} & 7 & 0 & 2 \\
+5 & 1 & \textbf{6} & $\infty$ & 2 & 0 \\
+\end{tabular}
+\end{center}
+\vspace{10pt}
+
+On the second round, node 2 is the new intermediate node.
+This creates new paths between nodes 1 and 3
+and between nodes 3 and 5:
+
+\begin{center}
+\begin{tabular}{r|rrrrr}
+ & 1 & 2 & 3 & 4 & 5 \\
+\hline
+1 & 0 & 5 & \textbf{7} & 9 & 1 \\
+2 & 5 & 0 & 2 & 14 & 6 \\
+3 & \textbf{7} & 2 & 0 & 7 & \textbf{8} \\
+4 & 9 & 14 & 7 & 0 & 2 \\
+5 & 1 & 6 & \textbf{8} & 2 & 0 \\
+\end{tabular}
+\end{center}
+\vspace{10pt}
+
+On the third round, node 3 is the new intermediate round.
+There is a new path between nodes 2 and 4:
+
+\begin{center}
+\begin{tabular}{r|rrrrr}
+ & 1 & 2 & 3 & 4 & 5 \\
+\hline
+1 & 0 & 5 & 7 & 9 & 1 \\
+2 & 5 & 0 & 2 & \textbf{9} & 6 \\
+3 & 7 & 2 & 0 & 7 & 8 \\
+4 & 9 & \textbf{9} & 7 & 0 & 2 \\
+5 & 1 & 6 & 8 & 2 & 0 \\
+\end{tabular}
+\end{center}
+\vspace{10pt}
+
+The algorithm continues like this,
+until all nodes have been appointed intermediate nodes.
+After the algorithm has finished, the array contains
+the minimum distances between any two nodes:
+
+\begin{center}
+\begin{tabular}{r|rrrrr}
+ & 1 & 2 & 3 & 4 & 5 \\
+\hline
+1 & 0 & 5 & 7 & 3 & 1 \\
+2 & 5 & 0 & 2 & 8 & 6 \\
+3 & 7 & 2 & 0 & 7 & 8 \\
+4 & 3 & 8 & 7 & 0 & 2 \\
+5 & 1 & 6 & 8 & 2 & 0 \\
+\end{tabular}
+\end{center}
+
+For example, the array tells us that the
+shortest distance between nodes 2 and 4 is 8.
+This corresponds to the following path:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\node[draw, circle] (1) at (1,3) {$3$};
+\node[draw, circle] (2) at (4,3) {$4$};
+\node[draw, circle] (3) at (1,1) {$2$};
+\node[draw, circle] (4) at (4,1) {$1$};
+\node[draw, circle] (5) at (6,2) {$5$};
+
+\path[draw,thick,-] (1) -- node[font=\small,label=above:7] {} (2);
+\path[draw,thick,-] (1) -- node[font=\small,label=left:2] {} (3);
+\path[draw,thick,-] (3) -- node[font=\small,label=below:5] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=left:9] {} (4);
+\path[draw,thick,-] (2) -- node[font=\small,label=above:2] {} (5);
+\path[draw,thick,-] (4) -- node[font=\small,label=below:1] {} (5);
+
+\path[draw=red,thick,->,line width=2pt] (3) -- (4);
+\path[draw=red,thick,->,line width=2pt] (4) -- (5);
+\path[draw=red,thick,->,line width=2pt] (5) -- (2);
+\end{tikzpicture}
+\end{center}
+
+\section{Implementation}
+
+The advantage of the
+Floyd–Warshall algorithm that it is
+easy to implement.
+The following code constructs a
+distance matrix where $\texttt{distance}[a][b]$
+is the shortest distance between nodes $a$ and $b$.
+First, the algorithm initializes \texttt{distance}
+using the adjacency matrix \texttt{adj} of the graph:
+
+\begin{lstlisting}
+for (int i = 1; i <= n; i++) 
+{
+    for (int j = 1; j <= n; j++) 
+    {
+        if (i == j) distance[i][j] = 0;//same node
+        else if (adj[i][j]) distance[i][j] = adj[i][j];//adjacent nodes
+        else distance[i][j] = INF;//currently no known path
+    }
+}
+\end{lstlisting}
+After this, the shortest distances can be found as follows:
+\begin{lstlisting}
+for (int i = 1; i <= n; i++) 
+{
+    for (int i = j; j <= n; j++) 
+    {
+        for (int k = 1; k <= n; k++) 
+        {
+            distance[j][k] = min(distance[j][k], 
+                              distance[j][i] + distance[i][k])
+        }
+    }
+}
+\end{lstlisting}
+
+The time complexity of the algorithm is $\mathcal{O}(n^3)$,
+because it contains three nested loops
+that go through the nodes of the graph.
+
+Since the implementation of the Floyd–Warshall
+algorithm is simple, the algorithm can be
+a good choice even if it is only needed to find a
+single shortest path in the graph.
+However, the algorithm can only be used when the graph
+is so small that a cubic time complexity is fast enough.
+
+\subsection{Detecting Negative Cycles}
+
+Run Floyd-Warshall algorithm on the graph. Initially $d[v][v]=0$ for each $v$. But after running the algorithm $d[v][v]$ will be smaller than $0$ if there exists a negative length path from $v$ to $v$. We can use this to find all pairs of vertices that don't have a shortest path between them.
+
 \part{Mathematics}
 \chapter{Basic Maths}
 
