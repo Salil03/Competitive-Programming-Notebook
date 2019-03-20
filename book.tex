@@ -102,7 +102,7 @@
 }
 
 
-\usetikzlibrary{patterns,snakes,arrows.meta, fit, backgrounds,calc,topaths}
+\usetikzlibrary{patterns,decorations,arrows.meta, fit, backgrounds,calc,topaths}
 \usepackage{verbatim}
 \newcount\mycount
 
@@ -123,26 +123,8 @@
 \usepackage{tikz}
 \usepackage{adjustbox}
 \usepackage[framemethod=TikZ]{mdframed}
-\newenvironment{solution}[2][]{%
-\ifstrempty{#1}%
-{\mdfsetup{%
-frametitle={%
-\tikz[baseline=(current bounding box.east),outer sep=0pt]
-\node[anchor=east,rectangle,fill=blue!20]
-{\strut Solution};}}
-}%
-{\mdfsetup{%
-frametitle={%
-\tikz[baseline=(current bounding box.east),outer sep=0pt]
-\node[anchor=east,rectangle,fill=blue!20]
-{\strut Solution :~#1};}}%
-}%
-\mdfsetup{innertopmargin=10pt,linecolor=blue!20,%
-linewidth=2pt,topline=true,%
-frametitleaboveskip=\dimexpr-\ht\strutbox\relax
-}
-\begin{mdframed}[]\relax%
-\label{#2}}{\end{mdframed}}
+
+
 \usepackage{atbegshi}% http://ctan.org/pkg/atbegshi
 \AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
 \let\cleardoublepage\clearpage
@@ -1124,7 +1106,7 @@ contains two such subgrids:
 \end{tikzpicture}
 \end{center}
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 Naive Solution of time complexity $\mathcal{O}(n^3)$:
 
@@ -1142,9 +1124,9 @@ for (int i = 0; i < n; i++) {
 Then, those columns
 account for $\texttt{count}(\texttt{count}-1)/2$ subgrids with black corners,
 because we can choose any two of them to form a subgrid.
-\end{solution}
+\end{tcolorbox}
 \newpage
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 Optimized solution:
 
@@ -1163,7 +1145,7 @@ for (int i = 0; i <= n/N; i++) {
 }
 \end{lstlisting}
 Time Complexity is $O(n^3/N)$ time.
-\end{solution}
+\end{tcolorbox}
 
 \chapter{Brute-Force Algorithms}
 
@@ -1180,7 +1162,7 @@ $\emptyset$, $\{0\}$, $\{1\}$, $\{2\}$, $\{0,1\}$,
 $\{0,2\}$, $\{1,2\}$ and $\{0,1,2\}$.
 \end{exmp}
 
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 We can use the bit representation of numbers to generate subsets.
 
@@ -1202,7 +1184,7 @@ for(int j = 0; j< (1 << n); j++)
 }
 \end{lstlisting}
 The time complexity is $\mathcal{O}(n2^n)$ which is exponential.
-\end{solution}
+\end{tcolorbox}
 \section{Generating Permutations}
 \begin{problem}
 Print all the permutations of a set of size $n$.
@@ -1212,7 +1194,7 @@ For example, the permutations of $\{0,1,2\}$ are
 $(0,1,2)$, $(0,2,1)$, $(1,0,2)$, $(1,2,0)$,
 $(2,0,1)$ and $(2,1,0)$.
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 We can use the built-in C++ function \texttt{next\textunderscore permutation} which rearranges the array into the next lexicographically greater permutation. It returns $1$ if this is possible and $0$ otherwise.
 
@@ -1229,7 +1211,7 @@ do
 while(next_permutation(arr, arr+n));
 \end{lstlisting}
 
-\end{solution}
+\end{tcolorbox}
 
 \part{Dynamic Programming}
 \chapter{Common DP Problems}
@@ -1241,7 +1223,7 @@ Given a rod of length $n$ inches and an array of prices that contains prices of 
 If length of the rod is $8$ and the values of different pieces are given as following, then the maximum obtainable value is $22$ (by cutting in two pieces of lengths $2$ and $6$).
 Price  array = \texttt{[1,5,8,9,10,17,17,20]}
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 We fix the last piece of rod with length $i$ and iterate over $i$
 \begin{lstlisting}
@@ -1263,7 +1245,7 @@ int cutRod(int price[], int n)
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(n^2)$
-\end{solution}
+\end{tcolorbox}
 \section{Longest Increasing Subsequence(LIS)}
 \begin{problem}[DP]
 Find the length of the longest subsequence of a given sequence such that all elements of the subsequence are sorted in increasing order.
@@ -1271,7 +1253,7 @@ Find the length of the longest subsequence of a given sequence such that all ele
 \begin{exmp}
 LIS for \texttt{[10, 22, 9, 33, 21, 50, 41, 60, 80]} is $6$ and LIS is \texttt{[10, 22, 33, 50, 60, 80]}.
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 Let \texttt{arr[0..n-1]} be the input array and \texttt{L(i)} be the length of the LIS ending at index $i$ such that \texttt{arr[i]} is the last element of the LIS.
 
@@ -1299,7 +1281,7 @@ cout << dp[n-1];
 \end{lstlisting}
 
 Time Complexity is $\mathcal{O}(n^2)$
-\end{solution}
+\end{tcolorbox}
 \newpage
 \section{Longest Common Subsequence(LCS)}
 \begin{problem}
@@ -1311,7 +1293,7 @@ LCS for input Sequences \texttt{“ABCDGH”} and \texttt{“AEDFHR”} is \text
 \begin{exmp}
 LCS for input Sequences \texttt{“AGGTAB”} and \texttt{“GXTXAYB”} is \texttt{“GTAB”} of length $4$.
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 \begin{lstlisting}
 /* Returns length of LCS for X[0..m-1], Y[0..n-1] */
@@ -1341,7 +1323,7 @@ that L[i][j] contains length of LCS of X[0..i-1] and Y[0..j-1] */
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(nm)$
-\end{solution}
+\end{tcolorbox}
 \newpage
 \section{Tiling Problem}
 \begin{problem}
@@ -1415,7 +1397,7 @@ The third solution is shown below:
 
 \end{exmp}
 \newpage
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 Tiling Problem is nothing but Fibonacci sequence
 
@@ -1452,7 +1434,7 @@ int fib(int n)
     return round(pow(phi, n) / sqrt(5));
 }
 \end{lstlisting}
-\end{solution}
+\end{tcolorbox}
 \newpage
 \section{Coin - 1}
 \begin{problem}
@@ -1468,7 +1450,7 @@ $n = 10$ and \texttt{S = [2,5,3,6]} and answer = $5$
 
 There are five solutions: \texttt{[2,2,2,2,2];[2,2,3,3];[2,2,6];[2,3,5];[5,5]}
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 Recursive Equation:
 \begin{equation*}
@@ -1498,7 +1480,7 @@ int coin(int S[], int m, int n)
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(nm)$
-\end{solution}
+\end{tcolorbox}
 \newpage
 \section{Coin - 2}
 \begin{problem}
@@ -1518,7 +1500,7 @@ Output: Minimum 2 coins required
 
 We can use one coin of 6 cents and 1 coin of 5 cents
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 \begin{lstlisting}
 // m is size of coins array (number of different coins)
@@ -1550,7 +1532,7 @@ int minCoins(int coins[], int n)
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(nm)$
-\end{solution}
+\end{tcolorbox}
 \newpage
 \section{Largest Sum Contiguous Subarray}
 \begin{problem}
@@ -1564,7 +1546,7 @@ Output: $6$
 
 Explanation: \texttt{[4,-1,2,1]} has the largest sum = 6.
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 This is called Kadane's algorithm.
 
@@ -1589,7 +1571,7 @@ int max_sum(int A[], int n)
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(n)$
-\end{solution}
+\end{tcolorbox}
 \newpage
 \section{0-1 Knapsack Part 1}
 \begin{problem}
@@ -1610,7 +1592,7 @@ Output = $220$
 
 Explanation: The best choice is to pick item 2 and item 3
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 \begin{lstlisting}
 int knapSack(int w, int weight[], int value[], int n)
@@ -1641,7 +1623,7 @@ knap[i][j] = max(value[i-1]+ knap[i-1][j-weight[i-1]], knap[i-1][j]);
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(nW)$ where n is the number of items and W is the capacity of knapsack.
-\end{solution}
+\end{tcolorbox}
 \section{0 - 1 Knapsack Part 2}
 \begin{problem}
 Given a list of weights $[w_1,w_2,\ldots,w_n]$, determine all sums that can be constructed using the weights
@@ -1663,7 +1645,7 @@ are possible, except 2 and 10.
 For example, the sum 7 is possible because we
 can select the weights $[1,3,3]$.
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 Let $\texttt{possible}(x,k)=\textrm{true}$ if
 we can construct a sum $x$
@@ -1705,7 +1687,7 @@ for(int i = 0; i<= total; i++)
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(n \times total)$
-\end{solution}
+\end{tcolorbox}
 \section{Maximum Sum Path in a Grid}
 \begin{problem}
 Find a path
@@ -1766,7 +1748,7 @@ and this is the largest possible sum on a path
 from the
 upper-left corner to the lower-right corner.
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 The formula is based on the observation
 that a path that ends at square $(y,x)$
@@ -1796,7 +1778,7 @@ for (int y = 1; y <= n; y++)
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(n^2)$
-\end{solution}
+\end{tcolorbox}
 \newpage
 \section{Edit Distance}
 \begin{problem}
@@ -1945,7 +1927,7 @@ In this case the path is as follows:
 \end{center}
 \end{exmp}
 \newpage
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 \begin{lstlisting}
 int editDistDP(string str1, string str2, int m, int n)
@@ -1986,7 +1968,7 @@ int editDistDP(string str1, string str2, int m, int n)
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(mn)$
-\end{solution}
+\end{tcolorbox}
 \newpage
 \section{Express $n$ as $k$ partitions}
 \begin{problem}
@@ -2017,7 +1999,7 @@ $N = 10$, $K = 4$
 
 Output: 84
 \end{exmp}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 This is also called as the Binomial Coefficient Problem
 \begin{lstlisting}
@@ -2043,7 +2025,7 @@ int binomial(int n, int k)
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(nk)$
-\end{solution}
+\end{tcolorbox}
 \part{Basic Graph Theory}
 \chapter{Graph Theory}
 \section{Formal Definition of Graph}
@@ -3371,7 +3353,7 @@ each node, and the array $\texttt{processed}$ indicates
 whether a node has been processed.
 Initially the distance is $0$ to $x$ and $\infty$ to all other nodes.
 
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) distance[i] = INF;
@@ -3398,22 +3380,22 @@ while (!q.empty())
 Time Complexity of this particular implementation of Dijkstra's Algorithm is $\mathcal{O}(n + m\log{m})$ because the algorithm goes through all nodes of the graph and adds for each edge at most one distance to the priority queue.
 
 
-\end{solution}
+\end{tcolorbox}
 
 \chapter{Bellman–Ford algorithm}
 
 Bellman–Ford algorithm finds shortest paths from a starting node to all nodes of a directed graphs with \key{any weights}(but if there is a cycle with negative weight, then this problem will be \key{NP}).
 
-Advantages of using Bellman-Ford over Dijkstra are:
 
-\fbox{\begin{minipage}{33em}
+\begin{tcolorbox}[title=Advantages of using Bellman-Ford over Dijkstra]
 \begin{itemize}
     \setlength\itemsep{1em}
     \item Bellman-Ford supports finding shortest path in graphs with negative weight edges.
     \item Bellman-Ford can find negative weight cycles in graphs. In the $n^{th}$ step, we can reduce any distance $\iff$ we have a negative cycle.
     \item It is very easy and short to implement.
 \end{itemize}
-\end{minipage}}
+\end{tcolorbox}
+
 
 But, we don't use Bellman-Ford every time because it is \key{slower} than Dijkstra.
 
@@ -3610,7 +3592,7 @@ that will contain the distances from $x$
 to all nodes of the graph.
 The constant \texttt{INF} denotes an infinite distance.
 
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) distance[i] = INF;
@@ -3631,11 +3613,11 @@ If there are no negative cycles in the graph,
 all distances are final after $n-1$ rounds,
 because each shortest path can contain at most $n-1$ edges.
 
-\end{solution}
+\end{tcolorbox}
 
 In practice, this algorithm can be somewhat optimised: often we already get the answer in a few phases and no useful work is done in remaining phases till $n-1$, just a waste visiting all edges. So, let's keep the flag, to tell whether something changed in the current phase or not, and if any phase, nothing changed, the algorithm can be stopped.
 
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) distance[i] = INF;
@@ -3660,7 +3642,7 @@ for (int i = 1; i <= n-1; i++)
 }
 \end{lstlisting}
 
-\end{solution}
+\end{tcolorbox}
 \subsection{Catching Negative Cycles}
 
 The Bellman–Ford algorithm can also be used to
@@ -3707,7 +3689,7 @@ search for
 a negative cycle in the whole graph
 regardless of the starting node.
 
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) distance[i] = INF;
@@ -3733,7 +3715,7 @@ for (int i = 1; i <= n-1; i++)
 }
 \end{lstlisting}
 
-\end{solution}
+\end{tcolorbox}
 
 \section{SPFA Algorithm}
 
@@ -4145,7 +4127,7 @@ work with the given input as it is too large without some pre-processing
 \begin{problem}
 Test whether a given natural number $N$ is prime or not.
 \end{problem}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 We do the following optimisation:
 \begin{enumerate}
@@ -4164,13 +4146,13 @@ bool isPrime(int n)
     return true;
 }
 \end{lstlisting}
-\end{solution}
+\end{tcolorbox}
 \section{Sieve of Eratosthenes}
 The sieve of Eratosthenes is one of the most efficient ways to find all primes smaller than $n$ when $n$ is smaller than 10 million
 \begin{problem}
 Given a number $n$, print all primes smaller than or equal to $n$. It is also given that $n$ is a small number.
 \end{problem}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 Following is the algorithm to find all the prime numbers less than or equal to a given integer n by Eratosthenes's method:
 \begin{enumerate}
@@ -4251,12 +4233,12 @@ for(int i = 2; i<=n; i++)
 }
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(n\log{(\log{n})})$ which is very close to linear $\mathcal{O}(n)$
-\end{solution}
+\end{tcolorbox}
 \section{Prime Factorization}
 \begin{problem}
 Given a number $n$, print all prime factors of $n$.
 \end{problem}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 Following are the steps to find all prime factors.
 \begin{enumerate}
@@ -4291,7 +4273,7 @@ vector<int> factors(int n)
 Time Complexity is $\mathcal{O}(\sqrt{n})$
 
 There is an even efficient solution which uses Sieve of Eratosthenes to pre compute prime numbers. It has time complexity $\mathcal{O}(\log{n})$. You can read about it on GeeksforGeeks or CP3 book.
-\end{solution}
+\end{tcolorbox}
 \section{Common Conjectures}
 In mathematics, a conjecture is a conclusion or proposition based on incomplete information, for which no proof has been found. But many of them have been verified for very large numbers. In competitive programming, some problems are based on these common conjectures.
 
@@ -4326,7 +4308,7 @@ There are infinitely positive integers $n$ for which $2n - 1$ is a prime number.
 \begin{problem}
   Given a big number \texttt{num} represented as string and an integer $x$, find value of $num \mod x$. Output is expected as an integer.
 \end{problem}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 The idea is to process all digits one by one and use the property that $(xy) \mod a \equiv (x \mod a \times y \mod a) \mod a$. Below is the implementation.
 \begin{lstlisting}
@@ -4341,12 +4323,12 @@ int modulo(string num, int x)
   return res;
 }
 \end{lstlisting}
-\end{solution}
+\end{tcolorbox}
 \section{Modular Exponentiation}
 \begin{problem}
 Given $x$,$m$,$n$, find $x^n \mod m$
 \end{problem}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfill\break
 The naive solution would run in $\mathcal{O}(n)$ time. Using modular exponentiation we can bring down the complexity to $\mathcal{O}(\log{n})$ by using the following algorithm:
 
@@ -4369,7 +4351,7 @@ int power(int x, int n, int m)
 }
 \end{lstlisting}
 
-\end{solution}
+\end{tcolorbox}
 \section{Euler's Totient Function}
 
 
@@ -4494,7 +4476,7 @@ A Diophantine equation is a polynomial equation, usually in two or more unknowns
 \begin{problem}
   Given three integers $a$, $b$, $c$ representing a linear equation of the form : $ax + by = c$. Determine if the equation has a solution such that $x$ and $y$ are both integral values.
 \end{problem}
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 \hfil\break
 For linear Diophantine equation equations, integral solutions exist if and only if, the GCD of coefficients of the two variables divides the constant term perfectly. In other words the integral solution exists if, $\gcd(a,b) | c$.
 
@@ -4507,7 +4489,7 @@ bool isPossible(int a, int b, int c)
   return (c%__gcd(a,b) == 0);
 }
 \end{lstlisting}
-\end{solution}
+\end{tcolorbox}
 \newpage
 
 \section{Euclid's Algorithm for GCD}
@@ -4519,7 +4501,7 @@ $$\gcd(a, b) = \max_ {k = 1 \dots \infty ~ : ~ k \mid a ~ \wedge k ~ \mid b} k.$
 (here the symbol "$\mid$" denotes divisibility, i.e. "$k\mid a$" means "$k$ divides $a$")
 \end{problem}
 
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 The algorithm is extremely simple:
 
@@ -4542,7 +4524,7 @@ __gcd(a,b) //returns gcd(a,b)
 \end{lstlisting}
 
 Time Complexity is $\mathcal{O}(\log\{\min\{a,b\}\})$
-\end{solution}
+\end{tcolorbox}
 \newpage
 \section{Modular Inverse}
 
@@ -4604,7 +4586,7 @@ x & \equiv & a_n \pmod{m_n} \\
 where all pairs of $m_1,m_2,\ldots,m_n$ are coprime.  
 \end{problem}
 
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 Let $M = m_1 \times m_2 \times m_3 \times \cdots \times m_n$
 
@@ -4642,7 +4624,7 @@ we can create an infinite number of other solutions,
 because all numbers of the form
 \[x+kM\]
 where k is any whole number are solutions.
-\end{solution}
+\end{tcolorbox}
 
 \begin{exmp}
 \[
@@ -4695,7 +4677,7 @@ The problems are quite easy and mostly related to these topics:
 
 You can see and submit solutions of the problems on Codechef: \url{https://www.codechef.com/ZCOPRAC}. 
 
-The question bank starts from the next page.
+The question bank starts from the next page. The questions are arranged in ascending difficulty.
 
 \newpage
 
@@ -4764,7 +4746,7 @@ The output consists of a single integer, the maximum possible revenue you can ea
 
 \textbf{Note:} The answer might not fit in a variable of type \texttt{int}. We recommend that you use variables of type \texttt{long long} to read the input and compute the answer. If you use \texttt{printf} and \texttt{scanf}, you can use \texttt{\%lld} for \texttt{long long}.
 
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 The key observation in this problem is that our optimal budget will be among the customer's budget. In the first example our optimal budget can be 30 or 20.
 
@@ -4780,7 +4762,7 @@ The key observation in this problem is that our optimal budget will be among the
 
 \textbf{Code: } \url{https://repl.it/@SalilGokhale/Smart-Phone}
 
-\end{solution}
+\end{tcolorbox}
 
 \newpage
 
@@ -4887,12 +4869,12 @@ A single line with $N$ integers, the number of boxes in each stack, from left to
     $1 \leq H \leq 10^8$
 \end{center}
 
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 The problem statement is long and intimidating but in reality this is a simple implementation problem. There are no techniques or optimisation. You have to do as directed!!! You can use an array or a vector to store the number of boxes in each stack after every operation.
 
 \textbf{Code:} \url{https://repl.it/@SalilGokhale/Video-Game}
-\end{solution}
+\end{tcolorbox}
 \newpage
 
 \section{Tournament}
@@ -4960,7 +4942,7 @@ A single integer, the total advertising revenue from the tournament.
 
 \textbf{Note:} The answer might not fit in a variable of type \texttt{int}. We recommend that type \texttt{long long} be used for computing all advertising revenues. If you use \texttt{printf} and \texttt{scanf}, you can use \texttt{\%lld} for \texttt{long long}.
 
-\begin{solution}
+\begin{tcolorbox}[title=Solution]
 
 The first impulse would be to calculate all the match revenues and then sum up. but it would be $\mathcal{O}(n^2)$ which will surely give TLE.
 
@@ -4985,13 +4967,90 @@ If the array is sorted then,
 
 $$\text{Total Revenue} = \sum_{i=0}^{n-1}strength[i] \times (2i-n-1)$$
 
-But make sure to sort the array first.
+But make sure to sort the array first. Time Complexity is $\mathcal{O}(n\log{n})$
 
-\textbf{Code: } \url{https://repl.it/@SalilGokhale/Smart-Phone}
+\textbf{Code: } \url{https://repl.it/@SalilGokhale/Tournament}
 
-\end{solution}
+\end{tcolorbox}
 
 \newpage
 
+\section{Variation}
+
+URL: \url{https://www.codechef.com/ZCOPRAC/problems/ZCO15002}
+
+Problem Code: ZCO15002
+
+Year: ZCO 2015
+
+\begin{problem}
+
+We say that two integers $x$ and $y$ have a variation of at least $K$, if $\mid x - y\mid \geq K$ (the absolute value of their difference is at least K). Given a sequence of $N$ integers $a_1,a_2,\cdots,a_N$ and $K$, the total variation count is the number of pairs of elements in the sequence with variation at least $K$, i.e. it is the size of the set of pairs
+
+$$(i,j): 1\leq i \leq j \leq N \text{and} \mid a_i - a_j\mid \geq K j$$
+
+For example if $K = 1$ and the sequence is 3,2,4 the answer is 3. If $K = 1$ and the sequence is 3, 1, 3 then the answer is 2.
+
+
+Your task is to write a program that takes a sequence and the value K as input and computes the total variation count.
+
+\end{problem}
+
+
+\begin{input_st}
+The first line contains two positive integers $N$ and $K$, separated by a space.
+
+This is followed by a line containing $N$ integers separated by space giving the values of the sequence.
+\end{input_st}
+
+\begin{output_st}
+
+A single integer in a single line giving the total variation count.
+
+\end{output_st}
+
+\begin{tcolorbox}[title=Example]
+\begin{lstlisting}
+3 1 
+3 1 3
+\end{lstlisting}
+\tcblower
+\begin{lstlisting}
+2
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Constraints:}
+
+    You may assume that all integers in the input are in the range 0 to $10^8$ inclusive.
+    
+    $1 \leq N \leq 65000, 1 \leq K \leq 10^8$
+
+\begin{tcolorbox}[title=Solution]
+The first thing to note is that we have to take the absolute value of the difference of the two elements. This simply means that the order in which we discover the elements, $(a_i,a_j)$ satisfying the condition, $(a_i-a_j\geq k)$ doesn’t matter. Also, the constraints are small enough to allow sorting. So, we just sort the array.
+
+\vspace{5mm}
+
+Now that the array is sorted, we can naively check for the left most element $a_1$, how many $a_j$ satisfy the given condition. This can be done in $O(n^2)$. But this is not good enough to pass the second sub-task.
+
+\vspace{5mm}
+
+Taking it a step further - as the elements are sorted - we can see that a sliding window would do the job in $\mathcal{O}(n)$ time.
+
+\vspace{5mm}
+
+In this, we’ll iterate over the array maintaining two indices, $a$ and $b$ starting from the leftmost part of the array. The basic aim is to find the first $a[j]$ for a particular $i$, such that it’s the smallest element, where $a[j]-a[i]\geq k$. This can be done by incrementing $i$, if $a[j]-a[i]\geq k$, else increment $j$. For a particular $i$, the number of matching pairs will be $N-j$. The sum of matching elements for all $i$ is the answer.
+
+\vspace{5mm}
+
+Time Complexity is $\mathcal{O}(n\log{n})$
+
+\vspace{5mm}
+
+\textbf{Code: } \url{https://repl.it/@SalilGokhale/Variation}
+
+\end{tcolorbox}
+
+\newpage
 
 \end{document}
