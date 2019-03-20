@@ -25,7 +25,7 @@
 \usepackage{fourier}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-
+\usepackage{tcolorbox}
 \usepackage{amstext} % for \textg macro
 \usepackage{array}   % for \newcolumntype macro
 \newcolumntype{L}{>{$}l<{$}} % math-mode version of "l" column type
@@ -168,6 +168,32 @@ frametitleaboveskip=\dimexpr-\ht\strutbox\relax
 
 \newtheorem*{problem}{Problem} % Comment out [section] to remove section number dependence
 
+\newtheoremstyle{problemstyle}  % <name>
+        {3pt}                                               % <space above>
+        {3pt}                                               % <space below>
+        {\normalfont}                               % <body font>
+        {}                                                  % <indent amount}
+        {\bfseries\itshape}                 % <theorem head font>
+        {\normalfont\bfseries:}         % <punctuation after theorem head>
+        {.5em}                                          % <space after theorem head>
+        {}                                              
+\theoremstyle{problemstyle}
+
+\newtheorem*{input_st}{Input Format} % Comment out [section] to remove section number dependence
+
+\newtheoremstyle{problemstyle}  % <name>
+        {3pt}                                               % <space above>
+        {3pt}                                               % <space below>
+        {\normalfont}                               % <body font>
+        {}                                                  % <indent amount}
+        {\bfseries\itshape}                 % <theorem head font>
+        {\normalfont\bfseries:}         % <punctuation after theorem head>
+        {.5em}                                          % <space after theorem head>
+        {}                                              
+\theoremstyle{problemstyle}
+
+\newtheorem*{output_st}{Output Format} % Comment out [section] to remove section number dependence
+
 \lstset{language=C++,frame=single,basicstyle=\ttfamily \small,showstringspaces=false,columns=flexible}
 \lstset{
   literate={ö}{{\"o}}1
@@ -236,6 +262,39 @@ $\pi$ for good luck!
 \end{center}
 
 \part{Basic techniques}
+
+\chapter{Code Template}
+
+Here is my code template for competitive programming:
+
+\begin{lstlisting}
+#include<bits/stdc++.h>
+using namespace std;
+//macro for debugging try using it by running watch(n);
+#define watch(x) cerr << "\n" << (#x) << " is " << (x) << endl
+const double PI  = 3.141592653589793238463; //value of pi
+const int INF = 0x3f3f3f3f; //safest infinity
+const int MOD = 1000000007; //used in many problems
+
+/*
+$alil03
+Solution Begins here
+*/
+
+int main()
+{
+    //FAST I/O
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+}
+\end{lstlisting}
+
+You can remove the code comments and use it.
+
+My IDE of choice: Sublime Text 3
+
+If you are also using Sublime Text 3, please consider using the Getcode package which can be found here: \url{https://packagecontrol.io/packages/GetCode}. It will make your life easier.
 \chapter{C++ Tricks}
 
 \section{Special functions}
@@ -1013,47 +1072,7 @@ for (int i = 0; i < 32; i++) {
 }
 // output: 1 3 4 8
 \end{lstlisting}
-\subsection{Set Operations}
-Set operations can be implemented as follows as bit operations:
 
-\begin{center}
-\begin{tabular}{lll}
-& set syntax & bit syntax \\
-\hline
-intersection & $a \cap b$ & $a$ \& $b$ \\
-union & $a \cup b$ & $a$ | $b$ \\
-complement & $\bar a$ & \textasciitilde$a$ \\
-difference & $a \setminus b$ & $a$ \& (\textasciitilde$b$) \\
-\end{tabular}
-\end{center}
-\subsubsection{Iteration Through Subsets}
-
-The following code goes through
-the subsets of $\{0,1,\ldots,n-1\}$:
-
-\begin{lstlisting}
-for (int b = 0; b < (1<<n); b++) {
-    // process subset b
-}
-\end{lstlisting}
-The following code goes through
-the subsets with exactly $k$ elements:
-\begin{lstlisting}
-for (int b = 0; b < (1<<n); b++) {
-    if (__builtin_popcount(b) == k) {
-        // process subset b
-    }
-}
-\end{lstlisting}
-The following code goes through the subsets
-of a set $x$:
-\begin{lstlisting}
-int b = 0;
-do {
-    // process subset b
-} while (b=(b-x)&x);
-\end{lstlisting}
-\newpage
 \section{Example Problems}
 \subsection{Counting Grids with Black Corners}
 \begin{problem}
@@ -1145,6 +1164,73 @@ for (int i = 0; i <= n/N; i++) {
 \end{lstlisting}
 Time Complexity is $O(n^3/N)$ time.
 \end{solution}
+
+\chapter{Brute-Force Algorithms}
+
+
+\section{Generating Subsets}
+
+\begin{problem}
+Print all the subsets of a set of size $n$.
+\end{problem}
+
+\begin{exmp}
+For example, the subsets of $\{0,1,2\}$ are
+$\emptyset$, $\{0\}$, $\{1\}$, $\{2\}$, $\{0,1\}$,
+$\{0,2\}$, $\{1,2\}$ and $\{0,1,2\}$.
+\end{exmp}
+
+\begin{solution}
+
+We can use the bit representation of numbers to generate subsets.
+
+Let's say, set $s$ has $n$ elements. We will use the bits of numbers to show the presence of element in set. If $x^{th}$ bit in number is SET, then $x^{th}$ element in $s$ is present in current subset. We will loop from $0$ to $2^n - 1$, and for each number, we will check among the first $n$ bits, the SET bits in it and take corresponding elements. In each iteration, we will have one subset.
+
+\begin{lstlisting}
+int arr[n]; //array of n elements
+for(int j = 0; j< (1 << n); j++)
+{   // (1<<n) is equal to 2^n - 1
+    for(int i = 0; i<n; i++)
+    {   //checking first n bits
+        if(j&(1<<i))
+        {   //print the corresponding element
+            //first subset is always null set
+            cout << arr[i] << " ";
+        }
+    }
+    cout << "\n";
+}
+\end{lstlisting}
+The time complexity is $\mathcal{O}(n2^n)$ which is exponential.
+\end{solution}
+\section{Generating Permutations}
+\begin{problem}
+Print all the permutations of a set of size $n$.
+\end{problem}
+\begin{exmp}
+For example, the permutations of $\{0,1,2\}$ are
+$(0,1,2)$, $(0,2,1)$, $(1,0,2)$, $(1,2,0)$,
+$(2,0,1)$ and $(2,1,0)$.
+\end{exmp}
+\begin{solution}
+
+We can use the built-in C++ function \texttt{next\textunderscore permutation} which rearranges the array into the next lexicographically greater permutation. It returns $1$ if this is possible and $0$ otherwise.
+
+\begin{lstlisting}
+int arr[n]; //array of n elements
+do
+{//we use do while loop to also print the original array itself
+    for(int i : arr)
+    {
+        cout << i << " ";
+    }
+    cout << "\n";
+}
+while(next_permutation(arr, arr+n));
+\end{lstlisting}
+
+\end{solution}
+
 \part{Dynamic Programming}
 \chapter{Common DP Problems}
 \section{Rod Cutting}
@@ -3193,10 +3279,9 @@ are no negative edges. It finds a shortest path tree from a single source node, 
 Dijkstra's algorithm can be efficiently implemented using a \texttt{priority queue} in C++ STL.
 
 \section{Steps of Algorithm}
-
 First we initialise three values:
 \begin{enumerate}
-    \item \texttt{dist[]}: an array of distances from the source node $s$ to each node in the graph, initialised the following way: \texttt{dist[s] = 0;} and for all other nodes , \texttt{dist[v]} $= \infty$. This is done at the beginning because as the algorithm proceeds, the \texttt{dist} from the source to each node $v$ in the graph will be recalculated and finalised when the shortest distance to $v$ is found
+    \item \texttt{dist[]}: an array of distances from the source node $s$ to each node in the graph, initialised the following way: \texttt{dist[s] = 0;} and for all other nodes , \texttt{dist[v]} $= \infty$. This is done at the beginning because as the algorithm proceeds, the \texttt{dist} from the source to each node $v$ in the graph will be recalculated and finalised when the shortest distance to $v$ is found.
     
     \item $Q$: a \texttt{priority queue} of all nodes in the graph. At the end of the algorithm's progress, $Q$ will be empty. $Q$ contains pairs of the form \texttt{(-d, x)}, meaning that the current distance to node $x$ is $d$. Note that the \texttt{priority queue} contains \key{negative} distances to nodes. The reason for this is that the default version of the C++ \texttt{priority queue} finds \key{maximum} elements, while we want to find \key{minimum} elements. By using negative distances, we can directly use the default \texttt{priority queue}. 
     
@@ -3982,9 +4067,9 @@ the remainder can be taken before the operation:
 
 \[
 \begin{array}{rcr}
-(a+b) \bmod m & = & (a \bmod m + b \bmod m) \bmod m \\
-(a-b) \bmod m & = & (a \bmod m - b \bmod m) \bmod m \\
-(a \cdot b) \bmod m & = & (a \bmod m \cdot b \bmod m) \bmod m
+(a+b) \pmod{m} & = & (a \pmod{m} + b \pmod{m}) \pmod{m} \\
+(a-b) \pmod{m} & = & (a \pmod{m} - b \pmod{m}) \pmod{m} \\
+(a \cdot b) \pmod{m} & = & (a \pmod{m} \cdot b \pmod{m}) \pmod{m}
 \end{array}
 \]
 \linebreak
@@ -4299,53 +4384,111 @@ The value of $\varphi(n)$ can be calculated
 from the prime factorization of $n$
 using the formula
 
-\begin{equation}
-\varphi (n)=n\prod _{p\mid n}\left(1-{\frac {1}{p}}\right),
-\end{equation}
+$$\varphi (n)=n\prod _{p\mid n}\left(1-{\frac {1}{p}}\right)$$
 
-Where the product is over the distinct prime numbers dividing $n$.Note that $\varphi(n)=n-1$ if $n$ is prime. The implementation is shown below.
+Where the product is over the distinct prime numbers dividing $n$.Note that $\varphi(n)=n-1$ if $n$ is prime. The implementation of totient function is shown below.
 \begin{lstlisting}
 int totient(int n)
 {
-  int result = n;
-  for (int p = 2; p * p <= n; ++p)
-  {
-    if (n % p == 0)
+    int result = n;
+    for (int p = 2; p * p <= n; ++p)
     {
-      while (n % p == 0)
-        n /= p;
-      result -= result / p;
+        if (n % p == 0)
+        {
+            while (n % p == 0) n /= p;
+            result -= result / p;
+        }
     }
-  }
-
-  if (n > 1)
-    result -= result / n;
-  return result;
+    
+    if (n > 1) result -= result / n;
+    return result;
 }
 \end{lstlisting}
 
 \section{Some Common Theorems}
 Theorem is a mathematical result that has been proved for every input value which lies in it's domain.
 
-\subsection{Lagrange’s theorem}
+\subsection{Lagrange's Four-Square Theorem}
 Lagrange’s theorem states that every positive integer can be represented as a
 sum of four squares. i.e.,
 $$n = a^2 + b^2 + c^2 + d^2$$
 
 where, $n,a,b,c,d \in \mathbb{N}$
-\subsection{Zeckendorf's theorem}
-Zeckendorf's theorem states that every positive integer can be represented uniquely as the sum of one or more distinct Fibonacci numbers in such a way that the sum does not include any two consecutive Fibonacci numbers. More precisely, if $N$ is any positive integer, there exist positive integers $c_i \geq 2$, with $c_{i+1}$ > $c_i + 1$, such that
-\begin{equation}
-N=\sum _{{i=0}}^{k}F_{{c_{i}}}
-\end{equation}
-Where F$_{n}$ is the n$^{th}$ Fibonacci number.
-\subsection{Wilson’s theorem}
+
+\vspace{5mm}
+
+The number of representations of a natural number $n$ as the sum of four squares is denoted by $r_4(n)$. Jacobi's four-square theorem states that this is eight times the sum of the divisors of $n$ if $n$ is odd and $24$ times the sum of the odd divisors of $n$ if $n$ is even. In particular, for a prime number $p$ we have the explicit formula $r_4(p) = 8(p + 1)$
+
+\subsection{Wilson’s Theorem}
 Wilson’s theorem states that a number n is prime exactly when
-\begin{equation}
-(n-1)!\ \bmod\ n = n - 1
-\end{equation}
+$$(n-1)!\ \equiv\ -1 \pmod n$$
+\begin{center}
+    OR
+\end{center}
+$$(n-1)!\ \pmod{n} = n - 1$$
 However the theorem cannot be applied to large values of $n$, because
 it is difficult to calculate values of $(n-1)!$ when n is even as large as 50.
+
+\subsection{Fibonacci Numbers}
+The Fibonacci sequence is defined as follows:
+
+$$F_0 = 0, F_1 = 1, F_n = F_{n-1} + F_{n-2}$$
+
+The first elements of the sequence are:
+
+$$0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...$$
+
+\subsubsection{Cassini's identity}
+
+$$F_{n-1} F_{n+1} - F_n^2 = (-1)^n$$
+
+\subsubsection{Addition Rule}
+
+
+
+\[
+    F_{n+k}= 
+\begin{cases}
+   F_k F_{n+1} + F_{k-1} F_n\\
+   F_{2n} = F_n (F_{n+1} + F_{n-1}),& \text{if } k = n\\
+\end{cases}
+\]
+
+\subsubsection{GCD identity}
+
+$$GCD(F_m, F_n) = F_{GCD(m, n)}$$
+
+\subsubsection{Zeckendorf's Theorem}
+Zeckendorf's theorem states that every positive integer can be represented uniquely as the sum of one or more distinct Fibonacci numbers in such a way that the sum does not include any two consecutive Fibonacci numbers. More precisely, if $N$ is any positive integer, there exist positive integers $c_i \geq 2$, with $c_{i+1}$ > $c_i + 1$, such that
+
+$$N=\sum _{{i=0}}^{k}F_{{c_{i}}}$$
+Where F$_{n}$ is the n$^{th}$ Fibonacci number.
+
+\subsection{Pythagorean Triples}
+A \key{Pythagorean triple} is a triple $(a,b,c)$
+that satisfies the Pythagorean theorem
+$a^2+b^2=c^2$, which means that there is a right triangle
+with side lengths $a$, $b$ and $c$.
+For example, $(3,4,5)$ is a Pythagorean triple.
+
+If $(a,b,c)$ is a Pythagorean triple,
+all triples of the form $(ka,kb,kc)$
+are also Pythagorean triples where $k>1$.
+A Pythagorean triple is \emph{primitive} if
+$a$, $b$ and $c$ are coprime,
+and all Pythagorean triples can be constructed
+from primitive triples using a multiplier $k$.
+
+\key{Euclid's formula} can be used to produce
+all primitive Pythagorean triples.
+Each such triple is of the form
+\[(n^2-m^2,2nm,n^2+m^2),\]
+where $0<m<n$, $n$ and $m$ are coprime
+and at least one of $n$ and $m$ is even.
+For example, when $m=1$ and $n=2$, the formula
+produces the smallest Pythagorean triple
+\[(2^2-1^2,2\cdot2\cdot1,2^2+1^2)=(3,4,5).\]
+
 \section{Linear Diophantine Equations}
 A Diophantine equation is a polynomial equation, usually in two or more unknowns, such that only the integral solutions are required. An Integral solution is a solution such that all the unknown variables take only integer values.
 \begin{problem}
@@ -4365,4 +4508,490 @@ bool isPossible(int a, int b, int c)
 }
 \end{lstlisting}
 \end{solution}
+\newpage
+
+\section{Euclid's Algorithm for GCD}
+\begin{problem}
+Given two non-negative integers $a$ and $b$, we have to find their $\gcd$(greatest common divisor), i.e. the largest number which is a divisor of both $a$ and $b$. It's commonly denoted by $\gcd(a,b)$. Mathematically it is defined as:
+
+$$\gcd(a, b) = \max_ {k = 1 \dots \infty ~ : ~ k \mid a ~ \wedge k ~ \mid b} k.$$
+
+(here the symbol "$\mid$" denotes divisibility, i.e. "$k\mid a$" means "$k$ divides $a$")
+\end{problem}
+
+\begin{solution}
+
+The algorithm is extremely simple:
+
+$$\gcd(a, b) = \begin{cases}a,&\text{if }b = 0 \\ \gcd(b, a \pmod{b}),&\text{otherwise.}\end{cases}$$
+
+\begin{lstlisting}
+int gcd (int a, int b) 
+{
+    if (b == 0)
+        return a;
+    else
+        return gcd (b, a % b);
+}
+\end{lstlisting}
+
+But C++11 has a built-in fuction to calculate $\gcd$
+
+\begin{lstlisting}
+__gcd(a,b) //returns gcd(a,b)
+\end{lstlisting}
+
+Time Complexity is $\mathcal{O}(\log\{\min\{a,b\}\})$
+\end{solution}
+\newpage
+\section{Modular Inverse}
+
+The inverse of $x \pmod m$ is a number $x^{-1}$ such that
+
+$$xx^{-1} \pmod{m} \equiv 1$$
+
+Using modular inverses, we can divide numbers modulo $m$, because division by $x$ corresponds to multiplication by $x^{-1}$. For example, to evaluate the value of $36/6 \pmod{17}$, we can use the formula $2 \times 3 \pmod{17}$, because $36 \pmod{17} = 2$ and $6^{-1} \pmod{17} = 3$.
+
+
+However, a modular inverse does not always exist.
+For example, if $x=2$ and $m=4$, the equation
+\[ x x^{-1} \pmod{m} = 1 \]
+cannot be solved, because all multiples of 2
+are even and the remainder can never be 1 when $m=4$.
+It turns out that the value of $x^{-1} \bmod m$
+can be calculated exactly when $x$ and $m$ are coprime.
+
+A short one-liner to compute modular inverse when $x$ and $m$ are coprime is shown below
+\begin{lstlisting}
+long long int inv(long long int x, long long int m)
+{
+    return 1<x ? m - inv(m%x,x)*m/x : 1;
+}
+\end{lstlisting}
+If $m$ is prime modular inverse can be calculate by: $x^{-1} = x^{m-2}$. This implementation is shown below(using modular exponentiation):
+
+\begin{lstlisting}
+int power(int x, int n, int m)
+{
+    if (n == 0) return 1%m;
+    long long u = power(x,n/2,m);
+    u = (u*u)%m;
+    if (n%2 == 1) u = (u*x)%m;
+    return u;
+}
+int inv(long long int x, long long int m)
+{
+    return power(x, m-2, m)
+    //return x^{m-2} mod m
+}
+\end{lstlisting}
+
+Time complexity of both these implementations is $\mathcal{O}(\log{m})$
+\newpage
+\section{Chinese Remainder Theorem}
+\begin{problem}
+Find $x$ that satisfies the following equations:
+
+\[
+\begin{array}{lcl}
+x & \equiv & a_1 \pmod{m_1} \\
+x & \equiv & a_2 \pmod{m_2} \\
+x & \equiv & a_3 \pmod{m_3} \\
+\cdots \\
+x & \equiv & a_n \pmod{m_n} \\
+\end{array}
+\]
+where all pairs of $m_1,m_2,\ldots,m_n$ are coprime.  
+\end{problem}
+
+\begin{solution}
+
+Let $M = m_1 \times m_2 \times m_3 \times \cdots \times m_n$
+
+Let $M_1, M_2, M_3, \cdots, M_n$ be such that
+
+\[
+\begin{array}{lcl}
+M_1 = M/m_1 \\
+M_2 = M/m_2 \\
+M_3 = M/m_3 \\
+\cdots \\
+M_n = M/m_n \\
+\end{array}
+\]
+
+Let $y_1, y_2, y_3, \cdots, y_n$ be such that $y_i$ is the modular inverse of $M_i$ i.e., 
+
+\[
+\begin{array}{lcl}
+M_1 \times y_1 \equiv 1 \pmod{m_1}\\
+M_2 \times y_2 \equiv 1 \pmod{m_2}\\
+M_3 \times y_3 \equiv 1 \pmod{m_3}\\
+\cdots \\
+M_n \times y_n \equiv 1 \pmod{m_n}\\
+\end{array}
+\]
+
+
+Then $x \equiv a_1M_1y_1 + a_2M_2y_2 + a_2M_2y_2 + \cdots + a_nM_ny_n \pmod M$
+
+\vspace{5mm}
+
+Once we have found a solution $x$,
+we can create an infinite number of other solutions,
+because all numbers of the form
+\[x+kM\]
+where k is any whole number are solutions.
+\end{solution}
+
+\begin{exmp}
+\[
+\begin{array}{lcl}
+x & \equiv &3 \pmod 8 \\
+x & \equiv & 1 \pmod 9 \\
+x & \equiv & 4 \pmod{11} \\
+\end{array}
+\]
+
+$\therefore M = 8 \times 9 \times 11 = 792$
+
+\[
+\begin{array}{lcl}
+M_1 =792/8 = 99 \\
+M_2 = 792/9 = 88 \\
+M_3 = 792/11 = 72 \\
+\end{array}
+\]
+
+\[
+\begin{array}{lcl}
+99 \times y_1 \equiv 1 \pmod 8 \text{ or } y_1 = 3\\
+88 \times y_2 \equiv 1 \pmod 9 \text{ or } y_2 = 4\\
+72 \times y_3 \equiv 1 \pmod{11} \text{ or } y_3 = 2\\
+\end{array}
+\]
+
+$\therefore x = 3 \times 99 \times 3 + 1 \times 88 \times 3 + 4 \times 72 \times 2 = 1819$
+
+$\therefore x$ can be $1819, 2611, 3403 \cdots$ 
+\end{exmp}
+
+\part{Question Bank}
+
+\chapter{ZCO Questions}
+
+\key{Z}onal \key{C}omputing \key{O}lympiad is the first stage of the Indian Computing Olympiad.
+
+The Indian Computing Olympiad is used to select the team of four students to represent India at the International Olympiad for Informatics (IOI). IOI is one of the twelve international Science Olympiads held annually. Other prominent Science Olympiads include Mathematics, Physics, Chemistry, Biology and Astronomy.
+
+The problems are quite easy and mostly related to these topics:
+
+\begin{itemize}
+    \item Basic Maths
+    \item Dynamic Programming
+    \item Greedy Algorithms
+    \item Sorting
+\end{itemize}
+
+You can see and submit solutions of the problems on Codechef: \url{https://www.codechef.com/ZCOPRAC}. 
+
+The question bank starts from the next page.
+
+\newpage
+
+\section{Smart Phone}
+
+URL: \url{https://www.codechef.com/ZCOPRAC/problems/ZCO14003}
+
+Problem Code: ZCO14003
+
+Year: ZCO 2014
+
+\begin{problem}
+You are developing a smartphone app. You have a list of potential customers for your app. Each customer has a budget and will buy the app at your declared price if and only if the price is less than or equal to the customer's budget.
+
+You want to fix a price so that the revenue you earn from the app is maximised. Find this maximum possible revenue.
+
+For instance, suppose you have $4$ potential customers and their budgets are $30$, $20$, $53$ and $14$. In this case, the maximum revenue you can get is 60.
+\end{problem}
+
+
+\begin{input_st}
+Line $1$: $N$, the total number of potential customers.
+
+Lines $2$ to $N+1$: Each line has the budget of a potential customer.
+\end{input_st}
+
+\begin{output_st}
+The output consists of a single integer, the maximum possible revenue you can earn from selling your app.
+\end{output_st}
+
+\begin{tcolorbox}[title=Example]
+\begin{lstlisting}
+4
+30
+20
+53
+14
+\end{lstlisting}
+\tcblower
+\begin{lstlisting}
+60
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Example]
+\begin{lstlisting}
+5
+40
+3
+65
+33
+21
+\end{lstlisting}
+\tcblower
+\begin{lstlisting}
+99
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Constraints:}
+\begin{center}
+    Each customers' budget is between 1 and $10^8$, inclusive.
+    
+    $1 \leq N \leq 5\times 10^5$
+\end{center}
+
+\textbf{Note:} The answer might not fit in a variable of type \texttt{int}. We recommend that you use variables of type \texttt{long long} to read the input and compute the answer. If you use \texttt{printf} and \texttt{scanf}, you can use \texttt{\%lld} for \texttt{long long}.
+
+\begin{solution}
+
+The key observation in this problem is that our optimal budget will be among the customer's budget. In the first example our optimal budget can be 30 or 20.
+
+\vspace{6mm}
+
+\textbf{Naive Solution:} Simply try all combinations by putting price equal to every element one by one and check the number of integers/elements bigger than this price. Multiplying price and the bigger numbers will give the revenue for that price. Take the maximum of all such revenues and output it. Since we are trying every element and checking the bigger numbers in whole array takes $\mathcal{O}(N)$, total time complexity comes out to be $\mathcal{O}(N^2)$.
+
+\vspace{6mm}
+
+\textbf{Correct solution:} First sort the array. Then take the maximum of $a[i]*(N-i)$ for all $i$ in the range $[0,N)$. This works because all elements after the $i^{th}$ element(including the $i^{th}$ element) are greater than or equal to $a[i]$ and there are $N-i$ elements after $i$ including $i$ itself.
+
+\vspace{6mm}
+
+\textbf{Code: } \url{https://repl.it/@SalilGokhale/Smart-Phone}
+
+\end{solution}
+
+\newpage
+
+\section{Video Game}
+
+URL: \url{https://www.codechef.com/ZCOPRAC/problems/ZCO14001}
+
+Problem Code: ZCO14001
+
+Year: ZCO 2014
+
+\begin{problem}
+You are playing a video game in which several stacks of boxes are lined up on the floor, with a crane on top to rearrange the boxes, as shown in the picture below.
+
+\includesvg[scale=0.5]{Video_Game.svg}
+
+The crane supports the following commands:
+
+\begin{itemize}
+    \item Move one position left (does nothing if already at the leftmost position)
+    \item Move one position right (does nothing if already at the rightmost position)
+    \item Pick up a box from the current stack (does nothing if the crane already has a box)
+    \item Drop a box on the current stack (does nothing if the crane doesn't already have a box)
+\end{itemize}
+
+Further, there is a limit $H$ on the number of boxes on each stack. If a 'drop' command would result in a stack having more than $H$ boxes, the crane ignores this drop command. If the current stack has no boxes, a 'pick up' command is ignored.
+
+
+You are given the initial number of boxes in each stack and the sequence of operations performed by the crane. You have to compute the final number of boxes in each stack.
+
+
+For example, suppose the initial configuration of the game is as shown in the figure above, with $7$ stacks and $H=4$. Then, after the following sequence of instructions,
+
+\begin{enumerate}
+    \item Pick up box
+    \item Move right
+    \item Move right
+    \item Move right
+    \item Move right
+    \item Drop box
+    \item Move left
+    \item Pick up box
+    \item Move left
+    \item Drop box
+\end{enumerate}
+
+the number of boxes in each stack from left to right would be 2,1,3,1,4,0,1.
+\end{problem}
+
+
+\begin{input_st}
+Line 1 : The width of the game (the number of stacks of boxes), $N$, followed by the max height $H$ of each stack.
+
+Line 2 : $N$ integers, the initial number of boxes in each stack, from left to right. Each number is $\leq H$.
+
+Line 3 : A sequence of integers, each encoding a command to the crane. The commands are encoded as follows
+\begin{itemize}
+    \item $1 \rightarrow$ Move left
+    \item $2 \rightarrow$ Move right
+    \item $3 \rightarrow$ Pick up box
+    \item $4 \rightarrow$ Drop box
+    \item $0 \rightarrow$ Quit
+\end{itemize}
+
+The command Quit(0) appears exactly once, and is the last command.
+
+The initial position of the crane is above the leftmost stack, with the crane not holding any box.
+\end{input_st}
+
+\begin{output_st}
+A single line with $N$ integers, the number of boxes in each stack, from left to right.
+\end{output_st}
+
+\begin{tcolorbox}[title=Example]
+\begin{lstlisting}
+7 4
+3 1 2 1 4 0 1
+3 2 2 2 2 4 1 3 1 4 0
+\end{lstlisting}
+\tcblower
+\begin{lstlisting}
+2 1 3 1 4 0 1
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Example]
+\begin{lstlisting}
+3 5
+2 5 2
+3 2 4 2 2 2 1 4 1 1 1 1 0
+\end{lstlisting}
+\tcblower
+\begin{lstlisting}
+1 5 2 
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Constraints:}
+\begin{center}
+    The number of commands is between 1 and $10^5$, inclusive.
+    
+    $1 \leq N \leq 10^5$
+    
+    $1 \leq H \leq 10^8$
+\end{center}
+
+\begin{solution}
+
+The problem statement is long and intimidating but in reality this is a simple implementation problem. There are no techniques or optimisation. You have to do as directed!!! You can use an array or a vector to store the number of boxes in each stack after every operation.
+
+\textbf{Code:} \url{https://repl.it/@SalilGokhale/Video-Game}
+\end{solution}
+\newpage
+
+\section{Tournament}
+
+URL: \url{https://www.codechef.com/ZCOPRAC/problems/ZCO13001}
+
+Problem Code: ZCO13001
+
+Year: ZCO 2013
+
+\begin{problem}
+
+$N$ teams participate in a league cricket tournament on Mars, where each pair of distinct teams plays each other exactly once. Thus, there are a total of $\frac{N\times (N-1)}{2}$ matches. An expert has assigned a strength to each team, a positive integer. Strangely, the Martian crowds love one-sided matches and the advertising revenue earned from a match is the absolute value of the difference between the strengths of the two matches. Given the strengths of the $N$ teams, find the total advertising revenue earned from all the matches.
+
+
+For example, suppose $N$ is $4$ and the team strengths for teams 1, 2, 3, and 4 are 3, 10, 3, and 5 respectively. Then the advertising revenues from the 6 matches are as follows:
+
+\begin{table}[!ht]
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Match} & \textbf{Team A} & \textbf{Team B} & \textbf{Ad Revenue} \\ \hline
+1              & 1               & 2               & 7                   \\ \hline
+2              & 1               & 3               & 0                   \\ \hline
+3              & 1               & 4               & 2                   \\ \hline
+4              & 2               & 3               & 7                   \\ \hline
+5              & 2               & 4               & 5                   \\ \hline
+6              & 3               & 4               & 2                   \\ \hline
+\end{tabular}
+\end{table}
+
+\end{problem}
+
+
+\begin{input_st}
+
+Line 1 : A single integer, $N$.
+
+Line 2 : $N$ space-separated integers, the strengths of the $N$ teams.
+
+\end{input_st}
+
+\begin{output_st}
+
+A single integer, the total advertising revenue from the tournament.
+
+\end{output_st}
+
+\begin{tcolorbox}[title=Example]
+\begin{lstlisting}
+4
+3 10 3 5
+\end{lstlisting}
+\tcblower
+\begin{lstlisting}
+23
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Constraints:}
+\begin{center}
+    In all subtasks, the strength of each team is an integer between $1$ and $10^3$ inclusive
+    
+    $2 \leq N \leq 2\times 10^5$
+\end{center}
+
+\textbf{Note:} The answer might not fit in a variable of type \texttt{int}. We recommend that type \texttt{long long} be used for computing all advertising revenues. If you use \texttt{printf} and \texttt{scanf}, you can use \texttt{\%lld} for \texttt{long long}.
+
+\begin{solution}
+
+The first impulse would be to calculate all the match revenues and then sum up. but it would be $\mathcal{O}(n^2)$ which will surely give TLE.
+
+The key to the problem lies in an observation. Let’s consider an example and then generalise it.
+
+Let us take a different example than the given sample case.
+\begin{lstlisting}
+4
+3 10 7 5
+\end{lstlisting}
+Now the revenues for each match are: 
+$$(10-5) +(10-7) + (10-3) + (7-5) + (7-3) + (5-3) = 23$$
+
+but wait that’s not what we will do. Look at it in the following manner:
+$$10\times (3-0) + 7\times (2-1) + 5\times (1-2) + 3\times (0-3)$$
+
+If we sort the array then we get \texttt{3, 5, 7, 10}.
+
+More formally we can write:
+
+If the array is sorted then,
+
+$$\text{Total Revenue} = \sum_{i=0}^{n-1}strength[i] \times (2i-n-1)$$
+
+But make sure to sort the array first.
+
+\textbf{Code: } \url{https://repl.it/@SalilGokhale/Smart-Phone}
+
+\end{solution}
+
+\newpage
+
+
 \end{document}
