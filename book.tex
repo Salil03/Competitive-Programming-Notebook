@@ -1,7 +1,6 @@
 \documentclass[twoside,12pt,a4paper,english]{book}
 
 %\includeonly{chapter04,list}
-\usepackage{pdfrender}
 \usepackage{shapepar}
 \usepackage{standalone}
 \usepackage{epsfig}
@@ -13,7 +12,6 @@
 \usepackage[table,dvipsnames,svgnames,xcdraw]{xcolor}
 \usepackage{svg}
 \usepackage{tikz}
-\usepackage{multicol}
 \usepackage{hyperref}
 \usepackage{array}
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
@@ -26,6 +24,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{tcolorbox}
+\tcbuselibrary{breakable}
 \usepackage{amstext} % for \textg macro
 \usepackage{array}   % for \newcolumntype macro
 \newcolumntype{L}{>{$}l<{$}} % math-mode version of "l" column type
@@ -125,9 +124,6 @@
 \usepackage[framemethod=TikZ]{mdframed}
 
 
-\usepackage{atbegshi}% http://ctan.org/pkg/atbegshi
-\AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
-\let\cleardoublepage\clearpage
 
 
 \definecolor{keywords}{HTML}{44548A}
@@ -215,7 +211,6 @@
 
 
 \begin{document}
-\pdfrender{StrokeColor=black,TextRenderingMode=2,LineWidth=0.5pt}
 %\selectlanguage{finnish}
 %\setcounter{page}{1}
 %\pagenumbering{roman}
@@ -284,7 +279,7 @@ If you are also using Sublime Text 3, please consider using the Getcode package 
 \begin{lstlisting}
 copy_n(ar, 6, ar1); // copy 6 elements from ar to ar1
 \end{lstlisting}
-\subsection{Ceiling Division $\lceil \frac{x}{y} \rceil$}
+\subsection{Ceiling Division \texorpdfstring{$\lceil \frac{x}{y} \rceil$}{}}
 \begin{lstlisting}
 int ceilingdivision(int x,int y)
 {
@@ -313,7 +308,7 @@ iota(v.begin(), v.end(), x) //fills vector with increasing values
 \begin{lstlisting}
 v.insert(1, 42); // Insert 42 after the first index(second value)
 \end{lstlisting}
-\subsection{Accurate value of $\pi$}
+\subsection{Accurate value of \texorpdfstring{$\pi$}{Pi}}
 \begin{lstlisting}
 const double pi = 2 * acos(0.0)
 \end{lstlisting}
@@ -435,7 +430,7 @@ It means whether or not the presortedness of the input affects the running time.
 Some sorting algorithms are called "in-place". Strictly, an in-place sort needs only $\mathcal{O}(1)$ memory beyond the items being sorted; sometimes $\mathcal{O}(\log{n})$ additional memory is considered "in-place".
 \subsection{Computational Complexity}
 For typical serial sorting algorithms good behaviour is $\mathcal{O}(n\log{n})$, with parallel sort in $\mathcal{O}(\log^{2}{n})$, and bad behaviour is $\mathcal{O}(n^2)$.
-\section{Common $\mathcal{O}(n^2)$ Algorithms}
+\section{Common \texorpdfstring{$\mathcal{O}(n^2)$}{O(n square)} Algorithms}
 These algorithms are arguably easy to implement but generally not used due to high time complexity.
 \subsection{Bubble Sort}
 Bubble sort is a simple sorting algorithm. The algorithm starts at the beginning of the data set. It compares the first two elements, and if the first is greater than the second, it swaps them. It continues doing this for each pair of adjacent elements to the end of the data set. It then starts again with the first two elements, repeating until no swaps have occurred on the last pass. It is rarely used to sort large, unordered data sets.
@@ -532,7 +527,7 @@ Insertion sort is a simple sorting algorithm that is relatively efficient for sm
   Insertion Sort Example
 \end{figure}
 
-\section{Common $\mathcal{O}(n\log{n})$ Algorithms}
+\section{Common \texorpdfstring{$\mathcal{O}(n\log{n})$}{O(nlog(n))} Algorithms}
 \subsection{Merge Sort}
 Merge sort sorts a subarray \texttt{array}$[a \ldots b]$ as follows:
 
@@ -820,7 +815,7 @@ sort(a, a+n, greater<int>());// greater<int>() as third parameter
 
 \chapter{Bit Manipulation}
 \section{Tricks}
-\subsection{Multiply and divide by $2^i$}
+\subsection{Multiply and divide by \texorpdfstring{$2^i$}{2**i}}
 \begin{lstlisting}
 n = n << i;   // Multiply n with 2^i
 n = n >> 1;   // Divide n by 2^i
@@ -840,7 +835,7 @@ b ^= a;
 a ^= b;
 \end{lstlisting}
 \newpage
-\subsection{Compute XOR from 1 to $n$ (direct method)}
+\subsection{Compute XOR from 1 to \texorpdfstring{$n$}{n} (direct method)}
 \begin{algorithm}
 %\DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon    instead
 \KwIn{$n$}
@@ -895,7 +890,7 @@ Number Binary-Repr  XOR-from-1-to-n
 12     1100           [1100] <------ Equals to n
 \end{lstlisting}
 \newpage
-\subsection{Check if a number is a power of $2$}
+\subsection{Check if a number is a power of \texorpdfstring{$2$}{2}}
 \begin{lstlisting}
 bool poweroftwo(int x)
 {
@@ -907,7 +902,7 @@ bool poweroftwo(int x)
 ch |= ' '; //Upper to Lower
 ch &= '_' ; //Lower to Upper
 \end{lstlisting}
-\subsection{Find $\log_2 x$ of 32-bit integer}
+\subsection{Find \texorpdfstring{$\log_2 x$}{log} of integer}
 \begin{lstlisting}
 int logarithm(int x)
 {
@@ -1213,6 +1208,305 @@ while(next_permutation(arr, arr+n));
 
 \end{tcolorbox}
 
+
+\chapter{Searching}
+
+\section{Binary Search}
+
+Binary search is the most popular search algorithm. It is efficient and also one of the most commonly used techniques that is used to solve problems.
+
+We will explain this technique using a problem
+
+\begin{problem}
+Given a sorted array $A[]$ of $n$ elements, write a function to search a given element $x$ in $A[]$.
+\end{problem}
+
+\textbf{Constraints:} The array contains about $10^{10}$ elements. Each element is less than $10^9$
+
+\begin{tcolorbox}[breakable, title=Solution]
+\textbf{Naive Approach:} A simple approach is to do a linear search(checking every element). The time complexity would be $\mathcal{O}(n)$
+\tcblower
+\textbf{Binary Search:} Search a sorted array by repeatedly dividing the search interval in half. Begin with an interval covering the whole array. If the value of the search key is less than the item in the middle of the interval, narrow the interval to the lower half. Otherwise narrow it to the upper half. Repeatedly check until the value is found or the interval is empty.
+
+Since we are halving the array at each step, the time complexity becomes $\mathcal{O}(\log{n})$
+
+\includesvg[scale=0.5]{Binary_search.svg}
+
+\begin{lstlisting}
+int search(int low,int high,int key)
+{
+   while(low<=high)
+   {
+     int mid=(low+high)/2;
+     if(a[mid]<key)
+     {
+         low=mid+1; //search upper half
+     }
+     else if(a[mid]>key)
+     {
+         high=mid-1; //search lower half
+     }
+     else
+     {
+         return mid; //key found
+     }
+   }
+   return -1;        //key not found
+ }
+\end{lstlisting}
+\end{tcolorbox}
+\newpage
+\subsection{Binary Search in C++ STL}
+
+C++ STL has built-in binary search algorithms for a container
+
+\begin{itemize}
+    \item \texttt{binary\textunderscore search()} : it returns true if value is present in array and false otherwise.
+    \item \texttt{lower\textunderscore bound()} : it returns an iterator pointing to the first element in the array which is greater than or equal to value.
+    \item \texttt{upper\textunderscore bound()} : it returns an iterator pointing to the first element in the array which is greater than value.
+\end{itemize}
+
+\section{Two Pointer Technique}
+
+Two pointer is really an easy and effective technique which is typically used for searching pairs in a sorted array. Binary search is a kind of optimisation on the number of trials taken to reach the optimal position and so is the two pointer technique. The approach relies on the sequence following one specific property on which our pointers can move.
+
+We will explain this technique using an example problem.
+
+\begin{problem}
+Given a sorted array $A$, having $N$ integers. You need to find any pair$(i,j)$ having sum as given number $X$.
+\end{problem}
+
+\textbf{Constraints:} Array $A$ contains about $10^5$ integers with each having values around $10^9$.
+
+\begin{tcolorbox}[breakable, title=Solution]
+\textbf{Naive Solution:} We iterate over every $i$ and $j$ and find out the pair which sums up to $X$. This approach is to slow because it leads to a time complexity of $\mathcal{O}(n^2)$
+\tcblower
+\textbf{2 Pointer Technique:} Now let’s see how the two pointer technique works. We take two pointers, one representing the first element and other representing the last element of the array, and then we add the values kept at both the pointers. If their sum is smaller than X then we shift the left pointer to right or if their sum is greater than X then we shift the right pointer to left, in order to get closer to the sum. We keep moving the pointers until we get the sum as $X$ or the left pointer meets the right pointer and we don't find the value $X$.
+
+The time complexity is $\mathcal{O}(n)$ if the array is already sorted.
+\newpage
+\begin{lstlisting}
+bool isPairSum(A[], N, X) 
+{
+    int i = 0; //left pointer 
+    int j = N - 1; //right pointer
+  
+    while (i < j) 
+    { 
+        // If we find a pair 
+        if (A[i] + A[j] == X) 
+            return true; 
+
+        // If sum of elements at current 
+        // pointers is less, we move towards 
+        // higher values by doing i++ 
+        else if (A[i] + A[j] < X) 
+            i++; 
+  
+        // If sum of elements at current 
+        // pointers is more, we move towards 
+        // lower values by doing i++ 
+        else
+            j--; 
+    } 
+    return false; //i crosses j
+}
+\end{lstlisting}
+\end{tcolorbox}
+
+\section{Sliding window minimum}
+
+A \key{sliding window} is a constant-size subarray
+that moves from left to right through the array.
+At each window position,
+we want to calculate some information
+about the elements inside the window.
+In this section, we focus on the problem
+of maintaining the \key{sliding window minimum},
+which means that
+we should report the smallest value inside each window.
+
+The sliding window minimum can be calculated
+using a similar idea that we used to calculate
+the nearest smaller elements.
+We maintain a queue
+where each element is larger than
+the previous element,
+and the first element
+always corresponds to the minimum element inside the window.
+After each window move,
+we remove elements from the end of the queue
+until the last queue element
+is smaller than the new window element,
+or the queue becomes empty.
+We also remove the first queue element
+if it is not inside the window anymore.
+Finally, we add the new window element
+to the end of the queue.
+
+As an example, consider the following array:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\draw (0,0) grid (8,1);
+
+\node at (0.5,0.5) {$2$};
+\node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$4$};
+\node at (3.5,0.5) {$5$};
+\node at (4.5,0.5) {$3$};
+\node at (5.5,0.5) {$4$};
+\node at (6.5,0.5) {$1$};
+\node at (7.5,0.5) {$2$};
+\end{tikzpicture}
+\end{center}
+
+Suppose that the size of the sliding window is 4.
+At the first window position, the smallest value is 1:
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\fill[color=lightgray] (0,0) rectangle (4,1);
+\draw (0,0) grid (8,1);
+
+\node at (0.5,0.5) {$2$};
+\node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$4$};
+\node at (3.5,0.5) {$5$};
+\node at (4.5,0.5) {$3$};
+\node at (5.5,0.5) {$4$};
+\node at (6.5,0.5) {$1$};
+\node at (7.5,0.5) {$2$};
+
+\draw (1.2,0.2-1.2) rectangle (1.8,0.8-1.2);
+\draw (2.2,0.2-1.2) rectangle (2.8,0.8-1.2);
+\draw (3.2,0.2-1.2) rectangle (3.8,0.8-1.2);
+
+\node at (1.5,0.5-1.2) {$1$};
+\node at (2.5,0.5-1.2) {$4$};
+\node at (3.5,0.5-1.2) {$5$};
+
+\draw[->,thick] (1.8,0.5-1.2) -- (2.2,0.5-1.2);
+\draw[->,thick] (2.8,0.5-1.2) -- (3.2,0.5-1.2);
+\end{tikzpicture}
+\end{center}
+
+Then the window moves one step right.
+The new element 3 is smaller than the elements
+4 and 5 in the queue, so the elements 4 and 5
+are removed from the queue
+and the element 3 is added to the queue.
+The smallest value is still 1.
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\fill[color=lightgray] (1,0) rectangle (5,1);
+\draw (0,0) grid (8,1);
+
+\node at (0.5,0.5) {$2$};
+\node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$4$};
+\node at (3.5,0.5) {$5$};
+\node at (4.5,0.5) {$3$};
+\node at (5.5,0.5) {$4$};
+\node at (6.5,0.5) {$1$};
+\node at (7.5,0.5) {$2$};
+
+\draw (1.2,0.2-1.2) rectangle (1.8,0.8-1.2);
+\draw (4.2,0.2-1.2) rectangle (4.8,0.8-1.2);
+
+\node at (1.5,0.5-1.2) {$1$};
+\node at (4.5,0.5-1.2) {$3$};
+
+\draw[->,thick] (1.8,0.5-1.2) -- (4.2,0.5-1.2);
+\end{tikzpicture}
+\end{center}
+
+After this, the window moves again,
+and the smallest element 1
+does not belong to the window anymore.
+Thus, it is removed from the queue and the smallest
+value is now 3. Also the new element 4
+is added to the queue.
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\fill[color=lightgray] (2,0) rectangle (6,1);
+\draw (0,0) grid (8,1);
+
+\node at (0.5,0.5) {$2$};
+\node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$4$};
+\node at (3.5,0.5) {$5$};
+\node at (4.5,0.5) {$3$};
+\node at (5.5,0.5) {$4$};
+\node at (6.5,0.5) {$1$};
+\node at (7.5,0.5) {$2$};
+
+\draw (4.2,0.2-1.2) rectangle (4.8,0.8-1.2);
+\draw (5.2,0.2-1.2) rectangle (5.8,0.8-1.2);
+
+\node at (4.5,0.5-1.2) {$3$};
+\node at (5.5,0.5-1.2) {$4$};
+
+\draw[->,thick] (4.8,0.5-1.2) -- (5.2,0.5-1.2);
+\end{tikzpicture}
+\end{center}
+
+The next new element 1 is smaller than all elements
+in the queue.
+Thus, all elements are removed from the queue
+and it will only contain the element 1:
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\fill[color=lightgray] (3,0) rectangle (7,1);
+\draw (0,0) grid (8,1);
+
+\node at (0.5,0.5) {$2$};
+\node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$4$};
+\node at (3.5,0.5) {$5$};
+\node at (4.5,0.5) {$3$};
+\node at (5.5,0.5) {$4$};
+\node at (6.5,0.5) {$1$};
+\node at (7.5,0.5) {$2$};
+
+\draw (6.2,0.2-1.2) rectangle (6.8,0.8-1.2);
+
+\node at (6.5,0.5-1.2) {$1$};
+\end{tikzpicture}
+\end{center}
+
+Finally the window reaches its last position.
+The element 2 is added to the queue,
+but the smallest value inside the window
+is still 1.
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\fill[color=lightgray] (4,0) rectangle (8,1);
+\draw (0,0) grid (8,1);
+
+\node at (0.5,0.5) {$2$};
+\node at (1.5,0.5) {$1$};
+\node at (2.5,0.5) {$4$};
+\node at (3.5,0.5) {$5$};
+\node at (4.5,0.5) {$3$};
+\node at (5.5,0.5) {$4$};
+\node at (6.5,0.5) {$1$};
+\node at (7.5,0.5) {$2$};
+
+\draw (6.2,0.2-1.2) rectangle (6.8,0.8-1.2);
+\draw (7.2,0.2-1.2) rectangle (7.8,0.8-1.2);
+
+\node at (6.5,0.5-1.2) {$1$};
+\node at (7.5,0.5-1.2) {$2$};
+
+\draw[->,thick] (6.8,0.5-1.2) -- (7.2,0.5-1.2);
+\end{tikzpicture}
+\end{center}
+
+Since each array element
+is added to the queue exactly once and
+removed from the queue at most once,
+the algorithm works in $O(n)$ time.
+
 \part{Dynamic Programming}
 \chapter{Common DP Problems}
 \section{Rod Cutting}
@@ -1455,7 +1749,6 @@ There are five solutions: \texttt{[2,2,2,2,2];[2,2,3,3];[2,2,6];[2,3,5];[5,5]}
 Recursive Equation:
 \begin{equation*}
     \texttt{change}(x) = \begin{cases}
-               $x < 0$ & 0\\
                $x = 0$ & 1\\
                $x > 0$ & \sum_{c \in \texttt{coins}} \texttt{change}(x-c)\\
            \end{cases}
@@ -1970,7 +2263,7 @@ int editDistDP(string str1, string str2, int m, int n)
 Time Complexity is $\mathcal{O}(mn)$
 \end{tcolorbox}
 \newpage
-\section{Express $n$ as $k$ partitions}
+\section{Express \texorpdfstring{$n$}{n} as sum of \texorpdfstring{$k$}{k} numbers}
 \begin{problem}
 Given an integer $n$, how many ways can $K$ non-negative
 integers less than or equal to $n$ add up to $n$?
@@ -3211,9 +3504,8 @@ Shortest path $\delta(u,v)$ from $u$ to $v$ has weight
 \item Properties of shortest paths:
             
 \begin{itemize}
-\item Subpaths of shortest paths are shortest paths: If $P =
-  <u=v_0,v_1,v_2, \cdots, v_k=v>$ is shortest path from $u$ to $v$
-  then for all $i<k$ $P'= <u=v_0,v_1,v_2, \cdots, v_i>$ is shortest
+\item Subpaths of shortest paths are shortest paths: If $P = u=v_0,v_1,v_2, \cdots, v_k=v$ is shortest path from $u$ to $v$
+  then for all $i$<$k$ $P' = u=v_0,v_1,v_2, \cdots, v_i$ is shortest
   path from $u$ to $v_i$
   
   
@@ -4028,7 +4320,7 @@ Run Floyd-Warshall algorithm on the graph. Initially $d[v][v]=0$ for each $v$. B
     \item\texttt{unsigned long long} :  $2^{64} - 1 \approx 1.8\times10^{19}$
 \end{itemize}
 
-\section{Method for integers > $2^{64} - 1 \approx 1.8\times10^{19}$}
+\section{Method for integers > \texorpdfstring{$2^{64} - 1 \approx 1.8\times10^{19}$}{10**19}}
 
 Arbitrary precision data type: We can use any precision with the help of cppint data type if we are not sure about how much precision is needed in future. It automatically converts the desired precision at the Run-time.
 
@@ -4455,7 +4747,7 @@ For example, $(3,4,5)$ is a Pythagorean triple.
 
 If $(a,b,c)$ is a Pythagorean triple,
 all triples of the form $(ka,kb,kc)$
-are also Pythagorean triples where $k>1$.
+are also Pythagorean triples where $k$>$1$.
 A Pythagorean triple is \emph{primitive} if
 $a$, $b$ and $c$ are coprime,
 and all Pythagorean triples can be constructed
@@ -4465,7 +4757,7 @@ from primitive triples using a multiplier $k$.
 all primitive Pythagorean triples.
 Each such triple is of the form
 \[(n^2-m^2,2nm,n^2+m^2),\]
-where $0<m<n$, $n$ and $m$ are coprime
+where $0$<$m$<$n$, $n$ and $m$ are coprime
 and at least one of $n$ and $m$ is even.
 For example, when $m=1$ and $n=2$, the formula
 produces the smallest Pythagorean triple
@@ -4677,7 +4969,7 @@ The problems are quite easy and mostly related to these topics:
 
 You can see and submit solutions of the problems on Codechef: \url{https://www.codechef.com/ZCOPRAC}. 
 
-The question bank starts from the next page. The questions are arranged in ascending difficulty.
+The question bank starts from the next page.
 
 \newpage
 
@@ -5048,6 +5340,154 @@ Time Complexity is $\mathcal{O}(n\log{n})$
 \vspace{5mm}
 
 \textbf{Code: } \url{https://repl.it/@SalilGokhale/Variation}
+
+\end{tcolorbox}
+
+\newpage
+
+\section{Matched Brackets}
+
+URL: \url{https://www.codechef.com/ZCOPRAC/problems/ZCO12001}
+
+Problem Code: ZCO12001
+
+Year: ZCO 2012
+
+\begin{problem}
+
+A sequence of opening and closing brackets is well-bracketed if we can pair up each opening bracket with a matching closing bracket in the usual sense. For instance, the sequences (), (()) and ()(()) are well-bracketed, while (, ()), (()(), and )( are not well-bracketed.
+
+The nesting depth of a well-bracketed sequence tells us the maximum number of levels of inner matched brackets enclosed within outer matched brackets. For instance, the nesting depth of () and ()()() is 1, the nesting depth of (()) and ()(()) is 2, the nesting depth of ((())) is 3, and so on.
+
+Given a well-bracketed sequence, we are interested in computing the following:
+
+\begin{itemize}
+    \item The nesting depth, and the first position where it occurs-this will be the position of the first opening bracket at this nesting depth, where the positions are numbered starting with 1.
+    \item The maximum number of symbols between any pair of matched brackets, including both the outer brackets, and the first position where this occurs-that is, the position of the first opening bracket of this segment
+\end{itemize}
+
+For instance, the nesting depth of ()(())()(()())(()()) is 2 and the first position where this occurs is 4. The opening bracket at position 10 is also at nesting depth 2 but we have to report the first position where this occurs, which is 4.
+
+In this sequence, the maximum number of symbols between a pair of matched bracket is 6, starting at position 9. There is another such sequence of length 6 starting at position 15, but this is not the first such position.
+\end{problem}
+
+
+\begin{input_st}
+
+The input consists of two lines. The first line is a single integer $N$, the length of the bracket sequence. Positions in the sequence are numbered $1,2,\cdots,N$. The second line is a sequence of $N$ space-separated integers that encode the bracket expression as follows: 1 denotes an opening bracket ( and 2 denotes a closing bracket ). Nothing other than 1 or 2 appears in the second line of input and the corresponding expression is guaranteed to be well-bracketed.
+
+
+\end{input_st}
+
+\begin{output_st}
+
+Your program should print 4 space-separated integers in a line, denoting the four quantities asked for in the following order: nesting depth, first position that achieves the nesting depth, length of the maximum sequence between matching brackets and the first position where such a maximum length sequence occurs
+
+\end{output_st}
+
+\begin{tcolorbox}[title=Example]
+\begin{lstlisting}
+20
+1 2 1 1 2 2 1 2 1 1 2 1 2 2 1 1 2 1 2 2
+\end{lstlisting}
+\tcblower
+\begin{lstlisting}
+2 4 6 9
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Constraints:}
+
+You may assume that $2 \leq N \leq 10^5$. In $30\%$ of the test cases, $2 \leq N \leq 10^3$. 
+
+\begin{tcolorbox}[title=Solution]
+
+\textbf{Maximum depth:} To find the maximum depth, you can maintain variables \texttt{depth} and \texttt{maximum\textunderscore depth}. Increment it if character is 1 and decrement it if character is 2. Each time you increment it, you can check if \texttt{depth} exceeds \texttt{maximum\textunderscore depth} and update \texttt{maximum\textunderscore depth} to \texttt{depth}. You must store the index when you update \texttt{maximum\textunderscore depth}.
+
+\vspace{5mm}
+
+\textbf{Maximum length:} A key observation while solving this problem is that the maximum length will be between 2 matching brackets with depth \key{0} i.e. the brackets are not nested. You can start counting the length when you encounter a opening bracket with depth 0 and stop counting when you find the corresponding closing bracket. The maximum of all such lengths will be the answer. Finding the index is a trivial problem.
+
+\textbf{Take care of 0-indexing and edge cases!!}
+
+\textbf{Code: } \url{https://repl.it/@SalilGokhale/Matched-Brackets}
+
+\end{tcolorbox}
+
+\newpage
+
+\section{Chewing}
+
+URL: \url{https://www.codechef.com/ZCOPRAC/problems/ZCO13003}
+
+Problem Code: ZCO13003
+
+Year: ZCO 2013
+
+\begin{problem}
+
+Hobbes has challenged Calvin to display his chewing skills and chew two different types of Chewing Magazine's Diabolic Jawlockers chewing gum at the same time. Being a generous sort of tiger, Hobbes allows Calvin to pick the two types of gum he will chew.
+
+
+Each type of chewing gum has a hardness quotient, given by a non-negative integer. If Calvin chews two pieces of gum at the same time, the total hardness quotient is the sum of the individual hardness quotients of the two pieces of gum.
+
+
+Calvin knows that he cannot chew any gum combination whose hardness quotient is $K$ or more. He is given a list with the hardness quotient of each type of gum in the Diabolic Jawlockers collection. How many different pairs of chewing gum can Calvin choose from so that the total hardness quotient remains strictly below his hardness limit $K$?
+
+For instance, suppose there are 7 types of chewing gum as follows:
+
+\begin{table}[!ht]
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Chewing Gum Type}  & 1  & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+\textbf{Hardness Quotient} & 10 & 1 & 3 & 1 & 5 & 5 & 0 \\ \hline
+\end{tabular}
+\end{table}
+
+
+If Calvin's hardness limit is 4, there are 4 possible pairs he can choose: type 2 and 7 ($1+0$ < 4), type 3 and 7 ($3+0$ < 4), type 2 and 4 ($1+1$ < 4) and type 4 and 7 ($1+0$ < 4).
+\end{problem}
+
+
+\begin{input_st}
+
+Line 1 : Two space separated integers $N$ and $K$, where $N$ is the number of different types of chewing gum and $K$ is Calvin's hardness limit.
+
+Line 2: $N$ space separated non-negative integers, which are the hardness quotients of each of the $N$ types of chewing gum.
+
+\end{input_st}
+
+\begin{output_st}
+
+The output consists of a single non-negative integer, the number of pairs of chewing gum with total hardness quotient strictly less than $K$.
+
+\end{output_st}
+
+\begin{tcolorbox}[title=Example]
+\begin{lstlisting}
+7 4
+10 1 3 1 5 5 0
+\end{lstlisting}
+\tcblower
+\begin{lstlisting}
+4
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Constraints:}
+
+    In all subtasks, you may assume that all the hardness quotients as well as the hardness limit $K$ are between 0 and $10^6$ inclusive.
+    
+    $2 \leq N \leq 10^5$
+
+\textbf{Note:} The answer might not fit in a variable of type \texttt{int}. We recommend that type \texttt{long long} be used for computing the answer. If you use \texttt{printf} and \texttt{scanf}, you can use \texttt{\%lld} for \texttt{long long}.
+
+\begin{tcolorbox}[title=Solution]
+\textbf{Naive Solution:} Checking all pairs and checking if their sum is below $k$ gives a time complexity of $\mathcal{O}(n^2)$ and TLE.
+\tcblower
+This problem can be solved using the two pointer-technique. We first sort the array. Then we apply the two-pointer technique. Whenever we get two pointer $i, j$ such that \texttt{hardness[i] + hardness[j < k}, we add $j-i$ to a variable \texttt{sum} because all such $i$ and $j$ can be paired up. We stop when $i==j$
+
+\textbf{Code: } \url{https://repl.it/@SalilGokhale/Chewing}
 
 \end{tcolorbox}
 
