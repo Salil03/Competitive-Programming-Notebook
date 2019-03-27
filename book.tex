@@ -141,7 +141,7 @@
         {\bfseries\itshape}                 % <theorem head font>
         {\normalfont\bfseries:}         % <punctuation after theorem head>
         {.5em}                                          % <space after theorem head>
-        {}                                              
+        {}
 \theoremstyle{problemstyle}
 
 \newtheorem*{problem}{Problem} % Comment out [section] to remove section number dependence
@@ -154,7 +154,7 @@
         {\bfseries\itshape}                 % <theorem head font>
         {\normalfont\bfseries:}         % <punctuation after theorem head>
         {.5em}                                          % <space after theorem head>
-        {}                                              
+        {}
 \theoremstyle{problemstyle}
 
 \newtheorem*{input_st}{Input Format} % Comment out [section] to remove section number dependence
@@ -167,7 +167,7 @@
         {\bfseries\itshape}                 % <theorem head font>
         {\normalfont\bfseries:}         % <punctuation after theorem head>
         {.5em}                                          % <space after theorem head>
-        {}                                              
+        {}
 \theoremstyle{problemstyle}
 
 \newtheorem*{output_st}{Output Format} % Comment out [section] to remove section number dependence
@@ -209,11 +209,9 @@
 \makeindex
 \usepackage[totoc]{idxlayout}
 
+\usepackage{qrcode}
 
 \begin{document}
-%\selectlanguage{finnish}
-%\setcounter{page}{1}
-%\pagenumbering{roman}
 
 \frontmatter
 \pagecolor{darkgray}
@@ -221,6 +219,38 @@
 \maketitle
 \nopagecolor
 \color{black}
+
+\begingroup
+\footnotesize
+\parindent 0pt
+\parskip \baselineskip
+\textcopyright{} 2019 Salil Gokhale \\
+All rights reserved.
+
+This work may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either version 1.3
+of this license or (at your option) any later version.
+The latest version of this license is in
+  \url{http://www.latex-project.org/lppl.txt}
+and version 1.3 or later is part of all distributions of LaTeX
+version 2005/12/01 or later.
+
+This work has the LPPL maintenance status `maintained'.
+
+The Current Maintainer of this work is Salil Gokhale.
+
+This work consists of this book, and it's source code.
+
+You can read this book online by scanning this QR code:
+
+\begin{center}
+\qrcode[height = 6in, level=H]{https://salil03.github.io/Competitive-Programming-Notebook/}
+\end{center}
+
+
+\endgroup
+\clearpage
+
 \setcounter{tocdepth}{2}
 \tableofcontents
 
@@ -261,9 +291,9 @@ Solution Begins here
 int main()
 {
     //FAST I/O
-	ios_base::sync_with_stdio(false);
-	cin.tie(0);
-	cout.tie(0);
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
 }
 \end{lstlisting}
 
@@ -434,7 +464,7 @@ For typical serial sorting algorithms good behaviour is $\mathcal{O}(n\log{n})$,
 These algorithms are arguably easy to implement but generally not used due to high time complexity.
 \subsection{Bubble Sort}
 Bubble sort is a simple sorting algorithm. The algorithm starts at the beginning of the data set. It compares the first two elements, and if the first is greater than the second, it swaps them. It continues doing this for each pair of adjacent elements to the end of the data set. It then starts again with the first two elements, repeating until no swaps have occurred on the last pass. It is rarely used to sort large, unordered data sets.
-\hfill\break
+
 \begin{center}
 \begin{tikzpicture}[rotate = 90, swap/.style = {dashed, thick},
   inv/.style = {blue, rectangle, draw, inner sep = 0pt, outer sep = 0pt},
@@ -1102,7 +1132,7 @@ contains two such subgrids:
 \end{center}
 \end{exmp}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 Naive Solution of time complexity $\mathcal{O}(n^3)$:
 
 Go through all $O(n^2)$ pairs of rows and for each pair
@@ -1122,7 +1152,7 @@ because we can choose any two of them to form a subgrid.
 \end{tcolorbox}
 \newpage
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 Optimized solution:
 
 Divide the grid into blocks
@@ -1286,29 +1316,29 @@ Given a sorted array $A$, having $N$ integers. You need to find any pair$(i,j)$ 
 The time complexity is $\mathcal{O}(n)$ if the array is already sorted.
 \newpage
 \begin{lstlisting}
-bool isPairSum(A[], N, X) 
+bool isPairSum(A[], N, X)
 {
-    int i = 0; //left pointer 
+    int i = 0; //left pointer
     int j = N - 1; //right pointer
-  
-    while (i < j) 
-    { 
-        // If we find a pair 
-        if (A[i] + A[j] == X) 
-            return true; 
 
-        // If sum of elements at current 
-        // pointers is less, we move towards 
-        // higher values by doing i++ 
-        else if (A[i] + A[j] < X) 
-            i++; 
-  
-        // If sum of elements at current 
-        // pointers is more, we move towards 
-        // lower values by doing i++ 
+    while (i < j)
+    {
+        // If we find a pair
+        if (A[i] + A[j] == X)
+            return true;
+
+        // If sum of elements at current
+        // pointers is less, we move towards
+        // higher values by doing i++
+        else if (A[i] + A[j] < X)
+            i++;
+
+        // If sum of elements at current
+        // pointers is more, we move towards
+        // lower values by doing i++
         else
-            j--; 
-    } 
+            j--;
+    }
     return false; //i crosses j
 }
 \end{lstlisting}
@@ -1509,6 +1539,38 @@ the algorithm works in $O(n)$ time.
 
 \part{Dynamic Programming}
 \chapter{Common DP Problems}
+\section{Largest Sum Contiguous Subarray}
+\begin{problem}
+Given an integer array $A$, find the sum of the contiguous subarray (containing at least one number) which has the largest sum. Formally, the task is to find indices $i$  and $j$  with $1\leq i\leq j\leq n$  , such that the sum
+$$\sum_{x=i}^j A[x]$$ is as large as possible
+\end{problem}
+\begin{exmp}
+Input: \texttt{[-2,1,-3,4,-1,2,1,-5,4]},
+
+Output: $6$
+
+Explanation: \texttt{[4,-1,2,1]} has the largest sum = 6.
+\end{exmp}
+\begin{tcolorbox}[title=Solution, breakable]
+
+This is called Kadane's algorithm.
+
+The key idea of Kadane’s algorithm is to keep a running sum of the integers seen so far and
+greedily reset that to $0$ if the running sum dips below $0$. This is because re-starting from
+$0$ is always better than continuing from a negative running sum.
+
+\begin{lstlisting}
+int sum = 0, ans = 0; // important, ans must be initialized to 0
+for (int i = 0; i < n; i++)
+{ // linear scan, O(n)
+    sum += A[i]; // we greedily extend this running sum
+    ans = max(ans, sum); // we keep the maximum RSQ overall
+    if (sum < 0) sum = 0; // but we reset the running sum
+}                         // if it ever dips below 0
+cout << ans; //ans is the final answer
+\end{lstlisting}
+Time Complexity is $\mathcal{O}(n)$
+\end{tcolorbox}
 \section{Rod Cutting}
 \begin{problem}[DP]
 Given a rod of length $n$ inches and an array of prices that contains prices of all pieces of size smaller than $n$. Determine the maximum value obtainable by cutting up the rod and selling the pieces.
@@ -1518,7 +1580,7 @@ If length of the rod is $8$ and the values of different pieces are given as foll
 Price  array = \texttt{[1,5,8,9,10,17,17,20]}
 \end{exmp}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 We fix the last piece of rod with length $i$ and iterate over $i$
 \begin{lstlisting}
 int cutRod(int price[], int n)
@@ -1540,15 +1602,16 @@ int cutRod(int price[], int n)
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(n^2)$
 \end{tcolorbox}
+\newpage
 \section{Longest Increasing Subsequence(LIS)}
 \begin{problem}[DP]
 Find the length of the longest subsequence of a given sequence such that all elements of the subsequence are sorted in increasing order.
 \end{problem}
 \begin{exmp}
-LIS for \texttt{[10, 22, 9, 33, 21, 50, 41, 60, 80]} is $6$ and LIS is \texttt{[10, 22, 33, 50, 60, 80]}.
+Sum of LIS for \texttt{[10, 22, 9, 33, 21, 50, 41, 60, 80]} is $6$ and LIS is \texttt{[10, 22, 33, 50, 60, 80]}.
 \end{exmp}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 Let \texttt{arr[0..n-1]} be the input array and \texttt{L(i)} be the length of the LIS ending at index $i$ such that \texttt{arr[i]} is the last element of the LIS.
 
 Then, \texttt{L(i)} can be recursively written as:
@@ -1588,7 +1651,7 @@ LCS for input Sequences \texttt{“ABCDGH”} and \texttt{“AEDFHR”} is \text
 LCS for input Sequences \texttt{“AGGTAB”} and \texttt{“GXTXAYB”} is \texttt{“GTAB”} of length $4$.
 \end{exmp}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 \begin{lstlisting}
 /* Returns length of LCS for X[0..m-1], Y[0..n-1] */
 int lcs(string x, string y, int m, int n )
@@ -1692,7 +1755,7 @@ The third solution is shown below:
 \end{exmp}
 \newpage
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 Tiling Problem is nothing but Fibonacci sequence
 
 Method 1:
@@ -1745,7 +1808,7 @@ $n = 10$ and \texttt{S = [2,5,3,6]} and answer = $5$
 There are five solutions: \texttt{[2,2,2,2,2];[2,2,3,3];[2,2,6];[2,3,5];[5,5]}
 \end{exmp}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 Recursive Equation:
 \begin{equation*}
     \texttt{change}(x) = \begin{cases}
@@ -1794,7 +1857,7 @@ Output: Minimum 2 coins required
 We can use one coin of 6 cents and 1 coin of 5 cents
 \end{exmp}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 \begin{lstlisting}
 // m is size of coins array (number of different coins)
 int minCoins(int coins[], int n)
@@ -1827,45 +1890,6 @@ int minCoins(int coins[], int n)
 Time Complexity is $\mathcal{O}(nm)$
 \end{tcolorbox}
 \newpage
-\section{Largest Sum Contiguous Subarray}
-\begin{problem}
-Given an integer array $A$, find the sum of the contiguous subarray (containing at least one number) which has the largest sum. Formally, the task is to find indices $i$  and $j$  with $1\leq i\leq j\leq n$  , such that the sum
-$$\sum_{x=i}^j A[x]$$ is as large as possible
-\end{problem}
-\begin{exmp}
-Input: \texttt{[-2,1,-3,4,-1,2,1,-5,4]},
-
-Output: $6$
-
-Explanation: \texttt{[4,-1,2,1]} has the largest sum = 6.
-\end{exmp}
-\begin{tcolorbox}[title=Solution]
-\hfill\break
-This is called Kadane's algorithm.
-
-The key idea of Kadane’s algorithm is to keep a running sum of the integers seen so far and
-greedily reset that to $0$ if the running sum dips below $0$. This is because re-starting from
-$0$ is always better than continuing from a negative running sum.
-
-\begin{lstlisting}
-int max_sum(int A[], int n)
-{
-    int sum = 0, ans = 0; // important, ans must be initialized to 0
-    for (int i = 0; i < n; i++)
-    { // linear scan, O(n)
-        sum += A[i]; // we greedily extend this running sum
-        ans = max(ans, sum); // we keep the maximum RSQ overall
-        if (sum < 0)
-        {
-            sum = 0; // but we reset the running sum
-        }
-    } // if it ever dips below 0
-    return ans; //ans is the final answer
-}
-\end{lstlisting}
-Time Complexity is $\mathcal{O}(n)$
-\end{tcolorbox}
-\newpage
 \section{0-1 Knapsack Part 1}
 \begin{problem}
 Given $n$ items, each with its own value $V_i$ and weight $W_i$, $\forall i \in [0..n-1]$, and a
@@ -1873,7 +1897,7 @@ maximum knapsack of size S, compute the maximum value of the items that we can c
 we can either ignore or take a particular item (hence the term 0-1 for ignore/take).
 \end{problem}
 \begin{exmp}
-\hfill\break
+
 
 \texttt{Value = [60,100,120]}
 
@@ -1886,7 +1910,7 @@ Output = $220$
 Explanation: The best choice is to pick item 2 and item 3
 \end{exmp}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 \begin{lstlisting}
 int knapSack(int w, int weight[], int value[], int n)
 {
@@ -1939,7 +1963,7 @@ For example, the sum 7 is possible because we
 can select the weights $[1,3,3]$.
 \end{exmp}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 Let $\texttt{possible}(x,k)=\textrm{true}$ if
 we can construct a sum $x$
 using the first $k$ weights,
@@ -1994,7 +2018,7 @@ that the sum of the values along
 the path is as large as possible.
 \end{problem}
 \begin{exmp}
-\hfill\break
+
 \begin{center}
 \begin{tikzpicture}[scale=.65]
   \begin{scope}
@@ -2042,7 +2066,7 @@ from the
 upper-left corner to the lower-right corner.
 \end{exmp}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 The formula is based on the observation
 that a path that ends at square $(y,x)$
 can come either from square $(y,x-1)$
@@ -2221,7 +2245,7 @@ In this case the path is as follows:
 \end{exmp}
 \newpage
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 \begin{lstlisting}
 int editDistDP(string str1, string str2, int m, int n)
 {
@@ -2293,7 +2317,7 @@ $N = 10$, $K = 4$
 Output: 84
 \end{exmp}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 This is also called as the Binomial Coefficient Problem
 \begin{lstlisting}
 // Returns value of Binomial Coefficient C(n, k)
@@ -2319,6 +2343,7 @@ int binomial(int n, int k)
 \end{lstlisting}
 Time Complexity is $\mathcal{O}(nk)$
 \end{tcolorbox}
+
 \part{Basic Graph Theory}
 \chapter{Graph Theory}
 \section{Formal Definition of Graph}
@@ -2945,12 +2970,12 @@ when the search arrives at node $s$, the value of \texttt{visited[s]} becomes \t
 \newpage
 
 \begin{lstlisting}
-void dfs(int s) 
+void dfs(int s)
 {
     if (visited[s]) return;
     visited[s] = true;
     // process node s
-    for (auto u: adj[s]) 
+    for (auto u: adj[s])
     {
         dfs(u); //dfs on all nodes adjacent to s
     }
@@ -2963,7 +2988,7 @@ number of edges,
 
 \section{Visualization}
 
-DFS on a binary search tree is shown below. Note that the blue arrow reaches the root node at the end.
+DFS on a tree is shown below. Note that the blue arrow reaches the root node at the end.
 
 \begin{center}
 \begin{tikzpicture}[->,>=stealth',every node/.style={circle,draw},level 1/.style={sibling distance=50mm},level 2/.style={sibling distance=20mm},level 3/.style={sibling distance=12mm},
@@ -3482,43 +3507,43 @@ while (!q.empty()) {
 \chapter{Theory}
 
 \begin{itemize}
-\item Formal definition of shortest path: 
+\item Formal definition of shortest path:
 
-  $G = (V,E)$ weighted graph, directed or undirected. 
+  $G = (V,E)$ weighted graph, directed or undirected.
 
 Weight of path $P = <v_0,v_1,v_2, \cdots, v_k>$ is $w(P) =
-  \sum_{i=1}^k w(v_{i-1},v_i)$. 
+  \sum_{i=1}^k w(v_{i-1},v_i)$.
 
 Shortest path $\delta(u,v)$ from $u$ to $v$ has weight
-  
+
   \[ \delta(u,v) = \left\{ \begin{array}{ll}
                 \min\{w(P): \mbox{$P$ is path from $u$ to $v$}\} & \mbox{If
                   path exists} \\
                 \infty                                     & \mbox{Otherwise} \\
               \end{array} \right. \]
-            
+
             Example: Shortest path from $a$ to $e$ (of length 21) \\
 
             \centerline{\epsfig{file=SSSP_example.eps,height=3cm}}
-            
+
 \item Properties of shortest paths:
-            
+
 \begin{itemize}
 \item Subpaths of shortest paths are shortest paths: If $P = u=v_0,v_1,v_2, \cdots, v_k=v$ is shortest path from $u$ to $v$
   then for all $i$<$k$ $P' = u=v_0,v_1,v_2, \cdots, v_i$ is shortest
   path from $u$ to $v_i$
-  
-  
+
+
 \item No (unique) shortest path exists if graph has cycle with
   negative weight \\
-  
+
   Example: If we change weight of edge $(h,i)$ to $-8$, we have a
-  cycle (i,h,g) with negative weight ($-1$). Using this we can make the 
+  cycle (i,h,g) with negative weight ($-1$). Using this we can make the
   weight of path between $a$ and $e$ arbitrarily low by going through
   the cycle several times \\
-  
+
   \centerline{\epsfig{file=SSSP_negative.eps,height=3cm}}
-  
+
   On the other hand, the problem is well defined if we let edge
   $(h,i)$ have weight $-7$ (no negative cycles)
 \end{itemize}
@@ -3556,9 +3581,9 @@ Dijkstra's algorithm can be efficiently implemented using a \texttt{priority que
 First we initialise three values:
 \begin{enumerate}
     \item \texttt{dist[]}: an array of distances from the source node $s$ to each node in the graph, initialised the following way: \texttt{dist[s] = 0;} and for all other nodes , \texttt{dist[v]} $= \infty$. This is done at the beginning because as the algorithm proceeds, the \texttt{dist} from the source to each node $v$ in the graph will be recalculated and finalised when the shortest distance to $v$ is found.
-    
-    \item $Q$: a \texttt{priority queue} of all nodes in the graph. At the end of the algorithm's progress, $Q$ will be empty. $Q$ contains pairs of the form \texttt{(-d, x)}, meaning that the current distance to node $x$ is $d$. Note that the \texttt{priority queue} contains \key{negative} distances to nodes. The reason for this is that the default version of the C++ \texttt{priority queue} finds \key{maximum} elements, while we want to find \key{minimum} elements. By using negative distances, we can directly use the default \texttt{priority queue}. 
-    
+
+    \item $Q$: a \texttt{priority queue} of all nodes in the graph. At the end of the algorithm's progress, $Q$ will be empty. $Q$ contains pairs of the form \texttt{(-d, x)}, meaning that the current distance to node $x$ is $d$. Note that the \texttt{priority queue} contains \key{negative} distances to nodes. The reason for this is that the default version of the C++ \texttt{priority queue} finds \key{maximum} elements, while we want to find \key{minimum} elements. By using negative distances, we can directly use the default \texttt{priority queue}.
+
     \item \texttt{visited[]}: a boolean array that indicates whether a node has
     been processed. Initially all values are set to \texttt{false}.
 \end{enumerate}
@@ -3651,16 +3676,16 @@ Initially the distance is $0$ to $x$ and $\infty$ to all other nodes.
 for (int i = 1; i <= n; i++) distance[i] = INF;
 distance[x] = 0;
 q.push({0,x});
-while (!q.empty()) 
+while (!q.empty())
 {
     int a = q.top().second;
     q.pop();
     if (processed[a]) continue;
     processed[a] = true;
-    for (auto u : adj[a]) 
+    for (auto u : adj[a])
     {
         int b = u.first, w = u.second;
-        if (distance[a]+w < distance[b]) 
+        if (distance[a]+w < distance[b])
         {
             distance[b] = distance[a]+w;
             q.push({-distance[b],b});
@@ -3710,7 +3735,7 @@ that shorten the paths until it is not possible to reduce any distance.
   $w = \texttt{e.weight}$ \tcp*{weight of edge of $e$}\
   \If{$\texttt{d[j] greater than d[i]} + w$}{
     \If{$\texttt{step == n}$}
-    { 
+    {
       return "Negative cycle found" \tcp*{for detecting negative cycles}\
     }
     $\texttt{d[j] = d[i]} + w$\;
@@ -3914,10 +3939,10 @@ In practice, this algorithm can be somewhat optimised: often we already get the 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) distance[i] = INF;
 distance[x] = 0;
-for (int i = 1; i <= n-1; i++) 
+for (int i = 1; i <= n-1; i++)
 {
     bool flag = false;//flag
-    for (auto e : edges) 
+    for (auto e : edges)
     {
         int a, b, w;
         tie(a, b, w) = e;
@@ -3986,10 +4011,10 @@ regardless of the starting node.
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) distance[i] = INF;
 distance[x] = 0;
-for (int i = 1; i <= n-1; i++) 
+for (int i = 1; i <= n-1; i++)
 {
     bool flag = false;//flag
-    for (auto e : edges) 
+    for (auto e : edges)
     {
         int a, b, w;
         tie(a, b, w) = e;
@@ -4027,7 +4052,7 @@ first node in the queue, and when an edge
 $a \rightarrow b$ reduces a distance,
 node $b$ is added to the queue.
 
-The following implementation uses a 
+The following implementation uses a
 \texttt{queue} \texttt{q}.
 In addition, an array \texttt{inqueue} indicates
 if a node is already in the queue,
@@ -4038,16 +4063,16 @@ the node to the queue again.
 for (int i = 1; i <= n; i++) distance[i] = INF;
 distance[x] = 0;
 q.push(x);
-while (!q.empty()) 
+while (!q.empty())
 {
     int a = q.front(); q.pop();
     inqueue[a] = false;
-    for (auto b : v[a]) 
+    for (auto b : v[a])
     {
         if (distance[a]+b.second < distance[b.first])
         {
             distance[b.first] = distance[a]+b.second;
-            if (!inqueue[b]) 
+            if (!inqueue[b])
             {q.push(b); inqueue[b] = true;}
         }
     }
@@ -4165,7 +4190,7 @@ and distances are reduced using this node.
 On the first round, node 1 is the new intermediate node.
 There is a new path between nodes 2 and 4
 with length 14, because node 1 connects them.
-There is also a new path 
+There is also a new path
 between nodes 2 and 5 with length 6.
 
 \begin{center}
@@ -4268,9 +4293,9 @@ First, the algorithm initializes \texttt{distance}
 using the adjacency matrix \texttt{adj} of the graph:
 
 \begin{lstlisting}
-for (int i = 1; i <= n; i++) 
+for (int i = 1; i <= n; i++)
 {
-    for (int j = 1; j <= n; j++) 
+    for (int j = 1; j <= n; j++)
     {
         if (i == j) distance[i][j] = 0;//same node
         else if (adj[i][j]) distance[i][j] = adj[i][j];//adjacent nodes
@@ -4280,13 +4305,13 @@ for (int i = 1; i <= n; i++)
 \end{lstlisting}
 After this, the shortest distances can be found as follows:
 \begin{lstlisting}
-for (int i = 1; i <= n; i++) 
+for (int i = 1; i <= n; i++)
 {
-    for (int i = j; j <= n; j++) 
+    for (int i = j; j <= n; j++)
     {
-        for (int k = 1; k <= n; k++) 
+        for (int k = 1; k <= n; k++)
         {
-            distance[j][k] = min(distance[j][k], 
+            distance[j][k] = min(distance[j][k],
                               distance[j][i] + distance[i][k])
         }
     }
@@ -4420,7 +4445,7 @@ work with the given input as it is too large without some pre-processing
 Test whether a given natural number $N$ is prime or not.
 \end{problem}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 We do the following optimisation:
 \begin{enumerate}
     \item Instead of checking till $n$, we can check till $\sqrt{n}$
@@ -4445,7 +4470,7 @@ The sieve of Eratosthenes is one of the most efficient ways to find all primes s
 Given a number $n$, print all primes smaller than or equal to $n$. It is also given that $n$ is a small number.
 \end{problem}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 Following is the algorithm to find all the prime numbers less than or equal to a given integer n by Eratosthenes's method:
 \begin{enumerate}
     \item The algorithm builds an array \texttt{sieve} whose positions $0, 1,2,3,...,n$ are used. The value \texttt{sieve[k] = 0} means that $k$ is prime, and the value \texttt{sieve[k] $\neq$ 0} means that $k$ is not a prime and one of its prime factors is \texttt{sieve[k]}.
@@ -4531,7 +4556,7 @@ Time Complexity is $\mathcal{O}(n\log{(\log{n})})$ which is very close to linear
 Given a number $n$, print all prime factors of $n$.
 \end{problem}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 Following are the steps to find all prime factors.
 \begin{enumerate}
     \item While $n$ is divisible by $2$, print $2$ and divide $n$ by $2$.
@@ -4601,7 +4626,7 @@ There are infinitely positive integers $n$ for which $2n - 1$ is a prime number.
   Given a big number \texttt{num} represented as string and an integer $x$, find value of $num \mod x$. Output is expected as an integer.
 \end{problem}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 The idea is to process all digits one by one and use the property that $(xy) \mod a \equiv (x \mod a \times y \mod a) \mod a$. Below is the implementation.
 \begin{lstlisting}
 int modulo(string num, int x)
@@ -4621,7 +4646,7 @@ int modulo(string num, int x)
 Given $x$,$m$,$n$, find $x^n \mod m$
 \end{problem}
 \begin{tcolorbox}[title=Solution]
-\hfill\break
+
 The naive solution would run in $\mathcal{O}(n)$ time. Using modular exponentiation we can bring down the complexity to $\mathcal{O}(\log{n})$ by using the following algorithm:
 
 \begin{equation*}
@@ -4673,7 +4698,7 @@ int totient(int n)
             result -= result / p;
         }
     }
-    
+
     if (n > 1) result -= result / n;
     return result;
 }
@@ -4721,7 +4746,7 @@ $$F_{n-1} F_{n+1} - F_n^2 = (-1)^n$$
 
 
 \[
-    F_{n+k}= 
+    F_{n+k}=
 \begin{cases}
    F_k F_{n+1} + F_{k-1} F_n\\
    F_{2n} = F_n (F_{n+1} + F_{n-1}),& \text{if } k = n\\
@@ -4800,7 +4825,7 @@ The algorithm is extremely simple:
 $$\gcd(a, b) = \begin{cases}a,&\text{if }b = 0 \\ \gcd(b, a \pmod{b}),&\text{otherwise.}\end{cases}$$
 
 \begin{lstlisting}
-int gcd (int a, int b) 
+int gcd (int a, int b)
 {
     if (b == 0)
         return a;
@@ -4875,7 +4900,7 @@ x & \equiv & a_3 \pmod{m_3} \\
 x & \equiv & a_n \pmod{m_n} \\
 \end{array}
 \]
-where all pairs of $m_1,m_2,\ldots,m_n$ are coprime.  
+where all pairs of $m_1,m_2,\ldots,m_n$ are coprime.
 \end{problem}
 
 \begin{tcolorbox}[title=Solution]
@@ -4894,7 +4919,7 @@ M_n = M/m_n \\
 \end{array}
 \]
 
-Let $y_1, y_2, y_3, \cdots, y_n$ be such that $y_i$ is the modular inverse of $M_i$ i.e., 
+Let $y_1, y_2, y_3, \cdots, y_n$ be such that $y_i$ is the modular inverse of $M_i$ i.e.,
 
 \[
 \begin{array}{lcl}
@@ -4947,7 +4972,7 @@ M_3 = 792/11 = 72 \\
 
 $\therefore x = 3 \times 99 \times 3 + 1 \times 88 \times 3 + 4 \times 72 \times 2 = 1819$
 
-$\therefore x$ can be $1819, 2611, 3403 \cdots$ 
+$\therefore x$ can be $1819, 2611, 3403 \cdots$
 \end{exmp}
 
 \part{Question Bank}
@@ -4967,7 +4992,7 @@ The problems are quite easy and mostly related to these topics:
     \item Sorting
 \end{itemize}
 
-You can see and submit solutions of the problems on Codechef: \url{https://www.codechef.com/ZCOPRAC}. 
+You can see and submit solutions of the problems on Codechef: \url{https://www.codechef.com/ZCOPRAC}.
 
 The question bank starts from the next page.
 
@@ -5032,7 +5057,7 @@ The output consists of a single integer, the maximum possible revenue you can ea
 \textbf{Constraints:}
 \begin{center}
     Each customers' budget is between 1 and $10^8$, inclusive.
-    
+
     $1 \leq N \leq 5\times 10^5$
 \end{center}
 
@@ -5148,16 +5173,16 @@ A single line with $N$ integers, the number of boxes in each stack, from left to
 \end{lstlisting}
 \tcblower
 \begin{lstlisting}
-1 5 2 
+1 5 2
 \end{lstlisting}
 \end{tcolorbox}
 
 \textbf{Constraints:}
 \begin{center}
     The number of commands is between 1 and $10^5$, inclusive.
-    
+
     $1 \leq N \leq 10^5$
-    
+
     $1 \leq H \leq 10^8$
 \end{center}
 
@@ -5228,7 +5253,7 @@ A single integer, the total advertising revenue from the tournament.
 \textbf{Constraints:}
 \begin{center}
     In all subtasks, the strength of each team is an integer between $1$ and $10^3$ inclusive
-    
+
     $2 \leq N \leq 2\times 10^5$
 \end{center}
 
@@ -5245,7 +5270,7 @@ Let us take a different example than the given sample case.
 4
 3 10 7 5
 \end{lstlisting}
-Now the revenues for each match are: 
+Now the revenues for each match are:
 $$(10-5) +(10-7) + (10-3) + (7-5) + (7-3) + (5-3) = 23$$
 
 but wait that’s not what we will do. Look at it in the following manner:
@@ -5303,7 +5328,7 @@ A single integer in a single line giving the total variation count.
 
 \begin{tcolorbox}[title=Example]
 \begin{lstlisting}
-3 1 
+3 1
 3 1 3
 \end{lstlisting}
 \tcblower
@@ -5315,7 +5340,7 @@ A single integer in a single line giving the total variation count.
 \textbf{Constraints:}
 
     You may assume that all integers in the input are in the range 0 to $10^8$ inclusive.
-    
+
     $1 \leq N \leq 65000, 1 \leq K \leq 10^8$
 
 \begin{tcolorbox}[title=Solution]
@@ -5398,7 +5423,7 @@ Your program should print 4 space-separated integers in a line, denoting the fou
 
 \textbf{Constraints:}
 
-You may assume that $2 \leq N \leq 10^5$. In $30\%$ of the test cases, $2 \leq N \leq 10^3$. 
+You may assume that $2 \leq N \leq 10^5$. In $30\%$ of the test cases, $2 \leq N \leq 10^3$.
 
 \begin{tcolorbox}[title=Solution]
 
@@ -5477,7 +5502,7 @@ The output consists of a single non-negative integer, the number of pairs of che
 \textbf{Constraints:}
 
     In all subtasks, you may assume that all the hardness quotients as well as the hardness limit $K$ are between 0 and $10^6$ inclusive.
-    
+
     $2 \leq N \leq 10^5$
 
 \textbf{Note:} The answer might not fit in a variable of type \texttt{int}. We recommend that type \texttt{long long} be used for computing the answer. If you use \texttt{printf} and \texttt{scanf}, you can use \texttt{\%lld} for \texttt{long long}.
@@ -5488,6 +5513,79 @@ The output consists of a single non-negative integer, the number of pairs of che
 This problem can be solved using the two pointer-technique. We first sort the array. Then we apply the two-pointer technique. Whenever we get two pointer $i, j$ such that \texttt{hardness[i] + hardness[j < k}, we add $j-i$ to a variable \texttt{sum} because all such $i$ and $j$ can be paired up. We stop when $i==j$
 
 \textbf{Code: } \url{https://repl.it/@SalilGokhale/Chewing}
+
+\end{tcolorbox}
+
+\newpage
+
+\section{SUPW}
+
+URL: \url{https://www.codechef.com/ZCOPRAC/problems/ZCO14002}
+
+Problem Code: ZCO14002
+
+Year: ZCO 2014
+
+\begin{problem}
+
+In ICO School, all students have to participate regularly in SUPW. There is a different SUPW activity each day, and each activity has its own duration. The SUPW schedule for the next term has been announced, including information about the number of minutes taken by each activity.
+
+
+Nikhil has been designated SUPW coordinator. His task is to assign SUPW duties to students, including himself. The school's rules say that no student can go three days in a row without any SUPW duty.
+
+
+Nikhil wants to find an assignment of SUPW duty for himself that minimizes the number of minutes he spends overall on SUPW.
+
+\end{problem}
+
+
+\begin{input_st}
+
+Line 1: A single integer $N$, the number of days in the future for which SUPW data is available.
+
+Line 2: $N$ non-negative integers, where the integer in position $i$ represents the number of minutes required for SUPW work on day $i$.
+
+
+
+\end{input_st}
+
+\begin{output_st}
+
+The output consists of a single non-negative integer, the minimum number of minutes that Nikhil needs to spend on SUPW duties this term
+
+\end{output_st}
+
+\begin{tcolorbox}[title=Example]
+\begin{lstlisting}
+10
+3 2 1 1 2 3 1 3 2 1
+\end{lstlisting}
+\tcblower
+\begin{lstlisting}
+4
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Example]
+\begin{lstlisting}
+8
+3 2 3 2 3 5 1 3
+\end{lstlisting}
+\tcblower
+\begin{lstlisting}
+5
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Constraints:}
+
+    $1 \leq N \leq 2\times 10^5$
+
+    The number of minutes of SUPW each day is between $0$ and $10^4$, inclusive
+
+\begin{tcolorbox}[title=Solution]
+
+\textbf{Code: } \url{https://repl.it/@SalilGokhale/Smart-Phone}
 
 \end{tcolorbox}
 
