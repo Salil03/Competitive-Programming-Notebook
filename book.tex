@@ -40,6 +40,51 @@
 \usepackage{makeidx}
 \usepackage{enumitem}
 
+\usepackage{titletoc}
+\definecolor{doc}{RGB}{0,60,110}
+\definecolor{myblueii}{RGB}{63,200,244}
+
+
+%~~~~~~~~~~~~~~~~~~~~~Fancy ToC~~~~~~~~~~~~~~~~~~~~~~
+\contentsmargin{0cm}
+\titlecontents{chapter}[0pc]
+{\addvspace{30pt}%
+\begin{tikzpicture}[remember picture, overlay]%
+\draw[fill=myblueii,draw=myblueii, rounded corners] (-4,-.1) rectangle (-0.15,.5);%
+\pgftext[left,x=-2.7cm,y=0.2cm]{\color{white}\Large \chaptertitlename\ \thecontentslabel};%
+\end{tikzpicture}\color{myblueii}\large\bfseries}%
+{}
+{}
+{\hspace*{6pt}\titlerule\hspace*{6pt}\large\bfseries \thecontentspage
+\begin{tikzpicture}[remember picture, overlay]
+\draw[fill=doc!25,draw=myblueii, rounded corners=0pt] (2pt,0) rectangle (6,0.1pt);
+\end{tikzpicture}}%
+\titlecontents{section}[2.4pc]
+{\addvspace{1pt}}
+{\contentslabel[\thecontentslabel]{2.4pc}}
+{}
+{\hfill\small \thecontentspage}
+[]
+\titlecontents{subsection}[4.8pc]
+{\addvspace{1.0pt}}
+{\contentslabel[\thecontentslabel]{2.4pc}}
+{}
+{\hfill\small\thecontentspage}
+[]
+
+\makeatletter
+\renewcommand{\tableofcontents}{%
+\chapter*{%
+\vspace*{-20\p@}%
+\begin{tikzpicture}[remember picture, overlay]%
+\pgftext[right,x=15cm,y=0.2cm]{\color{myblueii}\Huge \contentsname};%
+\draw[fill=myblueii,draw=myblueii, rounded corners=15pt] (13,-.75) rectangle (20,1);%
+\clip (13,-.75) rectangle (20,1);
+\pgftext[right,x=15cm,y=0.2cm]{\color{white}\Huge \contentsname};%
+\end{tikzpicture}}%
+\@starttoc{toc}}
+\makeatother
+
 
 \usepackage{titlesec}
 \usepackage[Lenny]{fncychap}
@@ -207,7 +252,6 @@
 
 
 \makeindex
-\usepackage[totoc]{idxlayout}
 
 \usepackage{qrcode}
 
@@ -251,8 +295,10 @@ You can read this book online by scanning this QR code:
 \endgroup
 \clearpage
 
-\setcounter{tocdepth}{2}
-\tableofcontents
+{
+  \hypersetup{hidelinks}
+  \tableofcontents%
+}
 
 
 \mainmatter
@@ -277,14 +323,14 @@ Here is my code template for competitive programming:
 \begin{lstlisting}
 #include<bits/stdc++.h>
 using namespace std;
-//macro for debugging try using it by running watch(n);
+//macro for debugging. Run watch(n) if you want to debug n;
 #define watch(x) cerr << "\n" << (#x) << " is " << (x) << endl
 const double PI  = 3.141592653589793238463; //value of pi
-const int INF = 0x3f3f3f3f; //safest infinity
 const int MOD = 1000000007; //used in many problems
 
 /*
 $alil03
+URL: url of problem
 Solution Begins here
 */
 
@@ -356,10 +402,6 @@ any_of(first, first+n, ispositive());
 
 // are none of the elements positive?
 none_of(first, first+n, ispositive());
-\end{lstlisting}
-\subsection{Initialize number in binary form}
-\begin{lstlisting}
-auto number = 0b011; //Initialize number in binary form(3)
 \end{lstlisting}
 \newpage
 \section{Input and output}
@@ -4098,32 +4140,23 @@ nodes in paths.
 
 \vspace{10mm}
 
-\textbf{Why don't we make Dijkstra from each node in our graph and forget about Floyd-Warshall?}
 
-\vspace{5mm}
-
-\fbox{\begin{minipage}{33em}
+\begin{tcolorbox}[title=Why don't we apply Djikstra from each node?]
 \begin{itemize}
     \setlength\itemsep{1em}
     \item For simple problems and applications of Floyd-Warshall algorithm, its implementation is very short (5-6 lines of code). Hence, if $\mathcal{O}(n^3)$ is good enough, then Floyd-Warshall is preferable.
     \item Floyd-Warshall can detect the existence of negative cycles in the graph.
 \end{itemize}
-\end{minipage}}
+\end{tcolorbox}
 
-\newpage
-\textbf{What are some examples of applications of Floyd-Warshall algorithm that Dijkstra cannot handle?}
-
-\vspace{5mm}
-
-\fbox{\begin{minipage}{33em}
+\begin{tcolorbox}[title=Advantages of Floyd-Warshall over Djikstra, breakable]
 \begin{itemize}
     \setlength\itemsep{1em}
     \item Find the shortest path between $2$ nodes with a restriction that we should traverse exactly $L$ edges (where $L \leq 10^9$). Of course, the question only makes sense when we are allowed to traverse the same edge more than once.
     \item Find a negative cycle in a weighted graph with minimum number of edges forming this cycle (the total weight doesn't matter) it should just be negative and the number of edges is minimum.
     \item Often, you will notice that Floyd-Warshall technique can be applied when we need to work with the adjacency matrix representation of a graph.
 \end{itemize}
-\end{minipage}}
-
+\end{tcolorbox}
 \section{Pseudo-code}
 
 \begin{algorithm}[H]
