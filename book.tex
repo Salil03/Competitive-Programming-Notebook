@@ -186,7 +186,7 @@
         {\bfseries\itshape}                 % <theorem head font>
         {\normalfont\bfseries:}         % <punctuation after theorem head>
         {.5em}                                          % <space after theorem head>
-        {}
+        {}                                              
 \theoremstyle{problemstyle}
 
 \newtheorem*{problem}{Problem} % Comment out [section] to remove section number dependence
@@ -199,7 +199,7 @@
         {\bfseries\itshape}                 % <theorem head font>
         {\normalfont\bfseries:}         % <punctuation after theorem head>
         {.5em}                                          % <space after theorem head>
-        {}
+        {}                                              
 \theoremstyle{problemstyle}
 
 \newtheorem*{input_st}{Input Format} % Comment out [section] to remove section number dependence
@@ -212,7 +212,7 @@
         {\bfseries\itshape}                 % <theorem head font>
         {\normalfont\bfseries:}         % <punctuation after theorem head>
         {.5em}                                          % <space after theorem head>
-        {}
+        {}                                              
 \theoremstyle{problemstyle}
 
 \newtheorem*{output_st}{Output Format} % Comment out [section] to remove section number dependence
@@ -284,11 +284,11 @@ This work has the LPPL maintenance status `maintained'.
 The Current Maintainer of this work is Salil Gokhale.
 
 This work consists of this book, and it's source code.
-
+    
 You can read this book online by scanning this QR code:
 
 \begin{center}
-\qrcode[height = 6in, level=H]{https://salil03.github.io/Competitive-Programming-Notebook/}
+\qrcode[height = 6in, level=H]{https://salil03.github.io/Competitive-Programming-Notebook/}    
 \end{center}
 
 
@@ -337,9 +337,9 @@ Solution Begins here
 int main()
 {
     //FAST I/O
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
 }
 \end{lstlisting}
 
@@ -1358,29 +1358,29 @@ Given a sorted array $A$, having $N$ integers. You need to find any pair$(i,j)$ 
 The time complexity is $\mathcal{O}(n)$ if the array is already sorted.
 \newpage
 \begin{lstlisting}
-bool isPairSum(A[], N, X)
+bool isPairSum(A[], N, X) 
 {
-    int i = 0; //left pointer
+    int i = 0; //left pointer 
     int j = N - 1; //right pointer
+  
+    while (i < j) 
+    { 
+        // If we find a pair 
+        if (A[i] + A[j] == X) 
+            return true; 
 
-    while (i < j)
-    {
-        // If we find a pair
-        if (A[i] + A[j] == X)
-            return true;
-
-        // If sum of elements at current
-        // pointers is less, we move towards
-        // higher values by doing i++
-        else if (A[i] + A[j] < X)
-            i++;
-
-        // If sum of elements at current
-        // pointers is more, we move towards
-        // lower values by doing i++
+        // If sum of elements at current 
+        // pointers is less, we move towards 
+        // higher values by doing i++ 
+        else if (A[i] + A[j] < X) 
+            i++; 
+  
+        // If sum of elements at current 
+        // pointers is more, we move towards 
+        // lower values by doing i++ 
         else
-            j--;
-    }
+            j--; 
+    } 
     return false; //i crosses j
 }
 \end{lstlisting}
@@ -3012,12 +3012,12 @@ when the search arrives at node $s$, the value of \texttt{visited[s]} becomes \t
 \newpage
 
 \begin{lstlisting}
-void dfs(int s)
+void dfs(int s) 
 {
     if (visited[s]) return;
     visited[s] = true;
     // process node s
-    for (auto u: adj[s])
+    for (auto u: adj[s]) 
     {
         dfs(u); //dfs on all nodes adjacent to s
     }
@@ -3549,43 +3549,43 @@ while (!q.empty()) {
 \chapter{Theory}
 
 \begin{itemize}
-\item Formal definition of shortest path:
+\item Formal definition of shortest path: 
 
-  $G = (V,E)$ weighted graph, directed or undirected.
+  $G = (V,E)$ weighted graph, directed or undirected. 
 
 Weight of path $P = <v_0,v_1,v_2, \cdots, v_k>$ is $w(P) =
-  \sum_{i=1}^k w(v_{i-1},v_i)$.
+  \sum_{i=1}^k w(v_{i-1},v_i)$. 
 
 Shortest path $\delta(u,v)$ from $u$ to $v$ has weight
-
+  
   \[ \delta(u,v) = \left\{ \begin{array}{ll}
                 \min\{w(P): \mbox{$P$ is path from $u$ to $v$}\} & \mbox{If
                   path exists} \\
                 \infty                                     & \mbox{Otherwise} \\
               \end{array} \right. \]
-
+            
             Example: Shortest path from $a$ to $e$ (of length 21) \\
 
             \centerline{\epsfig{file=SSSP_example.eps,height=3cm}}
-
+            
 \item Properties of shortest paths:
-
+            
 \begin{itemize}
 \item Subpaths of shortest paths are shortest paths: If $P = u=v_0,v_1,v_2, \cdots, v_k=v$ is shortest path from $u$ to $v$
   then for all $i$<$k$ $P' = u=v_0,v_1,v_2, \cdots, v_i$ is shortest
   path from $u$ to $v_i$
-
-
+  
+  
 \item No (unique) shortest path exists if graph has cycle with
   negative weight \\
-
+  
   Example: If we change weight of edge $(h,i)$ to $-8$, we have a
-  cycle (i,h,g) with negative weight ($-1$). Using this we can make the
+  cycle (i,h,g) with negative weight ($-1$). Using this we can make the 
   weight of path between $a$ and $e$ arbitrarily low by going through
   the cycle several times \\
-
+  
   \centerline{\epsfig{file=SSSP_negative.eps,height=3cm}}
-
+  
   On the other hand, the problem is well defined if we let edge
   $(h,i)$ have weight $-7$ (no negative cycles)
 \end{itemize}
@@ -3623,9 +3623,9 @@ Dijkstra's algorithm can be efficiently implemented using a \texttt{priority que
 First we initialise three values:
 \begin{enumerate}
     \item \texttt{dist[]}: an array of distances from the source node $s$ to each node in the graph, initialised the following way: \texttt{dist[s] = 0;} and for all other nodes , \texttt{dist[v]} $= \infty$. This is done at the beginning because as the algorithm proceeds, the \texttt{dist} from the source to each node $v$ in the graph will be recalculated and finalised when the shortest distance to $v$ is found.
-
-    \item $Q$: a \texttt{priority queue} of all nodes in the graph. At the end of the algorithm's progress, $Q$ will be empty. $Q$ contains pairs of the form \texttt{(-d, x)}, meaning that the current distance to node $x$ is $d$. Note that the \texttt{priority queue} contains \key{negative} distances to nodes. The reason for this is that the default version of the C++ \texttt{priority queue} finds \key{maximum} elements, while we want to find \key{minimum} elements. By using negative distances, we can directly use the default \texttt{priority queue}.
-
+    
+    \item $Q$: a \texttt{priority queue} of all nodes in the graph. At the end of the algorithm's progress, $Q$ will be empty. $Q$ contains pairs of the form \texttt{(-d, x)}, meaning that the current distance to node $x$ is $d$. Note that the \texttt{priority queue} contains \key{negative} distances to nodes. The reason for this is that the default version of the C++ \texttt{priority queue} finds \key{maximum} elements, while we want to find \key{minimum} elements. By using negative distances, we can directly use the default \texttt{priority queue}. 
+    
     \item \texttt{visited[]}: a boolean array that indicates whether a node has
     been processed. Initially all values are set to \texttt{false}.
 \end{enumerate}
@@ -3718,16 +3718,16 @@ Initially the distance is $0$ to $x$ and $\infty$ to all other nodes.
 for (int i = 1; i <= n; i++) distance[i] = INF;
 distance[x] = 0;
 q.push({0,x});
-while (!q.empty())
+while (!q.empty()) 
 {
     int a = q.top().second;
     q.pop();
     if (processed[a]) continue;
     processed[a] = true;
-    for (auto u : adj[a])
+    for (auto u : adj[a]) 
     {
         int b = u.first, w = u.second;
-        if (distance[a]+w < distance[b])
+        if (distance[a]+w < distance[b]) 
         {
             distance[b] = distance[a]+w;
             q.push({-distance[b],b});
@@ -3777,7 +3777,7 @@ that shorten the paths until it is not possible to reduce any distance.
   $w = \texttt{e.weight}$ \tcp*{weight of edge of $e$}\
   \If{$\texttt{d[j] greater than d[i]} + w$}{
     \If{$\texttt{step == n}$}
-    {
+    { 
       return "Negative cycle found" \tcp*{for detecting negative cycles}\
     }
     $\texttt{d[j] = d[i]} + w$\;
@@ -3981,10 +3981,10 @@ In practice, this algorithm can be somewhat optimised: often we already get the 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) distance[i] = INF;
 distance[x] = 0;
-for (int i = 1; i <= n-1; i++)
+for (int i = 1; i <= n-1; i++) 
 {
     bool flag = false;//flag
-    for (auto e : edges)
+    for (auto e : edges) 
     {
         int a, b, w;
         tie(a, b, w) = e;
@@ -4053,10 +4053,10 @@ regardless of the starting node.
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) distance[i] = INF;
 distance[x] = 0;
-for (int i = 1; i <= n-1; i++)
+for (int i = 1; i <= n-1; i++) 
 {
     bool flag = false;//flag
-    for (auto e : edges)
+    for (auto e : edges) 
     {
         int a, b, w;
         tie(a, b, w) = e;
@@ -4094,7 +4094,7 @@ first node in the queue, and when an edge
 $a \rightarrow b$ reduces a distance,
 node $b$ is added to the queue.
 
-The following implementation uses a
+The following implementation uses a 
 \texttt{queue} \texttt{q}.
 In addition, an array \texttt{inqueue} indicates
 if a node is already in the queue,
@@ -4105,16 +4105,16 @@ the node to the queue again.
 for (int i = 1; i <= n; i++) distance[i] = INF;
 distance[x] = 0;
 q.push(x);
-while (!q.empty())
+while (!q.empty()) 
 {
     int a = q.front(); q.pop();
     inqueue[a] = false;
-    for (auto b : v[a])
+    for (auto b : v[a]) 
     {
         if (distance[a]+b.second < distance[b.first])
         {
             distance[b.first] = distance[a]+b.second;
-            if (!inqueue[b])
+            if (!inqueue[b]) 
             {q.push(b); inqueue[b] = true;}
         }
     }
@@ -4223,7 +4223,7 @@ and distances are reduced using this node.
 On the first round, node 1 is the new intermediate node.
 There is a new path between nodes 2 and 4
 with length 14, because node 1 connects them.
-There is also a new path
+There is also a new path 
 between nodes 2 and 5 with length 6.
 
 \begin{center}
@@ -4326,9 +4326,9 @@ First, the algorithm initializes \texttt{distance}
 using the adjacency matrix \texttt{adj} of the graph:
 
 \begin{lstlisting}
-for (int i = 1; i <= n; i++)
+for (int i = 1; i <= n; i++) 
 {
-    for (int j = 1; j <= n; j++)
+    for (int j = 1; j <= n; j++) 
     {
         if (i == j) distance[i][j] = 0;//same node
         else if (adj[i][j]) distance[i][j] = adj[i][j];//adjacent nodes
@@ -4338,13 +4338,13 @@ for (int i = 1; i <= n; i++)
 \end{lstlisting}
 After this, the shortest distances can be found as follows:
 \begin{lstlisting}
-for (int i = 1; i <= n; i++)
+for (int i = 1; i <= n; i++) 
 {
-    for (int i = j; j <= n; j++)
+    for (int i = j; j <= n; j++) 
     {
-        for (int k = 1; k <= n; k++)
+        for (int k = 1; k <= n; k++) 
         {
-            distance[j][k] = min(distance[j][k],
+            distance[j][k] = min(distance[j][k], 
                               distance[j][i] + distance[i][k])
         }
     }
@@ -4731,7 +4731,7 @@ int totient(int n)
             result -= result / p;
         }
     }
-
+    
     if (n > 1) result -= result / n;
     return result;
 }
@@ -4779,7 +4779,7 @@ $$F_{n-1} F_{n+1} - F_n^2 = (-1)^n$$
 
 
 \[
-    F_{n+k}=
+    F_{n+k}= 
 \begin{cases}
    F_k F_{n+1} + F_{k-1} F_n\\
    F_{2n} = F_n (F_{n+1} + F_{n-1}),& \text{if } k = n\\
@@ -4858,7 +4858,7 @@ The algorithm is extremely simple:
 $$\gcd(a, b) = \begin{cases}a,&\text{if }b = 0 \\ \gcd(b, a \pmod{b}),&\text{otherwise.}\end{cases}$$
 
 \begin{lstlisting}
-int gcd (int a, int b)
+int gcd (int a, int b) 
 {
     if (b == 0)
         return a;
@@ -4933,7 +4933,7 @@ x & \equiv & a_3 \pmod{m_3} \\
 x & \equiv & a_n \pmod{m_n} \\
 \end{array}
 \]
-where all pairs of $m_1,m_2,\ldots,m_n$ are coprime.
+where all pairs of $m_1,m_2,\ldots,m_n$ are coprime.  
 \end{problem}
 
 \begin{tcolorbox}[title=Solution]
@@ -4952,7 +4952,7 @@ M_n = M/m_n \\
 \end{array}
 \]
 
-Let $y_1, y_2, y_3, \cdots, y_n$ be such that $y_i$ is the modular inverse of $M_i$ i.e.,
+Let $y_1, y_2, y_3, \cdots, y_n$ be such that $y_i$ is the modular inverse of $M_i$ i.e., 
 
 \[
 \begin{array}{lcl}
@@ -5005,7 +5005,7 @@ M_3 = 792/11 = 72 \\
 
 $\therefore x = 3 \times 99 \times 3 + 1 \times 88 \times 3 + 4 \times 72 \times 2 = 1819$
 
-$\therefore x$ can be $1819, 2611, 3403 \cdots$
+$\therefore x$ can be $1819, 2611, 3403 \cdots$ 
 \end{exmp}
 
 \part{Question Bank}
@@ -5025,7 +5025,7 @@ The problems are quite easy and mostly related to these topics:
     \item Sorting
 \end{itemize}
 
-You can see and submit solutions of the problems on Codechef: \url{https://www.codechef.com/ZCOPRAC}.
+You can see and submit solutions of the problems on Codechef: \url{https://www.codechef.com/ZCOPRAC}. 
 
 The question bank starts from the next page.
 
@@ -5090,7 +5090,7 @@ The output consists of a single integer, the maximum possible revenue you can ea
 \textbf{Constraints:}
 \begin{center}
     Each customers' budget is between 1 and $10^8$, inclusive.
-
+    
     $1 \leq N \leq 5\times 10^5$
 \end{center}
 
@@ -5206,16 +5206,16 @@ A single line with $N$ integers, the number of boxes in each stack, from left to
 \end{lstlisting}
 \tcblower
 \begin{lstlisting}
-1 5 2
+1 5 2 
 \end{lstlisting}
 \end{tcolorbox}
 
 \textbf{Constraints:}
 \begin{center}
     The number of commands is between 1 and $10^5$, inclusive.
-
+    
     $1 \leq N \leq 10^5$
-
+    
     $1 \leq H \leq 10^8$
 \end{center}
 
@@ -5286,7 +5286,7 @@ A single integer, the total advertising revenue from the tournament.
 \textbf{Constraints:}
 \begin{center}
     In all subtasks, the strength of each team is an integer between $1$ and $10^3$ inclusive
-
+    
     $2 \leq N \leq 2\times 10^5$
 \end{center}
 
@@ -5303,7 +5303,7 @@ Let us take a different example than the given sample case.
 4
 3 10 7 5
 \end{lstlisting}
-Now the revenues for each match are:
+Now the revenues for each match are: 
 $$(10-5) +(10-7) + (10-3) + (7-5) + (7-3) + (5-3) = 23$$
 
 but wait that’s not what we will do. Look at it in the following manner:
@@ -5361,7 +5361,7 @@ A single integer in a single line giving the total variation count.
 
 \begin{tcolorbox}[title=Example]
 \begin{lstlisting}
-3 1
+3 1 
 3 1 3
 \end{lstlisting}
 \tcblower
@@ -5373,7 +5373,7 @@ A single integer in a single line giving the total variation count.
 \textbf{Constraints:}
 
     You may assume that all integers in the input are in the range 0 to $10^8$ inclusive.
-
+    
     $1 \leq N \leq 65000, 1 \leq K \leq 10^8$
 
 \begin{tcolorbox}[title=Solution]
@@ -5456,7 +5456,7 @@ Your program should print 4 space-separated integers in a line, denoting the fou
 
 \textbf{Constraints:}
 
-You may assume that $2 \leq N \leq 10^5$. In $30\%$ of the test cases, $2 \leq N \leq 10^3$.
+You may assume that $2 \leq N \leq 10^5$. In $30\%$ of the test cases, $2 \leq N \leq 10^3$. 
 
 \begin{tcolorbox}[title=Solution]
 
@@ -5535,7 +5535,7 @@ The output consists of a single non-negative integer, the number of pairs of che
 \textbf{Constraints:}
 
     In all subtasks, you may assume that all the hardness quotients as well as the hardness limit $K$ are between 0 and $10^6$ inclusive.
-
+    
     $2 \leq N \leq 10^5$
 
 \textbf{Note:} The answer might not fit in a variable of type \texttt{int}. We recommend that type \texttt{long long} be used for computing the answer. If you use \texttt{printf} and \texttt{scanf}, you can use \texttt{\%lld} for \texttt{long long}.
@@ -5611,9 +5611,9 @@ The output consists of a single non-negative integer, the minimum number of minu
 \end{tcolorbox}
 
 \textbf{Constraints:}
-
+    
     $1 \leq N \leq 2\times 10^5$
-
+    
     The number of minutes of SUPW each day is between $0$ and $10^4$, inclusive
 
 \begin{tcolorbox}[title=Solution]
