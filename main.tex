@@ -4441,32 +4441,30 @@ A special case of a sum of a geometric progression is the formula
 Number theory is a branch of mathematics that studies integers. Number
 theory is a fascinating field, because many questions involving integers are very
 difficult to solve even if they seem simple at first glance.
-
-Mastering as many topics as possible in the field of number theory is important as some
-mathematics problems become easy (or easier) if you know the theory behind the problems.
-Otherwise, either a plain brute force attack leads to a TLE response or you simply cannot
-work with the given input as it is too large without some pre-processing
-
 \section{Primality check}
 \begin{problem}
 Test whether a given natural number $N$ is prime or not.
 \end{problem}
 \begin{tcolorbox}[title=Solution]
-
-We do the following optimisation:
-\begin{enumerate}
-    \item Instead of checking till $n$, we can check till $\sqrt{n}$
-    \item The algorithm can be improved further by observing that all primes are of the form $6k \pm 1$, with the exception of 2 and 3.
-\end{enumerate}
 \begin{lstlisting}
-bool isPrime(int n)
-{
-    if (n <= 1)  return false;
-    if (n <= 3)  return true;
-    if (n%2 == 0 || n%3 == 0) return false;
-    for (int i=5; i*i<=n; i=i+6)
-        if (n%i == 0 || n%(i+2) == 0)
-           return false;
+bool MillerRabin(u64 n)
+{ // returns true if n is prime, else returns false.
+    if (n < 2)
+        return false;
+    int r = 0;
+    u64 d = n - 1;
+    while ((d & 1) == 0)
+    {
+        d >>= 1;
+        r++;
+    }
+    for (int a : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37})
+    {
+        if (n == a)
+            return true;
+        if (check_composite(n, a, d, r))
+            return false;
+    }
     return true;
 }
 \end{lstlisting}
